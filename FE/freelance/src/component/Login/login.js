@@ -1,6 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 
 function Login() {
+  const navigate = useNavigate();
+  const handleButtonClick = () => {
+    navigate('/signUp');
+  };
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -55,6 +61,7 @@ function Login() {
                 borderRadius: "5px", // Bo góc cho nút
               }}
               className="w-50"
+              onClick={handleButtonClick}
             >
               Đăng ký
             </button>
