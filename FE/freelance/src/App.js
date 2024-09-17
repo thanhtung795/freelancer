@@ -3,8 +3,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 // import Button from 'react-bootstrap/Button';
 import JoinAs from './component/JoinAs/JoinAs';
-import Login from './component/Login/login';
-import SignUp from './component/SignUp/signup';
+import Login from './component/LogIn/LogIn';
+import SignUp from './component/SignUp/SignUp';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
