@@ -1,0 +1,19 @@
+.card {
+    height: 240px !important;
+    width: 200px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+.card:hover {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.card-selected {
+    border-color: #4169E1 !important;
+}
+.circle-check {
+    width: 20px;
+    height: 20px;
+    background-color: #4169E1;
+    border-radius: 50%;
+}
