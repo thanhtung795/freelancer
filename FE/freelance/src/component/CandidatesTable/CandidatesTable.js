@@ -26,30 +26,44 @@ const CandidatesTable = () => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      className: 'text-center w-25',
     },
     {
       title: 'Tên',
       dataIndex: 'name',
       key: 'name',
+      className: 'text-center w-25',
     },
     {
       title: 'Giá',
       dataIndex: 'price',
       key: 'price',
+      className: 'text-center w-25',
     },
     {
       title: 'Ngày ứng tuyển',
       dataIndex: 'createdAt',
       key: 'createdAt',
+      className: 'text-center w-25',
     },
   ];
 
   return (
-    <div>
+    <div className="table-container">
       {loading ? (
         <Spin />
       ) : (
-        <Table columns={columns} dataSource={candidates} />
+        <Table
+          className="text-center"
+          columns={columns}
+          dataSource={candidates}
+          style={{
+            backgroundColor: '#fff',
+            ':hover': {
+              backgroundColor: '#dddd',
+            },
+          }}
+        />
       )}
     </div>
   );

@@ -8,10 +8,8 @@ import SignUp from './component/SignUp/SignUp';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import CandidatesTable from './component/CandidatesTable/CandidatesTable';
-
 // const ExampleToast = ({ children }) => {
 //   const [show, toggleShow] = useState(true);
-
 //   return (
 //     <>
 //       {!show && <Button onClick={() => toggleShow(true)}>Show Toast</Button>}
@@ -24,7 +22,6 @@ import CandidatesTable from './component/CandidatesTable/CandidatesTable';
 //     </>
 //   );
 // };
-
 const App = () => (
   <Container className="p-3">
     <BrowserRouter>
