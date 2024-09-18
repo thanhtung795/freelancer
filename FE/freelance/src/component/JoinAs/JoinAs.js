@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../JoinAs/css/style.css'; // Import file CSS tùy chỉnh nếu có
+import CandidatesTable from '../CandidatesTable/CandidatesTable';
 
 function JoinAs() {
   const [selected, setSelected] = useState('client');
@@ -52,6 +53,7 @@ function JoinAs() {
               </div>
             </div>
           </div>
+          <CandidatesTable />
           <button className="btn w-100 mb-3" style={{ backgroundColor: '#4169E1', color: 'white' }} onClick={handleButtonClick}>
             {selected === 'client' ? 'Tham gia với vai trò Khách hàng' : 'Tham gia với vai trò Freelancer'}
           </button>
