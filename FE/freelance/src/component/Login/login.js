@@ -7,6 +7,9 @@ function Login() {
   const handleButtonClick = () => {
     navigate('/signUp');
   };
+  const handleNext = () => {
+    navigate('/personalInfo');
+  }
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -30,6 +33,7 @@ function Login() {
                 type="submit"
                 className="btn btn-primary w-100 w-md-75 mb-3"
                 style={{ backgroundColor: "#4169E1" }}
+                onClick={handleNext}
               >
                 Tiếp tục
               </button>
