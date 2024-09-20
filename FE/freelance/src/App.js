@@ -8,6 +8,7 @@ import SignUp from './component/SignUp/SignUp';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import CandidatesTable from './component/CandidatesTable/CandidatesTable';
+import HomeFreelancer from './component/HomeFreelancer/HomeFreelancer';
 // const ExampleToast = ({ children }) => {
 //   const [show, toggleShow] = useState(true);
 //   return (
@@ -26,10 +27,7 @@ const App = () => (
   <Container className="p-3">
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<JoinAs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/candidates" element={<CandidatesTable />} />
+        <Route path="/" element={<HomeFreelancer />} />
       </Routes>
     </BrowserRouter>
   </Container>
