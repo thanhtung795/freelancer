@@ -7,11 +7,9 @@ import {
   InputNumber,
   Button,
   Select,
-  Upload,
   message,
   Spin,
   Space,
-  AutoComplete,
   TreeSelect,
 } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -188,7 +186,7 @@ const JobForm = () => {
 
                         <div className="bi bi-person-fill me-2 fs-3 mb-5 py-2"></div>
                         <div className="ms-auto">
-                          {selected == "hours" && (
+                          {selected === "hours" && (
                             <div className="circle-check"></div>
                           )}
                         </div>
@@ -210,7 +208,7 @@ const JobForm = () => {
 
                         <div className="bi bi-person-fill me-2 fs-3 mb-5 py-2"></div>
                         <div className="ms-auto">
-                          {selected == "fixed" && (
+                          {selected === "fixed" && (
                             <div className="circle-check"></div>
                           )}
                         </div>
@@ -234,7 +232,7 @@ const JobForm = () => {
               >
                 <div className="w-100 d-flex align-items-center">
                   <InputNumber min={0} step={0.01} style={{ flexGrow: 1 }} />
-                  {selected == "hours" && (
+                  {selected === "hours" && (
                     <span style={{ marginLeft: 8 }}>/ giờ</span>
                   )}
                 </div>
@@ -250,7 +248,7 @@ const JobForm = () => {
               >
                 <div className="w-100 d-flex align-items-center">
                   <InputNumber min={0} step={0.01} style={{ flexGrow: 1 }} />
-                  {selected == "hours" && (
+                  {selected === "hours" && (
                     <span style={{ marginLeft: 8 }}>/ giờ</span>
                   )}
                 </div>

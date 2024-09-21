@@ -72,7 +72,7 @@ const SkillsSelector = () => {
         </Col>
       </Row>
 
-      <Row justify="center" gutter={[16, 16]}>
+      <Row className='ms-5 me-5' justify="center" gutter={[16, 16]}>
         <Col xs={24}>
           <Title level={4} style={{ textAlign: 'center', marginBottom: '16px' }}>Kỹ năng phổ biến theo danh mục</Title>
         </Col>
@@ -112,7 +112,7 @@ const SkillsSelector = () => {
         ))}
       </Row>
 
-      <Row justify="center" style={{ marginTop: '24px' }}>
+      <Row justify="center" style={{ margin: '24px' }}>
         <Col>
           <Space size="middle">
             <Button

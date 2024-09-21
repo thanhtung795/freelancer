@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 function Banner() {
   return (
     <div className="container">
@@ -24,11 +25,11 @@ function Banner() {
         </span>
       </p>
       <div className="hero-cta d-flex flex-wrap mb-0">
-        <a href="/nx/signup/" className="up-n-link air3-btn air3-btn-primary mb-0">
+        <Link to="/signUp" className="up-n-link air3-btn air3-btn-primary mb-0">
         <Button variant="success" className="me-2">
               Get started
             </Button>
-        </a>
+        </Link>
       </div>
     </div>
         </div>

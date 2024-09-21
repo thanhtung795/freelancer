@@ -15,10 +15,15 @@ function NavbarApp() {
 
   return (
       <Navbar expand="lg" className="mt-0 px-4">
-        <Navbar.Brand as={Link} to="/home">
-          Talent Hub
+        <Navbar.Brand as={Link} to="/">
+        <img
+            width="50"
+            height="50"
+            src="/favicon.ico"
+            alt="freeCodeCamp Logo"
+            className="ms-5"
+          />
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="navbarSupportedContent" />
         <Navbar.Collapse id="navbarSupportedContent">
           <Nav className="me-auto">
@@ -76,7 +81,7 @@ function NavbarApp() {
               <Link to={"/login"} style={{color: "black"}}>Login</Link>
             </Button>
             <Button variant="success" className="ms-2">
-              <Link to={"/signup"} style={{color: "white"}} >Signup</Link>
+              <Link to={"/joinAs"} style={{color: "white"}} >Signup</Link>
             </Button>
           </Form>
         </Navbar.Collapse>

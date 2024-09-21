@@ -1,6 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
+import { Link } from "react-router-dom";
 
 function SplitScreenComponent() {
   return (
@@ -47,9 +48,9 @@ function SplitScreenComponent() {
               </div>
             </div>
             <div className="pt-4">
-              <a href="/nx/signup/" className="btn btn-primary">
+              <Link to="/signup" className="btn btn-primary">
                 Find opportunities
-              </a>
+              </Link>
             </div>
           </div>
         </div>

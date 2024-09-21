@@ -13,7 +13,7 @@ const FreelancerInfo = () => {
         skills: ['Web API', 'Web Application', 'Java', 'Java GUI', 'Javascript', 'React', 'Bootstrap', 'Responsive Design'],
     };
     return (
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh', margin:'50px' }}>
             <Header style={{ backgroundColor: '#f0f2f5', padding: '0 24px', height: 'auto' }}>
                 <Row justify="space-between" align="middle" style={{ backgroundColor: '#fff', width: '100%' }}>
                     <Col>
