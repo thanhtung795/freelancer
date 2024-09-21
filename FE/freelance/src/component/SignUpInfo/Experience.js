@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Typography, Input, List, Card, Row, Col} from 'antd';
+import { Form, Button, Typography, Input, List, Card, Row, Col, DatePicker } from 'antd';
 
 const Experience = () => {
   const navigate = useNavigate();
@@ -8,14 +8,21 @@ const Experience = () => {
   const [currentExperience, setCurrentExperience] = useState({
     company: '',
     position: '',
-    startDate: '',
-    endDate: '',
+    startDate: null,
+    endDate: null,
   });
 
   const handleInputChange = (e) => {
     setCurrentExperience({
       ...currentExperience,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleDateChange = (date, name) => {
+    setCurrentExperience({
+      ...currentExperience,
+      [name]: date,
     });
   };
 
@@ -27,8 +34,8 @@ const Experience = () => {
     setCurrentExperience({
       company: '',
       position: '',
-      startDate: '',
-      endDate: '',
+      startDate: null,
+      endDate: null,
     });
   };
 
@@ -67,21 +74,21 @@ const Experience = () => {
             <Row gutter={16}>
               <Col xs={24} sm={12}>
                 <Form.Item label="Ngày bắt đầu" required>
-                  <Input
-                    type="date"
+                  <DatePicker
                     value={currentExperience.startDate}
-                    onChange={handleInputChange}
-                    name="startDate"
+                    onChange={(date) => handleDateChange(date, 'startDate')}
+                    picker="month"
+                    format="YYYY-MM"
                   />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
                 <Form.Item label="Ngày kết thúc" required>
-                  <Input
-                    type="date"
+                  <DatePicker
                     value={currentExperience.endDate}
-                    onChange={handleInputChange}
-                    name="endDate"
+                    onChange={(date) => handleDateChange(date, 'endDate')}
+                    picker="month"
+                    format="YYYY-MM"
                   />
                 </Form.Item>
               </Col>
@@ -106,7 +113,7 @@ const Experience = () => {
                   <List.Item key={index}>
                     <List.Item.Meta
                       title={`${exp.position} tại ${exp.company}`}
-                      description={`${exp.startDate} - ${exp.endDate}`}
+                      description={`Từ ${exp.startDate.format('YYYY-MM')} đến ${exp.endDate.format('YYYY-MM')}`}
                     />
                   </List.Item>
                 )}
