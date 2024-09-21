@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Typography, Input, List, Card, Row, Col, Space } from 'antd';
+import { Form, Button, Typography, Input, List, Card, Row, Col} from 'antd';
 
 const Experience = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Experience = () => {
 
   const handleAddExperience = () => {
     if (!currentExperience.company || !currentExperience.position || !currentExperience.startDate || !currentExperience.endDate) {
-      return; // Không thêm nếu bất kỳ trường nào bị bỏ trống
+      return;
     }
     setExperiences([...experiences, currentExperience]);
     setCurrentExperience({
