@@ -1,0 +1,21 @@
+.rounded-custom {
+  border-radius: 1.5rem; /* Thay đổi giá trị này để tùy chỉnh kích thước bo góc */
+}
+/* CSS tùy chỉnh để giảm kích thước của form */
+.container {
+  max-width: 900px; /* Giảm kích thước container */
+}
+
+.bg-light {
+  padding: 2rem; /* Giảm padding của form */
+}
+
+.form-control {
+  font-size: 0.875rem; /* Giảm kích thước chữ trong input */
+}
+
+.btn {
+  font-size: 0.875rem; /* Giảm kích thước chữ trong nút */
+  padding: 0.5rem 1rem; /* Giảm padding của nút */
+}
+
