@@ -13,20 +13,6 @@ import Experience from './component/SignUpInfo/Experience';
 import Description from './component/SignUpInfo/Description';
 import HomeFreelancer from './component/HomeFreelancer/HomeFreelancer';
 import SkillsSelector from './component/SignUpInfo/SkillsSelector';
-// const ExampleToast = ({ children }) => {
-//   const [show, toggleShow] = useState(true);
-//   return (
-//     <>
-//       {!show && <Button onClick={() => toggleShow(true)}>Show Toast</Button>}
-//       <Toast show={show} onClose={() => toggleShow(false)}>
-//         <Toast.Header>
-//           <strong className="mr-auto">React-Bootstrap</strong>
-//         </Toast.Header>
-//         <Toast.Body>{children}</Toast.Body>
-//       </Toast>
-//     </>
-//   );
-// };
 const App = () => (
   <Container className="p-3">
     <BrowserRouter>
