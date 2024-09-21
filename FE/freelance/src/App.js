@@ -1,38 +1,36 @@
-import React from 'react';
-// import Toast from 'react-bootstrap/Toast';
-import Container from 'react-bootstrap/Container';
-// import Button from 'react-bootstrap/Button';
-import JoinAs from './component/JoinAs/JoinAs';
-import Login from './component/LogIn/LogIn';
-import SignUp from './component/SignUp/SignUp';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
-import CandidatesTable from './component/CandidatesTable/CandidatesTable';
-// const ExampleToast = ({ children }) => {
-//   const [show, toggleShow] = useState(true);
-//   return (
-//     <>
-//       {!show && <Button onClick={() => toggleShow(true)}>Show Toast</Button>}
-//       <Toast show={show} onClose={() => toggleShow(false)}>
-//         <Toast.Header>
-//           <strong className="mr-auto">React-Bootstrap</strong>
-//         </Toast.Header>
-//         <Toast.Body>{children}</Toast.Body>
-//       </Toast>
-//     </>
-//   );
-// };
+import React from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import JoinAs from "./component/JoinAs/JoinAs";
+import Home from "./component/Home/Home";
+import CandidatesTable from "./component/CandidatesTable/CandidatesTable";
+import StatisticalFreelancer from "./component/StatisticalFreelancer/StatisticalFreelancer";
+import NotFound from "./component/NotFound/NotFound";
+import NavbarApp from "./component/Layout/Navbar/Navbar";
+import Footer from "./component/Layout/Footer/Footer";
+import Login from "./component/Login/login";
+import SignUp from "./component/SignUp/signup";
+
+
+
 const App = () => (
-  <Container className="p-3">
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<JoinAs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/candidates" element={<CandidatesTable />} />
-      </Routes>
-    </BrowserRouter>
-  </Container>
+  <BrowserRouter>
+    <NavbarApp />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signUp" element={<SignUp />} />
+      <Route path="/joinas" element={<JoinAs />} />
+      <Route path="/candidates" element={<CandidatesTable />} />
+      <Route path="/home" element={<Home />} />
+      <Route
+        path="/statisticalfreelancer"
+        element={<StatisticalFreelancer />}
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+    <Footer />
+  </BrowserRouter>
 );
 
 export default App;

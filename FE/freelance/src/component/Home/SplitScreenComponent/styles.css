@@ -1,0 +1,64 @@
+.rounded-container {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .rounded-left {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+  
+  .rounded-right {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  
+  .img-fluid {
+    width: 100%;
+    height: auto;
+  }
+  
+  .for-talent-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .headline {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .display-rebrand {
+    font-size: 4rem;
+    font-weight: 600;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .hr-separator {
+    border-top: 2px solid #fff;
+  }
+  
+  .find-talent-footer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .overview-item {
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  

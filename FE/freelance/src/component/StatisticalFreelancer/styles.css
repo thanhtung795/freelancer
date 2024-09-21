@@ -1,0 +1,39 @@
+.chart-container {
+  background-color: #f8f9fa; /* Light background for charts */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow-x: auto; /* Chỉ cuộn theo chiều ngang */
+}
+
+.chart-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chart-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #343a40;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+.row {
+  margin-bottom: 30px;
+}
+
+h5 {
+  color: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 15px;
+  }
+}
+
