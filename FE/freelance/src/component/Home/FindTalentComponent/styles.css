@@ -1,0 +1,73 @@
+.background-section {
+    background-image: url('https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/c_scale/brontes/delivery-models/find-talent-2x.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 20px;
+    color: white;
+    text-align: center;
+  }
+  
+  .content {
+    position: relative;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+  
+  .row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .col-4 {
+    flex: 1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+  
+    p {
+      font-size: 0.875rem;
+    }
+  
+    .col-4 {
+      flex: 1 1 calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    h1 {
+      font-size: 1.25rem;
+    }
+  
+    p {
+      font-size: 0.75rem;
+    }
+  
+    .col-4 {
+      flex: 1 1 100%;
+    }
+  }
+  
