@@ -10,7 +10,8 @@ const skillCategories = {
   'Mobile Development': ['iOS', 'Android', 'React Native', 'Flutter', 'Kotlin', 'Swift'],
   'Data Science': ['Python', 'R', 'Machine Learning', 'Data Visualization', 'Big Data'],
   'Cloud Computing': ['AWS', 'Azure', 'Google Cloud', 'Docker', 'Kubernetes'],
-  'Cybersecurity': ['Network Security', 'Ethical Hacking', 'Cryptography', 'Incident Response']
+  'Cybersecurity': ['Network Security', 'Ethical Hacking', 'Cryptography', 'Incident Response'],
+  'Backend Development': ['Node.js', 'Express.js', 'Nest.js', 'Loopback', 'GraphQL', 'Spring Boot', 'Laravel', 'Ruby on Rails', 'Django', 'Flask'],
 };
 
 const SkillsSelector = () => {

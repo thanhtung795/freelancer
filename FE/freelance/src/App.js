@@ -3,7 +3,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 // import Button from 'react-bootstrap/Button';
 import JoinAs from './component/JoinAs/JoinAs';
-import Login from './component/LogIn/LogIn';
+import LogIn from './component/LogIn/LogIn';
 import SignUp from './component/SignUp/SignUp';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
@@ -19,7 +19,7 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<JoinAs />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LogIn />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/candidates" element={<CandidatesTable />} />
         <Route path="/personalInfo" element={<PersonalInfo/>} />

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout, Row, Col, Card, Avatar, Typography, Tag, Button, Space } from 'antd';
-import { EditOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { Edit, Eye, EyeIcon, Share } from 'lucide-react';
+import { Edit, EyeIcon, Share } from 'lucide-react';
 const { Header, Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
 const FreelancerInfo = () => {
@@ -10,7 +9,7 @@ const FreelancerInfo = () => {
         location: 'Ho Chi Minh City, Vietnam',
         title: 'Web-Development',
         rate: '$4.00/hr',
-        intro: '',
+        intro: 'Aim to the moon',
         skills: ['Web API', 'Web Application', 'Java', 'Java GUI', 'Javascript', 'React', 'Bootstrap', 'Responsive Design'],
     };
     return (
@@ -44,48 +43,44 @@ const FreelancerInfo = () => {
                 <Card style={{ marginBottom: '20px' }}>
                     <Row justify="space-between">
                         <Col>
-                            <Title level={5}>{profileData.title} <EditOutlined /></Title>
+                            <Title level={5}>{profileData.title} <Edit /></Title>
                             <Paragraph>{profileData.intro}</Paragraph>
                         </Col>
                         <Col>
-                            <Text strong>{profileData.rate} <EditOutlined /></Text>
+                            <Text strong>{profileData.rate} <Edit /></Text>
                         </Col>
                     </Row>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Portfolio" extra={<EditOutlined />}>
-                    {/* Portfolio content */}
+                <Card style={{ marginBottom: '20px' }} title="Thông tin cá nhân" extra={<Edit />}>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Work history" extra={<EditOutlined />}>
-                    {/* Work history content */}
-                    <Text type="secondary">No items</Text>
+                <Card style={{ marginBottom: '20px' }} title="Lịch sử làm việc" extra={<Edit />}>
+                    <Text type="secondary">Chưa có thông tin</Text>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Skills" extra={<EditOutlined />}>
+                <Card style={{ marginBottom: '20px' }} title="Kĩ năng" extra={<Edit />}>
                     {profileData.skills.map(skill => <Tag key={skill}>{skill}</Tag>)}
                 </Card>
 
-                {/* Other sections like Your project catalog, Testimonials, Certifications, etc. */}
-                <Card style={{ marginBottom: '20px' }} title="Your project catalog" extra={<EditOutlined />}>
-                    <Button type="primary">Manage projects</Button>
+                <Card style={{ marginBottom: '20px' }} title="Các dự án của bạn" extra={<Edit />}>
+                    <Button type="primary">Quản lý dự án</Button>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Testimonials" extra={<EditOutlined />}>
-                    <Text type="secondary">Endorsements from past clients</Text>
-                    {/* Content for testimonials */}
+                <Card style={{ marginBottom: '20px' }} title="Chứng thực từ khách hàng" extra={<Edit />}>
+                    <Text type="secondary">Chưa có</Text>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Certifications" extra={<EditOutlined />}>
-                    {/* Content for certifications */}
+                <Card style={{ marginBottom: '20px' }} title="Các chứng nhận" extra={<Edit />}>
+                    <Text type="secondary">Chưa có</Text>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Employment history" extra={<EditOutlined />}>
-                    {/* Content for employment history */}
+                <Card style={{ marginBottom: '20px' }} title="Employment history" extra={<Edit />}>
+                    <Text type="secondary">Chưa có</Text>
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Other experiences" extra={<EditOutlined />}>
-                    {/* Content for other experiences */}
+                <Card style={{ marginBottom: '20px' }} title="Các kinh nghiệm khác" extra={<Edit />}>
+                    <Text type="secondary">Chưa có</Text>
                 </Card>
             </Content>
         </Layout>
