@@ -3,11 +3,11 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 // import Button from 'react-bootstrap/Button';
 import JoinAs from './component/JoinAs/JoinAs';
-import Login from './component/LogIn/LogIn';
-import SignUp from './component/SignUp/SignUp';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import CandidatesTable from './component/CandidatesTable/CandidatesTable';
+import JobForm from './component/Job/JobForm/JobForm';
 // const ExampleToast = ({ children }) => {
 //   const [show, toggleShow] = useState(true);
 //   return (
@@ -27,9 +27,10 @@ const App = () => (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<JoinAs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
+        {/* <Route path="/login" element={<Login />} />
+        <Route path="/signUp" element={<SignUp />} /> */}
         <Route path="/candidates" element={<CandidatesTable />} />
+        <Route path="/job" element={<JobForm />} />
       </Routes>
     </BrowserRouter>
   </Container>
