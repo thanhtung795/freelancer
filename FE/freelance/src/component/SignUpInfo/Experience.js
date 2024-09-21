@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button, Typography, Input, List, } from 'antd';
+import { Form, Button, Typography, Input, List, Card, Row, Col, Space } from 'antd';
 
 const Experience = () => {
   const navigate = useNavigate();
@@ -20,6 +20,9 @@ const Experience = () => {
   };
 
   const handleAddExperience = () => {
+    if (!currentExperience.company || !currentExperience.position || !currentExperience.startDate || !currentExperience.endDate) {
+      return; // Không thêm nếu bất kỳ trường nào bị bỏ trống
+    }
     setExperiences([...experiences, currentExperience]);
     setCurrentExperience({
       company: '',
@@ -34,60 +37,91 @@ const Experience = () => {
   };
 
   return (
-    <Form layout="vertical">
-      <Typography.Title level={4}>Kinh nghiệm làm việc</Typography.Title>
-      <Form.Item label="Tên công ty">
-        <Input
-          value={currentExperience.company}
-          onChange={handleInputChange}
-          name="company"
-        />
-      </Form.Item>
-      <Form.Item label="Vị trí">
-        <Input
-          value={currentExperience.position}
-          onChange={handleInputChange}
-          name="position"
-        />
-      </Form.Item>
-      <Form.Item label="Ngày bắt đầu">
-        <Input
-          type="date"
-          value={currentExperience.startDate}
-          onChange={handleInputChange}
-          name="startDate"
-        />
-      </Form.Item>
-      <Form.Item label="Ngày kết thúc">
-        <Input
-          type="date"
-          value={currentExperience.endDate}
-          onChange={handleInputChange}
-          name="endDate"
-        />
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" onClick={handleAddExperience}>
-          Thêm kinh nghiệm
-        </Button>
-      </Form.Item>
-      <List>
-        {experiences.map((exp, index) => (
-          <List.Item key={index}>
-            <List.Item.Meta
-              title={`${exp.position} tại ${exp.company}`}
-              description={`${exp.startDate} - ${exp.endDate}`}
-            />
-          </List.Item>
-        ))}
-      </List>
-      <Form.Item>
-        <Button type="primary" onClick={handleButtonClick}>
-          Tiếp theo
-        </Button>
-      </Form.Item>
-    </Form>
+    <Row justify="center">
+      <Col xs={24} sm={20} md={16}>
+        <Card title={<Typography.Title level={4}>Kinh nghiệm làm việc</Typography.Title>}>
+          <Form layout="vertical">
+            <Row gutter={16}>
+              <Col xs={24} sm={12}>
+                <Form.Item label="Tên công ty" required>
+                  <Input
+                    value={currentExperience.company}
+                    onChange={handleInputChange}
+                    name="company"
+                    placeholder="Nhập tên công ty"
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={12}>
+                <Form.Item label="Vị trí" required>
+                  <Input
+                    value={currentExperience.position}
+                    onChange={handleInputChange}
+                    name="position"
+                    placeholder="Nhập vị trí làm việc"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={16}>
+              <Col xs={24} sm={12}>
+                <Form.Item label="Ngày bắt đầu" required>
+                  <Input
+                    type="date"
+                    value={currentExperience.startDate}
+                    onChange={handleInputChange}
+                    name="startDate"
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={12}>
+                <Form.Item label="Ngày kết thúc" required>
+                  <Input
+                    type="date"
+                    value={currentExperience.endDate}
+                    onChange={handleInputChange}
+                    name="endDate"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                onClick={handleAddExperience}
+                block
+                disabled={!currentExperience.company || !currentExperience.position || !currentExperience.startDate || !currentExperience.endDate}
+              >
+                Thêm kinh nghiệm
+              </Button>
+            </Form.Item>
+
+            {experiences.length > 0 && (
+              <List
+                header={<Typography.Title level={5}>Danh sách kinh nghiệm</Typography.Title>}
+                dataSource={experiences}
+                renderItem={(exp, index) => (
+                  <List.Item key={index}>
+                    <List.Item.Meta
+                      title={`${exp.position} tại ${exp.company}`}
+                      description={`${exp.startDate} - ${exp.endDate}`}
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
+
+            <Form.Item>
+              <Button type="primary" onClick={handleButtonClick} block>
+                Tiếp theo
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
   );
 };
-
 export default Experience;

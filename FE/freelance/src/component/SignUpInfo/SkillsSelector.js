@@ -105,7 +105,6 @@ const SkillsSelector = () => {
       <Row justify="center" style={{ marginTop: '24px' }}>
         <Col>
           <Space size="middle">
-            {/* Nút "Tiếp theo" */}
             <Button
               type="primary"
               onClick={() => navigate('/experience')}
@@ -114,12 +113,10 @@ const SkillsSelector = () => {
                 borderRadius: '8px',
                 padding: '0 40px',
               }}
-              disabled={selectedSkills.length === 0}
             >
-              Tiếp theo: Phạm vi
+              Tiếp theo
             </Button>
 
-            {/* Nút "Bỏ qua" */}
             <Button
               type="default"
               onClick={() => navigate('/experience')}
