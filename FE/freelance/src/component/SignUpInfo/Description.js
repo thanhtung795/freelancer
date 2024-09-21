@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  TextField,
-  Button,
-  Typography,
-  Container,
-  Box,
-} from '@mui/material';
+import { Form, Button, Typography, Input } from 'antd';
 
 const Description = () => {
     const [description, setDescription] = useState('');
@@ -22,25 +16,21 @@ const Description = () => {
     };
   
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Mô tả bản thân
-      </Typography>
-      <TextField
-        fullWidth
-        multiline
-        rows={10}
-        label="Mô tả (ít nhất 200 từ)"
-        value={description}
-        onChange={handleDescriptionChange}
-        margin="normal"
-      />
-      <Box mt={2}>
-        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+    <Form layout="vertical">
+      <Typography.Title level={3}>Mô tả bản thân</Typography.Title>
+      <Form.Item label="Mô tả (ít nhất 200 từ)">
+        <Input.TextArea
+          rows={10}
+          value={description}
+          onChange={handleDescriptionChange}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" onClick={handleButtonClick}>
           Hoàn thành
         </Button>
-      </Box>
-    </Container>
+      </Form.Item>
+    </Form>
   );
 };
 
