@@ -14,9 +14,11 @@ import Description from './component/SignUpInfo/Description';
 import HomeFreelancer from './component/HomeFreelancer/HomeFreelancer';
 import SkillsSelector from './component/SignUpInfo/SkillsSelector';
 import FreelancerInfo from './component/FreelancerInfo/FreelancerInfo';
+import DetailJob from './component/Client/Job/DetailJob/DetailJob';
 const App = () => (
   <Container className="p-3">
-    <BrowserRouter>
+
+    {/* <BrowserRouter>
       <Routes>
         <Route path="/" element={<JoinAs />} />
         <Route path="/login" element={<LogIn />} />
@@ -29,8 +31,10 @@ const App = () => (
         <Route path="/home-freelancer" element={<HomeFreelancer />} />
         <Route path="/freelancer-info" element={<FreelancerInfo />} />
       </Routes>
-    </BrowserRouter>
+    </BrowserRouter> */}
+    <DetailJob/>
   </Container>
 );
+
 
 export default App;

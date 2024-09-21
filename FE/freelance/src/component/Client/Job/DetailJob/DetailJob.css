@@ -1,0 +1,159 @@
+.job-details {
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.post-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.post-btn {
+    background-color: #007bff;
+    /* Blue background */
+    color: white;
+    /* White text */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.post-btn:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+
+.job-details-content {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.detail-item {
+    position: relative;
+    padding-right: 30px; /* Add some padding to the right to make space for the icon */
+    margin-bottom: 20px; /* Add vertical spacing between components */
+}
+
+.detail-item h2,
+.detail-item h3,
+.detail-item p {
+    margin-right: 30px; /* Add margin to the right of the text to prevent overlap with the icon */
+}
+
+.edit-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.description-content {
+    position: relative;
+    padding-right: 30px;
+}
+
+.description-content p:first-child {
+    margin-top: 0;
+}
+
+.description-content .edit-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(0);
+}
+
+/* New styles for Description component's edit icon */
+.detail-item .description-content .edit-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: none;
+}
+
+.skill-tag {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.post-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.post-content {
+    display: flex;
+    align-items: center;
+}
+
+.post-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding: 10px 15px;
+    background-color: white;
+    border: none; /* Removed the blue border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.post-item span {
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.post-item:hover {
+    background-color: #f0f8ff;
+}
+
+.post-this-job-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.post-this-job-btn:hover {
+    background-color: #0056b3;
+}
+
+/* New styles for separator */
+.separator {
+    margin: 20px -20px;
+    border: none;
+    border-top: 1px solid #5f5e5e;
+}
+
+/* New styles for additional-details */
+.additional-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Add vertical spacing between components */
+}
