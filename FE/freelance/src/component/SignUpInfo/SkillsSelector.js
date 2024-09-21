@@ -10,7 +10,8 @@ const skillCategories = {
   'Mobile Development': ['iOS', 'Android', 'React Native', 'Flutter', 'Kotlin', 'Swift'],
   'Data Science': ['Python', 'R', 'Machine Learning', 'Data Visualization', 'Big Data'],
   'Cloud Computing': ['AWS', 'Azure', 'Google Cloud', 'Docker', 'Kubernetes'],
-  'Cybersecurity': ['Network Security', 'Ethical Hacking', 'Cryptography', 'Incident Response']
+  'Cybersecurity': ['Network Security', 'Ethical Hacking', 'Cryptography', 'Incident Response'],
+  'Backend Development': ['Node.js', 'Express.js', 'Nest.js', 'Loopback', 'GraphQL', 'Spring Boot', 'Laravel', 'Ruby on Rails', 'Django', 'Flask'],
 };
 
 const SkillsSelector = () => {
@@ -81,14 +82,23 @@ const SkillsSelector = () => {
               title={<Text strong>{category}</Text>}
               size="small"
               bordered={false}
-              style={{ borderRadius: '8px', backgroundColor: '#fafafa' }}
+              style={{
+                borderRadius: '8px',
+                backgroundColor: '#fafafa',
+
+              }}
             >
-              <Space wrap>
+              <Space wrap
+              style={{ height: '100px',
+                overflowY: 'auto'}}
+              >
                 {skills.map(skill => (
                   <Tag
-                  key={skill}
-                  color={selectedSkills.includes(skill) ? 'blue' : 'default'}
-                    style={{ cursor: 'pointer', transition: 'all 0.3s' }}
+                    key={skill}
+                    color={selectedSkills.includes(skill) ? 'blue' : 'default'}
+                    style={{
+                      cursor: 'pointer', transition: 'all 0.3s'
+                    }}
                     onClick={() => handleSkillToggle(skill)}
                     onMouseEnter={(e) => e.target.style.borderColor = '#1890ff'}
                     onMouseLeave={(e) => e.target.style.borderColor = selectedSkills.includes(skill) ? '#1890ff' : '#d9d9d9'}
