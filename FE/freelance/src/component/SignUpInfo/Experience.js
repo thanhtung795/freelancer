@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  TextField,
-  Button,
-  Typography,
-  Container,
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
+import { Form, Button, Typography, Input, List, } from 'antd';
 
 const Experience = () => {
   const navigate = useNavigate();
@@ -39,72 +30,63 @@ const Experience = () => {
   };
 
   const handleButtonClick = () => {
-    // Xử lý lưu dữ liệu
     navigate('/description');
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Kinh nghiệm làm việc
-      </Typography>
-      <form>
-        <TextField
-          fullWidth
-          label="Tên công ty"
-          name="company"
+    <Form layout="vertical">
+      <Typography.Title level={4}>Kinh nghiệm làm việc</Typography.Title>
+      <Form.Item label="Tên công ty">
+        <Input
           value={currentExperience.company}
           onChange={handleInputChange}
-          margin="normal"
+          name="company"
         />
-        <TextField
-          fullWidth
-          label="Vị trí"
-          name="position"
+      </Form.Item>
+      <Form.Item label="Vị trí">
+        <Input
           value={currentExperience.position}
           onChange={handleInputChange}
-          margin="normal"
+          name="position"
         />
-        <TextField
-          fullWidth
-          label="Ngày bắt đầu"
-          name="startDate"
+      </Form.Item>
+      <Form.Item label="Ngày bắt đầu">
+        <Input
           type="date"
           value={currentExperience.startDate}
           onChange={handleInputChange}
-          margin="normal"
-          InputLabelProps={{ shrink: true }}
+          name="startDate"
         />
-        <TextField
-          fullWidth
-          label="Ngày kết thúc"
-          name="endDate"
+      </Form.Item>
+      <Form.Item label="Ngày kết thúc">
+        <Input
           type="date"
           value={currentExperience.endDate}
           onChange={handleInputChange}
-          margin="normal"
-          InputLabelProps={{ shrink: true }}
+          name="endDate"
         />
-        <Button variant="outlined" color="primary" onClick={handleAddExperience}>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" onClick={handleAddExperience}>
           Thêm kinh nghiệm
         </Button>
-      </form>
+      </Form.Item>
       <List>
         {experiences.map((exp, index) => (
-          <ListItem key={index}>
-            <ListItemText
-              primary={`${exp.position} tại ${exp.company}`}
-              secondary={`${exp.startDate} - ${exp.endDate}`}
+          <List.Item key={index}>
+            <List.Item.Meta
+              title={`${exp.position} tại ${exp.company}`}
+              description={`${exp.startDate} - ${exp.endDate}`}
             />
-          </ListItem>
+          </List.Item>
         ))}
       </List>
-      <Box mt={2}>
-        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+      <Form.Item>
+        <Button type="primary" onClick={handleButtonClick}>
           Tiếp theo
         </Button>
-      </Box>
-    </Container>
+      </Form.Item>
+    </Form>
   );
 };
 

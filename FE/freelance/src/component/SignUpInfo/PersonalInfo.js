@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    TextField,
-    Button,
-    Typography,
-    Container,
-    Box,
-} from '@mui/material';
+import { Form, Input, Button, Typography } from 'antd';
 
 const PersonalInfo = () => {
     const navigate = useNavigate();
@@ -22,47 +16,29 @@ const PersonalInfo = () => {
 
     const handleNext = () => {
 
-        navigate('/specialization');
+        navigate('/SkillsSelector');
     };
 
     return (
-        <Container maxWidth="sm">
-            <Typography variant="h4" component="h1" gutterBottom>
-                Thông tin cá nhân
-            </Typography>
-            <form>
-                <TextField
-                    fullWidth
-                    label="Họ tên"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    margin="normal"
-                />
-                <TextField
-                    fullWidth
-                    label="Số điện thoại"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleChange}
-                    margin="normal"
-                />
-                <TextField
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    margin="normal"
-                    disabled
-                />
-                <Box mt={2}>
-                    <Button variant="contained" color="primary" onClick={handleNext}>
+        <>
+            <Typography.Title level={2}>Thông tin cá nhân</Typography.Title>
+            <Form layout="vertical">
+                <Form.Item label="Họ tên">
+                    <Input value={formData.fullName} onChange={handleChange} name="fullName" />
+                </Form.Item>
+                <Form.Item label="Số điện thoại">
+                    <Input value={formData.phoneNumber} onChange={handleChange} name="phoneNumber" />
+                </Form.Item>
+                <Form.Item label="Email" disabled>
+                    <Input value={formData.email} name="email" />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" onClick={handleNext}>
                         Tiếp theo
                     </Button>
-                </Box>
-            </form>
-        </Container>
+                </Form.Item>
+            </Form>
+        </>
     );
 };
 

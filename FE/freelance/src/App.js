@@ -9,10 +9,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import CandidatesTable from './component/CandidatesTable/CandidatesTable';
 import PersonalInfo from './component/SignUpInfo/PersonalInfo';
-import Specialization from './component/SignUpInfo/Specialization';
 import Experience from './component/SignUpInfo/Experience';
 import Description from './component/SignUpInfo/Description';
 import HomeFreelancer from './component/HomeFreelancer/HomeFreelancer';
+import SkillsSelector from './component/SignUpInfo/SkillsSelector';
 // const ExampleToast = ({ children }) => {
 //   const [show, toggleShow] = useState(true);
 //   return (
@@ -36,7 +36,7 @@ const App = () => (
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/candidates" element={<CandidatesTable />} />
         <Route path="/personalInfo" element={<PersonalInfo/>} />
-        <Route path="/specialization" element={<Specialization/>} />
+        <Route path="/SkillsSelector" element={<SkillsSelector/>} />
         <Route path="/experience" element={<Experience/>} />
         <Route path="/description" element={<Description/>} />
         <Route path="/home-freelancer" element={<HomeFreelancer />} />
