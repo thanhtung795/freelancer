@@ -13,6 +13,7 @@ import Experience from './component/SignUpInfo/Experience';
 import Description from './component/SignUpInfo/Description';
 import HomeFreelancer from './component/HomeFreelancer/HomeFreelancer';
 import SkillsSelector from './component/SignUpInfo/SkillsSelector';
+import FreelancerInfo from './component/FreelancerInfo/FreelancerInfo';
 const App = () => (
   <Container className="p-3">
     <BrowserRouter>
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/experience" element={<Experience/>} />
         <Route path="/description" element={<Description/>} />
         <Route path="/home-freelancer" element={<HomeFreelancer />} />
+        <Route path="/freelancer-info" element={<FreelancerInfo />} />
       </Routes>
     </BrowserRouter>
   </Container>
