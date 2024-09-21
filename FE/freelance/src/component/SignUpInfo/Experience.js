@@ -44,7 +44,7 @@ const Experience = () => {
   };
 
   return (
-    <Row justify="center">
+    <Row className='m-5' justify="center">
       <Col xs={24} sm={20} md={16}>
         <Card title={<Typography.Title level={4}>Kinh nghiệm làm việc</Typography.Title>}>
           <Form layout="vertical">

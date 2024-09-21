@@ -11,7 +11,7 @@ function JoinAs() {
   };
 
   const handleButtonClick = () => {
-    navigate('/login');
+    navigate('/personalInfo');
   };
   return (
     <div className="container mt-5">

@@ -15,7 +15,6 @@ const Description = () => {
         setDescription(value);
         setWordCount(value.split(/\s+/).filter(word => word.length > 0).length); // Đếm số từ
     };
-
     const handleButtonClick = () => {
         if (wordCount >= 200) {
             navigate('/freelancer-info'); 

@@ -38,12 +38,10 @@ const PersonalInfo = () => {
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
-    // Fetch countries from API
     const fetchCountries = async () => {
       try {
-        const response = await fetch('https://restcountries.com/v3.1/all'); // API lấy danh sách quốc gia
+        const response = await fetch('https://restcountries.com/v3.1/all'); 
         const data = await response.json();
-        // Sắp xếp tên quốc gia theo thứ tự ABC
         const sortedCountries = data.sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );

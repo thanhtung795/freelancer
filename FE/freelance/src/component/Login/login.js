@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 
-function LogIn() {
+function Login() {
   const navigate = useNavigate();
   const handleButtonClick = () => {
     navigate('/signUp');
   };
   const handleNext = () => {
-    navigate('/personalInfo');
+    navigate('/home-freelancer');
   }
   return (
     <div className="container">
@@ -76,4 +76,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default Login;
