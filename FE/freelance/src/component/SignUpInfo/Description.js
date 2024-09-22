@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Button, Typography, Input, Row, Col, Card, Image } from 'antd';
 
 const { TextArea } = Input;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const Description = () => {
     const [description, setDescription] = useState('');
