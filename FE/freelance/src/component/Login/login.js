@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 
-function Login() {
+function LogIn() {
   const navigate = useNavigate();
   const handleButtonClick = () => {
     navigate('/signUp');
@@ -76,4 +76,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LogIn;
