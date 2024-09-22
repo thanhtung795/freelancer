@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPencilAlt, FaCheck } from 'react-icons/fa';
+import { FaPencilAlt } from 'react-icons/fa';
 
 const Title = () => {
   return (

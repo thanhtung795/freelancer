@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaCheck, FaPencilAlt } from 'react-icons/fa';
 import './DetailJob.css';
 import Title from './Title';
 import Category from './Category';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Row, Col, Card, Avatar, Typography, Tag, Button, Space } from 'antd';
+import { Layout, Row, Col, Card, Avatar, Typography, Tag, Button } from 'antd';
 import { Edit, EyeIcon, Share } from 'lucide-react';
 const { Header, Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
