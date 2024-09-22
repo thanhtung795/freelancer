@@ -8,7 +8,7 @@ function Login() {
     navigate('/signUp');
   };
   const handleNext = () => {
-    navigate('/personalInfo');
+    navigate('/home-freelancer');
   }
   return (
     <div className="container">
