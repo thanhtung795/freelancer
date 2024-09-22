@@ -18,7 +18,7 @@ import PersonalInfo from "./component/SignUpInfo/PersonalInfo";
 import SkillsSelector from "./component/SignUpInfo/SkillsSelector";
 import Experience from "./component/SignUpInfo/Experience";
 import Description from "./component/SignUpInfo/Description";
-
+import DetailJob from './component/Client/Job/DetailJob/DetailJob';
 const UserContext = React.createContext();
 const App = () => {
   const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "guest");
@@ -54,8 +54,10 @@ return (
       </Routes>
       <Footer />
     </BrowserRouter>
+    <DetailJob/>
   </UserContext.Provider>
 );
 }
+
 
 export default App;
