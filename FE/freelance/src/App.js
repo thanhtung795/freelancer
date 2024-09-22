@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -9,7 +9,7 @@ import StatisticalFreelancer from "./component/StatisticalFreelancer/Statistical
 import NotFound from "./component/NotFound/NotFound";
 import NavbarGuest from "./component/Layout/Navbar/Navbar";
 import Footer from "./component/Layout/Footer/Footer";
-import Login from "./component/LogIn/LogIn";
+import LogIn from "./component/LogIn/login";
 import SignUp from "./component/SignUp/SignUp";
 import FreelancerInfo from "./component/FreelancerInfo/FreelancerInfo";
 import HomeFreelancer from "./component/HomeFreelancer/HomeFreelancer";
@@ -19,9 +19,12 @@ import SkillsSelector from "./component/SignUpInfo/SkillsSelector";
 import Experience from "./component/SignUpInfo/Experience";
 import Description from "./component/SignUpInfo/Description";
 import DetailJob from './component/Client/Job/DetailJob/DetailJob';
+import ClientInfo from "./component/Client/ClientInfo/ClientInfo";
+import NavbarClient from "./component/Layout/Navbar/NavbarClient";
+import NavbarFreelancer from "./component/Layout/Navbar/NavbarFreelancer";
 const UserContext = React.createContext();
 const App = () => {
-  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "guest");
+  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "client");
 
   const handleLogin = (role) => {
     setUserRole(role);
@@ -30,33 +33,35 @@ const App = () => {
   const handleLogout = () => {
     setUserRole("guest");
   };
-return (
-  <UserContext.Provider value={{ userRole, handleLogin, handleLogout }}>
-    <BrowserRouter>
-      {userRole === "guest" && <NavbarGuest />}
-      {/* {userRole === "freelancer" && <NavbarFreelancer />}
-      {userRole === "client" && <NavbarClient />} */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/joinAs" element={<JoinAs />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/candidates" element={<CandidatesTable />} />
-        <Route path="/job" element={<JobForm />} />
-        <Route path="/personalInfo" element={<PersonalInfo />} />
-        <Route path="/SkillsSelector" element={<SkillsSelector />} />
-        <Route path="/experience" element={<Experience />} />
-        <Route path="/description" element={<Description />} />
-        <Route path="/home-freelancer" element={<HomeFreelancer />} />
-        <Route path="/freelancer-info" element={<FreelancerInfo />} />
-        <Route path="/statisticalfreelancer" element={<StatisticalFreelancer />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
-    <DetailJob/>
-  </UserContext.Provider>
-);
+  return (
+    <UserContext.Provider value={{ userRole, handleLogin, handleLogout }}>
+      <BrowserRouter>
+        {userRole === "guest" && <NavbarGuest />}
+        {userRole === "freelancer" && <NavbarFreelancer />}
+        {userRole === "client" && <NavbarClient />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/joinAs" element={<JoinAs />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/job" element={<JobForm />} />
+          <Route path="/personalInfo" element={<PersonalInfo />} />
+          <Route path="/SkillsSelector" element={<SkillsSelector />} />
+          <Route path="/candidates" element={<CandidatesTable />} />
+          <Route path="/experience" element={<Experience />} />
+          <Route path="/description" element={<Description />} />
+          <Route path="/home-freelancer" element={<HomeFreelancer />} />
+          <Route path="/statisticalfreelancer" element={<StatisticalFreelancer />} />
+          <Route path="/detail-job" element={<DetailJob />} />
+          <Route path="/freelancer-info" element={<FreelancerInfo />} />
+          <Route path="/client-info" element={<ClientInfo />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+      <DetailJob />
+    </UserContext.Provider>
+  );
 }
 
 
