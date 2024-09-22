@@ -8,13 +8,13 @@ import {
   Nav,
   Navbar,
   Dropdown,
+  NavDropdown,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-function NavbarApp() {
+function NavbarGuest() {
   const [dropdownTitle, setDropdownTitle] = useState("Talent");
-
   return (
-      <Navbar expand="lg" className="mt-0 px-4">
+      <Navbar expand="lg" className="mt-0 px-4 bg-white">
         <Navbar.Brand as={Link} to="/">
         <img
             width="50"
@@ -27,23 +27,22 @@ function NavbarApp() {
         <Navbar.Toggle aria-controls="navbarSupportedContent" />
         <Navbar.Collapse id="navbarSupportedContent">
           <Nav className="me-auto">
-            {/* <Nav.Link href="#">Home</Nav.Link>
-            <Nav.Link href="#">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="navbarDropdown">
-              <NavDropdown.Item href="#">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#">Another action</NavDropdown.Item>
-              <NavDropdown.Divider />
+            <NavDropdown title="Tiềm kiếm tài năng" id="navbarDropdown">
+              <NavDropdown.Item href="#">Tiềm kiếm tài năng</NavDropdown.Item>
+              <NavDropdown.Item href="#">Tìm kiếm công việc</NavDropdown.Item>
               <NavDropdown.Item href="#">Something else here</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Disabled
-            </Nav.Link> */}
+            <NavDropdown title="Tìm kiếm công việc" id="navbarDropdown">
+              <NavDropdown.Item href="#">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#">Another action</NavDropdown.Item>
+              <NavDropdown.Item href="#">Something else here</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
           <Form className="d-flex">
             <InputGroup>
               <Dropdown>
                 <Dropdown.Toggle
-                  variant="success"
+                  style={{ backgroundColor: "#2671e0" }}
                   id="dropdown-basic"
                   className="border-0 rounded-start-pill"
                 >
@@ -80,7 +79,7 @@ function NavbarApp() {
             <Button variant="light" className="ms-2">
               <Link to={"/login"} style={{color: "black"}}>Login</Link>
             </Button>
-            <Button variant="success" className="ms-2">
+            <Button style={{ backgroundColor: "#2671e0" }} className="ms-2">
               <Link to={"/joinAs"} style={{color: "white"}} >Signup</Link>
             </Button>
           </Form>
@@ -89,4 +88,4 @@ function NavbarApp() {
   );
 }
 
-export default NavbarApp;
+export default NavbarGuest;

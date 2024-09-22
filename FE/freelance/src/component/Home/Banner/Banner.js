@@ -26,7 +26,7 @@ function Banner() {
       </p>
       <div className="hero-cta d-flex flex-wrap mb-0">
         <Link to="/signUp" className="up-n-link air3-btn air3-btn-primary mb-0">
-        <Button variant="success" className="me-2">
+        <Button style={{ backgroundColor:"#2671e0"}} className="me-2">
               Get started
             </Button>
         </Link>
