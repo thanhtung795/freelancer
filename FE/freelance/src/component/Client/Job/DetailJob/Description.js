@@ -5,10 +5,10 @@ const Description = () => {
   return (
     <div className="detail-item">
       <div className="description-content">
-        <p>Talent type needed for your work</p>
-        <p>Clear expectations about your task or deliverable</p>
-        <p>This skills required for your work</p>
-        <p>Confirm your budget and time frame to work</p>
+        <p>Ứng viên tôi đang tìm kiếm:</p>
+        <p>Mong muốn cộng tác mãnh liệt</p>
+        <p>Đáp ứng mọi kỹ năng để thực hiện dự án</p>
+        <p>Khả năng giao tiếp tốt</p>
       </div>
       <FaPencilAlt className="edit-icon" />
     </div>

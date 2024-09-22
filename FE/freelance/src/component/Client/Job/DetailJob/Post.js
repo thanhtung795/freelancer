@@ -5,9 +5,9 @@ const Post = () => {
     <div className="post-section">
       <div className="post-content">
         <div className="post-item">
-          <span>Save as a draft</span>
+          <span>Lưu bản nháp</span>
         </div>
-        <button className="post-this-job-btn">Post this job</button>
+        <button className="post-this-job-btn">Đăng tải dự án</button>
       </div>
     </div>
   );

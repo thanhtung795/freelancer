@@ -13,8 +13,8 @@ const DetailJob = () => {
     <div className="job-details">
 
       <div className="header">
-        <h2>Job details</h2>
-        <button className="post-btn">Post this job</button>
+        <h2>Chi tiết dự án</h2>
+        <button className="post-btn">Đăng tải dự án</button>
       </div>
 
       <div className="job-details-content">
@@ -32,7 +32,7 @@ const DetailJob = () => {
         <Post />
       </div>
 
-      
+
     </div>
   );
 
