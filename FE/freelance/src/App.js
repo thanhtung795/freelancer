@@ -9,7 +9,7 @@ import StatisticalFreelancer from "./component/StatisticalFreelancer/Statistical
 import NotFound from "./component/NotFound/NotFound";
 import NavbarGuest from "./component/Layout/Navbar/Navbar";
 import Footer from "./component/Layout/Footer/Footer";
-import LogIn from "./component/LogIn/login";
+import LogIn from "./component/Login/Login";
 import SignUp from "./component/SignUp/SignUp";
 import FreelancerInfo from "./component/FreelancerInfo/FreelancerInfo";
 import HomeFreelancer from "./component/HomeFreelancer/HomeFreelancer";
