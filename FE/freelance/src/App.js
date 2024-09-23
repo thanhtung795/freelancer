@@ -59,7 +59,6 @@ const App = () => {
         </Routes>
         <Footer />
       </BrowserRouter>
-      <DetailJob />
     </UserContext.Provider>
   );
 }
