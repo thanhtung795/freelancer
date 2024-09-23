@@ -15,7 +15,7 @@ import { UserOutlined } from '@ant-design/icons';
 import UserMenu from "./UserMenu";
 
 function NavbarClient() {
-    const [dropdownTitle, setDropdownTitle] = useState("Talent");
+    const [dropdownTitle, setDropdownTitle] = useState("Tài năng");
     const [userName, setUserName] = useState("Bùi Minh Quang Fpl Hcm");
     const [userRole, setUserRole] = useState("Client");
 
@@ -55,21 +55,21 @@ function NavbarClient() {
                             <Dropdown.Menu>
                                 <Dropdown.Item
                                     href="#/action-1"
-                                    onClick={() => setDropdownTitle("Talent")}
+                                    onClick={() => setDropdownTitle("Tài năng")}
                                 >
-                                    Talent
+                                    Tài năng
                                 </Dropdown.Item>
                                 <Dropdown.Item
                                     href="#/action-2"
-                                    onClick={() => setDropdownTitle("Project")}
+                                    onClick={() => setDropdownTitle("Dự án")}
                                 >
-                                    Project
+                                    Dự án
                                 </Dropdown.Item>
                                 <Dropdown.Item
                                     href="#/action-3"
-                                    onClick={() => setDropdownTitle("Jobs")}
+                                    onClick={() => setDropdownTitle("Công việc")}
                                 >
-                                    Jobs
+                                    Công việc
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>

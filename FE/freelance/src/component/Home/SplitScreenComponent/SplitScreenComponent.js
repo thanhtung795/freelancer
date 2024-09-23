@@ -9,7 +9,7 @@ function SplitScreenComponent() {
       <div className="col-md-6 p-0 rounded-left">
         <img
           src="https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload//q_auto,dpr_2.0,f_auto/brontes/for-talents/find-great-work@2x.jpg"
-          alt="Find Great Work"
+          alt="Tìm việc làm tuyệt vời"
           className="img-fluid w-100"
           style={{ height: "100vh", objectFit: "cover" }}
         />
@@ -18,12 +18,12 @@ function SplitScreenComponent() {
       <div className="col-md-6 d-flex flex-column justify-content-center p-4 text-white bg-dark rounded-right">
         <div className="for-talent-content">
           <div className="for-talent-content-first-section mb-4">
-            <p className="headline mb-4">For talent</p>
+            <p className="headline mb-4">Dành cho nhân tài</p>
             <h1 className="display-rebrand mb-4">
-              <span>Find great<br /> work</span>
+              <span>Tìm việc làm<br /> tuyệt vời</span>
             </h1>
             <span className="subtitle mb-4">
-              Meet clients you’re excited to work with and take<br /> your career or business to new heights.
+              Gặp gỡ những khách hàng bạn mong muốn làm việc cùng và đưa<br /> sự nghiệp hoặc doanh nghiệp của bạn lên tầm cao mới.
             </span>
           </div>
 
@@ -33,23 +33,23 @@ function SplitScreenComponent() {
             <div className="row g-3">
               <div className="col-12 col-md-4">
                 <div className="overview-item">
-                  Find opportunities for every stage of your freelance career
+                  Tìm kiếm cơ hội cho mọi giai đoạn sự nghiệp freelance của bạn
                 </div>
               </div>
               <div className="col-12 col-md-4">
                 <div className="overview-item">
-                  Control when, where, and how you work
+                  Kiểm soát thời gian, địa điểm và cách bạn làm việc
                 </div>
               </div>
               <div className="col-12 col-md-4">
                 <div className="overview-item">
-                  Explore different ways to earn
+                  Khám phá các cách khác nhau để kiếm tiền
                 </div>
               </div>
             </div>
             <div className="pt-4">
               <Link to="/signup" className="btn btn-primary">
-                Find opportunities
+                Tìm cơ hội
               </Link>
             </div>
           </div>

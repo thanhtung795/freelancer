@@ -6,15 +6,15 @@ function FindTalentComponent() {
   const items = [
     {
       title: "Freelancers",
-      description: "Work with the best freelancers in any field."
+      description: "Làm việc với những freelancer giỏi nhất trong mọi lĩnh vực."
     },
     {
-      title: "Agencies",
-      description: "Hire top agencies to scale your business."
+      title: "Các công ty",
+      description: "Thuê các công ty hàng đầu để mở rộng doanh nghiệp của bạn."
     },
     {
-      title: "Project Managers",
-      description: "Get help managing complex projects."
+      title: "Quản lý dự án",
+      description: "Nhận sự trợ giúp trong việc quản lý các dự án phức tạp."
     }
   ];
 
@@ -22,9 +22,9 @@ function FindTalentComponent() {
     <div className="background-section rounded mb-3">
         <div></div>
       <div className="content">
-        <h1>Find talent your way</h1>
+        <h1>Tìm kiếm tài năng theo cách của bạn</h1>
         <p>
-          Work with the largest network of independent professionals and get things done—from quick turnarounds to big transformations.
+          Làm việc với mạng lưới các chuyên gia độc lập lớn nhất và hoàn thành công việc từ những việc nhỏ đến các dự án lớn.
         </p>
       </div>
       <div className="row w-100">
