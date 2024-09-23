@@ -4,8 +4,8 @@ import { FaPencilAlt } from 'react-icons/fa';
 const Scope = () => {
   return (
     <div className="detail-item">
-      <h3>Scope</h3>
-      <p>Large, More than 6 months, Entry level, Contract-to-hire opportunity</p>
+      <h3>Phạm vi</h3>
+      <p>Lớn, Kéo dài hơn 6 tháng, Yêu cầu kinh nghiệm, Có cơ hội hợp tác lâu dài</p>
       <FaPencilAlt className="edit-icon" />
     </div>
   );
