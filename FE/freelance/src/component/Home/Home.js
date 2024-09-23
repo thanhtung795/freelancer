@@ -21,7 +21,7 @@ function Home() {
       <Banner />
       <div className="row mb-4">
         {items.map((item, index) => (
-          <div key={index} className="col-md-3 mb-4">
+          <div key={index} className="col-md-3">
             <TalentSkillItem
               title={item.title}
               rating={item.rating}

@@ -10,7 +10,7 @@ import NotFound from "./component/NotFound/NotFound";
 import NavbarGuest from "./component/Layout/Navbar/Navbar";
 import Footer from "./component/Layout/Footer/Footer";
 import LogIn from "./component/Login/Login";
-import SignUp from "./component/SignUp/SignUp";
+import SignUp from "./component/SignUp/Signup";
 import FreelancerInfo from "./component/FreelancerInfo/FreelancerInfo";
 import HomeFreelancer from "./component/HomeFreelancer/HomeFreelancer";
 import JobForm from "./component/Job/JobForm/JobForm";
@@ -59,7 +59,6 @@ const App = () => {
         </Routes>
         <Footer />
       </BrowserRouter>
-      <DetailJob />
     </UserContext.Provider>
   );
 }
