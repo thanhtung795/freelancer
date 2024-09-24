@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function ImgAvatar(props) {
   return <img src={props.img} alt={props.alt} className={props.className} />;
@@ -12,20 +13,20 @@ function TagA(props) {
   );
 }
 function ProgressBar() {
-    return (
-      <div className="container mt-3">
-        <div className="progress">
-          <div className="progress-bar bg-success" role="progressbar" style={{ width: '100%' }} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
-            100%
-          </div>
+  return (
+    <div className="container mt-3">
+      <div className="progress">
+        <div className="progress-bar bg-success" role="progressbar" style={{ width: '100%' }} aria-valuenow={100} aria-valuemin={0} aria-valuemax={100}>
+          100%
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 function RightCard() {
   return (
-    <div className="container-fluid"   
-    style={{
+    <div className="container-fluid"
+      style={{
         height: "250px",
         borderRadius: "19px", // Bo góc
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)" // Shadow nhẹ
@@ -49,14 +50,15 @@ function RightCard() {
         </div>
       </div>
       <div className="row d-flex justify-content-center align-content-center">
-            <TagA 
-            href="#"
+        <Link to={"/freelancer-info"} >
+          <TagA
             id="Complete-profile"
             className="text-success"
             title="Xem thông tin tài khoản" // Thêm tiêu đ�� vào đây
-            />        
+          />
+        </Link>
       </div>
-        <ProgressBar/>
+      <ProgressBar />
     </div>
   );
 }

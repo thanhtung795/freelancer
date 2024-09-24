@@ -1,11 +1,11 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "./styles.css"; // Đảm bảo rằng bạn đã tạo và kết nối file CSS
+import "./styles.css"; 
 
 function TalentSkillItem({ title, rating, skills }) {
   return (
-    <div className="container bg-light py-4 mb-2">
+    <div className="container bg-light py-4">
       <div className="d-flex flex-column align-items-center">
         {/* Phần trên */}
         <div className="mb-3 text-center">
@@ -19,7 +19,7 @@ function TalentSkillItem({ title, rating, skills }) {
             <span className="rating-text">{rating}</span>
           </div>
           <div>
-            <span className="skills-text">{skills} skills</span>
+            <span className="skills-text">{skills} kỹ năng</span>
           </div>
         </div>
       </div>

@@ -31,9 +31,6 @@ const FreelancerInfo = () => {
                             <Button icon={<EyeIcon />} type="primary" block>See public view</Button>
                         </Row>
                         <Row style={{ margin: '8px 5px' }}>
-                            <Button icon={<Edit />} block>Profile settings</Button>
-                        </Row>
-                        <Row style={{ margin: '8px 5px' }}>
                             <Button icon={<Share />} block>Share profile</Button>
                         </Row>
                     </Col>
@@ -62,14 +59,10 @@ const FreelancerInfo = () => {
                 <Card style={{ marginBottom: '20px' }} title="Kĩ năng" extra={<Edit />}>
                     {profileData.skills.map(skill => <Tag key={skill}>{skill}</Tag>)}
                 </Card>
-
-                <Card style={{ marginBottom: '20px' }} title="Các dự án của bạn" extra={<Edit />}>
-                    <Button type="primary">Quản lý dự án</Button>
-                </Card>
-
+{/* 
                 <Card style={{ marginBottom: '20px' }} title="Chứng thực từ khách hàng" extra={<Edit />}>
                     <Text type="secondary">Chưa có</Text>
-                </Card>
+                </Card> */}
 
                 <Card style={{ marginBottom: '20px' }} title="Các chứng nhận" extra={<Edit />}>
                     <Text type="secondary">Chưa có</Text>
