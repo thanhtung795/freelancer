@@ -10,7 +10,7 @@ import Post from './Post';
 const DetailJob = () => {
 
   return (
-    <div className="job-details">
+    <div className="job-details container">
 
       <div className="header">
         <h2>Chi tiết dự án</h2>

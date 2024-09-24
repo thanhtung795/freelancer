@@ -5,7 +5,7 @@ import SearchInput from "./Layout/SearchInput";
 import ListJobs from "./Layout/ListJobs";
 function HomeFreelancer() {
   return (
-    <div className="container">
+    <div className="my-container">
       <div className="row">
         <div className="col-12 col-md-9 ">
           <div style={{ height: "250px" }}>
