@@ -104,7 +104,7 @@ function SignUp() {
             id="flexCheckDefault"
           />
           <label className="form-check-label" htmlFor="flexCheckDefault">
-          Có, tôi hiểu và đồng ý với dịch vụ của freelancer.
+          Có, tôi hiểu và đồng ý với dịch vụ của TalentHub.
           </label>
 
          </div>
