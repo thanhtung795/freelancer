@@ -1,23 +1,32 @@
-package org.example.freelancer.model;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package org.example.freelancer.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userid;
-    private String firstname;
-    private String lastname;
+    @Column(name = "userID", nullable = false)
+    private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-    private Account account;
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+
+    @Column(name = "phoneNumber", length = 20)
+    private String phoneNumber;
+
+    @Column(name = "address")
+    private String address;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountID")
+    private Account accountID;
+
 }
