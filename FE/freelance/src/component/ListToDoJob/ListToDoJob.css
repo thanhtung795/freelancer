@@ -1,0 +1,28 @@
+.background-container {
+  /* background-image: url('https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1msyO9.img');  */
+  background-size: cover;
+  background-position: center;
+  padding: 50px 0;
+}
+
+.my-container-list-job {
+  background-color: rgba(255, 255, 255, 0.8); 
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.job-card {
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.job-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete {
+  background-color: #ff4d4f; 
+  color: white;
+}

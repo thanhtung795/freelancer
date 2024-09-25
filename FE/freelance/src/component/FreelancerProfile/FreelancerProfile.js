@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Card, Button, Typography, Input, Form } from 'antd';
 import { UserOutlined, BankOutlined, PhoneOutlined, EditOutlined } from '@ant-design/icons';
-import ChangePassword from '../../ChangePassword/ChangePassword';
+import ChangePassword from '../ChangePassword/ChangePassword';
 
 const { Sider, Content } = Layout;
 const { Title, Text } = Typography;
 
-const ClientInfo = () => {
+const FreelancerProfile = () => {
   const [selectedTab, setSelectedTab] = useState('1');
   const [editingSection, setEditingSection] = useState(null);
   const [userInfo, setUserInfo] = useState({
@@ -139,4 +139,4 @@ const ClientInfo = () => {
   );
 };
 
-export default ClientInfo;
+export default FreelancerProfile;

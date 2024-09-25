@@ -30,7 +30,7 @@ CREATE TABLE user
     lastName    VARCHAR(255) NOT NULL,
     phoneNumber VARCHAR(20),
     address     VARCHAR(255),
-    accountID   INT UNIQUE,
+    accountID   INT,
     FOREIGN KEY (accountID) REFERENCES account (accountID)
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE freelancer
     image        VARCHAR(255),
     hourlyRate   DECIMAL(10, 2),
     categoryID   INT,
-    userID       INT UNIQUE,
+    userID       INT,
     FOREIGN KEY (userID) REFERENCES user (userID),
     FOREIGN KEY (categoryID) REFERENCES category (categoryID)
 );
@@ -57,7 +57,7 @@ CREATE TABLE client
     fromPrice DECIMAL(10, 2),
     toPrice   DECIMAL(10, 2),
     typePrice ENUM('fixed', 'hourlyRate') NOT NULL,
-    userID    INT UNIQUE,
+    userID    INT,
     FOREIGN KEY (userID) REFERENCES user (userID)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE company
     phoneContact VARCHAR(20),
     address      VARCHAR(255),
     location     VARCHAR(255),
-    clientID     INT UNIQUE,
+    clientID     INT,
     FOREIGN KEY (clientID) REFERENCES client (clientID)
 );
 
