@@ -18,14 +18,29 @@ import PersonalInfo from "./component/SignUpInfo/PersonalInfo";
 import SkillsSelector from "./component/SignUpInfo/SkillsSelector";
 import Experience from "./component/SignUpInfo/Experience";
 import Description from "./component/SignUpInfo/Description";
-import DetailJob from './component/Client/Job/DetailJob/DetailJob';
+import DetailJob from "./component/Client/Job/DetailJob/DetailJob";
 import ClientInfo from "./component/Client/ClientInfo/ClientInfo";
 import NavbarClient from "./component/Layout/Navbar/NavbarClient";
 import NavbarFreelancer from "./component/Layout/Navbar/NavbarFreelancer";
+import FreelancerList from "./component/FreelancerList/FreelancerList";
+import ListJobUploaded from "./component/ListJobUploaded/ListJobUploaded";
+import ListToDoJob from "./component/ListToDoJob/ListToDoJob";
+import FreelancerListApplied from "./component/FreelancerListApplied/FreelancerListApplied";
+import JobDetail from "./component/JobDetail/JobDetail";
+import Chat from "./component/Chat/Chat";
+import ChangePassword from "./component/ChangePassword/ChangePassword";
+import ForgetPassword from "./component/ForgetPassword/ForgetPassword";
+import Admin from "./component/Admin/Admin";
+import ArchiveList from "./component/ArchiveList/ArchiveList";
+import DeletedList from "./component/DeletedList/DeletedList";
+import Payment from "./component/Payment/Payment";
+import NavbarAdmin from "./component/Layout/Navbar/NavbarAdmin";
+import FreelancerProfile from "./component/FreelancerProfile/FreelancerProfile";
 const UserContext = React.createContext();
 const App = () => {
-  const [userRole, setUserRole] = useState(localStorage.getItem("userRole") || "client");
-
+  const [userRole, setUserRole] = useState(
+    localStorage.getItem("userRole") || "client"
+  );
   const handleLogin = (role) => {
     setUserRole(role);
   };
@@ -33,35 +48,140 @@ const App = () => {
   const handleLogout = () => {
     setUserRole("guest");
   };
+
+
+  
+  // return (
+  //   <UserContext.Provider value={{ userRole, handleLogin, handleLogout }}>
+  //     <BrowserRouter>
+  //       {userRole === "guest" && <NavbarGuest />}
+  //       {userRole === "freelancer" && <NavbarFreelancer />}
+  //       {userRole === "client" && <NavbarClient />}
+  //       {userRole === "admin" && <NavbarAdmin />}
+  //       <Routes>
+  //         {userRole != "admin" ? (
+  //           <>
+  //             <Route path="/" element={<Home />} />
+  //             <Route path="/login" element={<LogIn />} />
+  //             <Route path="/signUp" element={<SignUp />} />
+  //             <Route path="/joinAs" element={<JoinAs />} />
+  //             <Route path="/job" element={<JobForm />} />
+  //             <Route path="/personalInfo" element={<PersonalInfo />} />
+  //             <Route path="/SkillsSelector" element={<SkillsSelector />} />
+  //             <Route path="/candidates" element={<CandidatesTable />} />
+  //             <Route path="/experience" element={<Experience />} />
+  //             <Route path="/description" element={<Description />} />
+
+  //             {userRole === "client" ? (
+  //               <>
+  //                 <Route path="/home-freelancer" element={<HomeFreelancer />} />
+                 
+  //                 <Route path="/client-info" element={<ClientInfo />} />
+  //                 <Route
+  //                   path="/statistical-freelancer"
+  //                   element={<StatisticalFreelancer />}
+  //                 />
+  //                 <Route path="/list-todo-job" element={<ListToDoJob />} />
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <Route
+  //                   path="/list-job-uploaded"
+  //                   element={<ListJobUploaded />}
+  //                 />
+  //                 <Route
+  //                   path="/freelancer-info"
+  //                   element={<FreelancerProfile />}
+  //                 />
+  //                 <Route path="/detail-job" element={<DetailJob />} />
+  //                 <Route path="/freelancer-info" element={<FreelancerInfo />} />
+  //                 <Route path="/freelancer-list" element={<FreelancerList />} />
+  //                 <Route
+  //                   path="/freelancer-list-applied"
+  //                   element={<FreelancerListApplied />}
+  //                 />
+  //                 <Route path="/archived-list" element={<ArchiveList />} />
+  //                 <Route path="/deleted-list" element={<DeletedList />} />
+  //               </>
+  //             )}
+
+  //             <Route path="/job-detail" element={<JobDetail />} />
+  //             <Route path="/chat" element={<Chat />} />
+  //             <Route path="/change-password" element={<ChangePassword />} />
+  //             <Route path="/forget-password" element={<ForgetPassword />} />
+  //             <Route path="/payment" element={<Payment />} />
+  //             <Route path="*" element={<NotFound />} />
+  //           </>
+  //         ) : (
+  //           <>
+  //             <Route path="/admin" element={<Admin />} />
+  //             <Route path="*" element={<NotFound />} />
+  //           </>
+  //         )}
+  //       </Routes>
+  //       <Footer />
+  //     </BrowserRouter>
+  //   </UserContext.Provider>
+
   return (
     <UserContext.Provider value={{ userRole, handleLogin, handleLogout }}>
       <BrowserRouter>
         {userRole === "guest" && <NavbarGuest />}
         {userRole === "freelancer" && <NavbarFreelancer />}
         {userRole === "client" && <NavbarClient />}
+        {userRole === "admin" && <NavbarAdmin />}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/joinAs" element={<JoinAs />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/job" element={<JobForm />} />
-          <Route path="/personalInfo" element={<PersonalInfo />} />
-          <Route path="/SkillsSelector" element={<SkillsSelector />} />
-          <Route path="/candidates" element={<CandidatesTable />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/description" element={<Description />} />
-          <Route path="/home-freelancer" element={<HomeFreelancer />} />
-          <Route path="/statisticalfreelancer" element={<StatisticalFreelancer />} />
-          <Route path="/detail-job" element={<DetailJob />} />
-          <Route path="/freelancer-info" element={<FreelancerInfo />} />
-          <Route path="/client-info" element={<ClientInfo />} />
-          <Route path="*" element={<NotFound />} />
+          {userRole != "admin" ? (
+            <>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<LogIn />} />
+              <Route path="/signUp" element={<SignUp />} />
+              <Route path="/joinAs" element={<JoinAs />} />
+              <Route path="/job" element={<JobForm />} />
+              <Route path="/personalInfo" element={<PersonalInfo />} />
+              <Route path="/SkillsSelector" element={<SkillsSelector />} />
+              <Route path="/candidates" element={<CandidatesTable />} />
+              <Route path="/experience" element={<Experience />} />
+              <Route path="/description" element={<Description />} />
+              <Route path="/home-freelancer" element={<HomeFreelancer />} />
+              <Route path="/client-info" element={<ClientInfo />} />
+              <Route path="/freelancer-profile" element={<FreelancerProfile />} />
+              <Route
+                path="/statistical-freelancer"
+                element={<StatisticalFreelancer />}
+              />
+              <Route path="/detail-job" element={<DetailJob />} />
+              <Route path="/freelancer-info" element={<FreelancerInfo />} />
+              <Route path="/freelancer-list" element={<FreelancerList />} />
+              <Route
+                path="/freelancer-list-applied"
+                element={<FreelancerListApplied />}
+              />
+              <Route path="/list-job-uploaded" element={<ListJobUploaded />} />
+              <Route path="/list-todo-job" element={<ListToDoJob />} />
+              <Route path="/job-detail" element={<JobDetail />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/change-password" element={<ChangePassword />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
+              <Route path="/archived-list" element={<ArchiveList />} />
+              <Route path="/deleted-list" element={<DeletedList />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          ) : (
+            <>
+              <Route path="/admin" element={<Admin />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          )}
         </Routes>
         <Footer />
       </BrowserRouter>
     </UserContext.Provider>
   );
-}
-
+};
 
 export default App;
+
+
+
