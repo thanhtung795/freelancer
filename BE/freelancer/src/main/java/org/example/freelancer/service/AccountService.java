@@ -2,7 +2,7 @@ package org.example.freelancer.service;
 
 import org.example.freelancer.dto.AccountDTO;
 import org.example.freelancer.mapper.AccountMapper;
-import org.example.freelancer.model.Account;
+import org.example.freelancer.entity.Account;
 import org.example.freelancer.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

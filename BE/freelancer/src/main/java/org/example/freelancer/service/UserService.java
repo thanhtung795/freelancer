@@ -1,7 +1,7 @@
 package org.example.freelancer.service;
 import org.example.freelancer.dto.UserDTO;
 import org.example.freelancer.mapper.UserMapper;
-import org.example.freelancer.model.User;
+import org.example.freelancer.entity.User;
 import org.example.freelancer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

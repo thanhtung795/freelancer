@@ -1,6 +1,6 @@
 package org.example.freelancer.repository;
 
-import org.example.freelancer.model.Account;
+import org.example.freelancer.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

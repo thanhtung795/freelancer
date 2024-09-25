@@ -1,7 +1,7 @@
 package org.example.freelancer.mapper;
 
 import org.example.freelancer.dto.UserDTO;
-import org.example.freelancer.model.User;
+import org.example.freelancer.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
