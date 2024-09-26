@@ -16,8 +16,8 @@ public interface JobMapper {
     @Mapping(target = "categoryId", source = "category.id")
     JobDTO toDto(Job job);
 
-    @Mapping(target = "client.id", source = "clientId")
-    @Mapping(target = "category.id", source = "categoryId")
+    @Mapping(target = "client.id", source = "clientId") // Gán clientId vào client
+    @Mapping(target = "category.id", source = "categoryId") // Gán categoryId vào category
     Job toEntity(JobDTO dto);
 
 }

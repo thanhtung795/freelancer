@@ -12,7 +12,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class JobDTO {
-    @NotNull
+
+
     private Integer id;
 
     @NotNull
