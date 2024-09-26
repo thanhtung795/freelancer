@@ -1,7 +1,11 @@
 package org.example.freelancer.entity;
 
-import jakarta.persistence.*;
-import lombok.Generated;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +15,12 @@ import lombok.Setter;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoryID", nullable = false)
+    @Column(name = "category_id", nullable = false)
     private Integer id;
 
-    @Column(name = "categoryTitle", nullable = false, length = 100)
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "category_title", nullable = false, length = 100)
     private String categoryTitle;
 
 }
