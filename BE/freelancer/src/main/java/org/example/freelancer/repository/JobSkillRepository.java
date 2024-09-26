@@ -1,10 +1,9 @@
 package org.example.freelancer.repository;
 
-import org.example.freelancer.entity.Account;
+import org.example.freelancer.entity.JobSkill;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Integer> {
-    boolean existsByEmail(String email);
+public interface JobSkillRepository extends JpaRepository<JobSkill, Integer> {
 }
