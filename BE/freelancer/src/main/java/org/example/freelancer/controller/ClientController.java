@@ -4,6 +4,7 @@ import org.example.freelancer.dto.ClientDTO;
 import org.example.freelancer.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;  // Import @Valid
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
+@Validated
 public class ClientController {
 
     @Autowired

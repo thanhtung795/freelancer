@@ -2,7 +2,6 @@ package org.example.freelancer.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.example.freelancer.entity.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.DecimalMin;
@@ -14,16 +13,16 @@ import java.math.BigDecimal;
 public class ClientDTO {
     private Integer id;
 
-    @NotNull(message = "From price cannot be null")
-    @DecimalMin(value = "0.0", inclusive = false, message = "From price must be greater than zero")
+    @NotNull(message = "Giá từ không được để trống")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Giá từ phải lớn hơn 0")
     private BigDecimal fromPrice;
 
-    @NotNull(message = "To price cannot be null")
-    @DecimalMin(value = "0.0", inclusive = false, message = "To price must be greater than zero")
+    @NotNull(message = "Giá đến không được để trống")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Giá đến phải lớn hơn 0")
     private BigDecimal toPrice;
 
-    @NotBlank(message = "Type price cannot be empty")
+    @NotBlank(message = "Loại giá không được để trống")
     private String typePrice;
 
-    private UserDTO user;
+    private Integer userId;
 }
