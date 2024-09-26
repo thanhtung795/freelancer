@@ -1,6 +1,8 @@
 package org.example.freelancer.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,9 +14,11 @@ import java.math.BigDecimal;
 @Table(name = "job")
 public class Job {
     @Id
-    @Column(name = "jobID", nullable = false)
+    @Column(name = "job_id", nullable = false)
     private Integer id;
 
+    @Size(max = 255)
+    @NotNull
     @Column(name = "title", nullable = false)
     private String title;
 
@@ -22,30 +26,31 @@ public class Job {
     @Column(name = "scope")
     private String scope;
 
-    @Column(name = "hourWork")
-    private Integer hourWork;
+    @Column(name = "hour_work", precision = 10, scale = 2)
+    private BigDecimal hourWork;
 
-    @Column(name = "jobOpportunity", length = 100)
-    private String jobOpportunity;
+    @Column(name = "job_opportunity")
+    private Boolean jobOpportunity;
 
-    @Column(name = "fromPrice", precision = 10, scale = 2)
+    @Column(name = "from_price", precision = 10, scale = 2)
     private BigDecimal fromPrice;
 
-    @Column(name = "toPrice", precision = 10, scale = 2)
+    @Column(name = "to_price", precision = 10, scale = 2)
     private BigDecimal toPrice;
 
-    @Column(name = "typePayment", length = 50)
-    private String typePayment;
+    @Lob
+    @Column(name = "type_price")
+    private String typePrice;
 
-    @Column(name = "status", length = 50)
-    private String status;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clientID")
-    private Client clientID;
+    @Column(name = "status")
+    private Boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categoryID")
-    private Category categoryID;
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 }

@@ -1,3 +1,9 @@
+drop database job_e_commerce_platform;
+
+CREATE DATABASE job_e_commerce_platform;
+
+use job_e_commerce_platform;
+
 DROP TABLE IF EXISTS account;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS freelancer;
@@ -126,13 +132,13 @@ CREATE TABLE job
 (
     jobID          INT PRIMARY KEY AUTO_INCREMENT,
     title          VARCHAR(255) NOT NULL,
-    scope          TEXT,
-    hourWork       INT,
-    jobOpportunity VARCHAR(100),
+    scope          ENUM('small','medium','large'),
+    hourWork       DECIMAL(10,2),
+    jobOpportunity boolean,
     fromPrice      DECIMAL(10, 2),
     toPrice        DECIMAL(10, 2),
-    typePayment    VARCHAR(50),
-    status         VARCHAR(50),
+    typePrice      ENUM('fixed','hourlyRate'),
+    status         boolean,
     clientID       INT,
     categoryID     INT,
     FOREIGN KEY (clientID) REFERENCES Client (clientID),
@@ -144,7 +150,7 @@ CREATE TABLE freelancer_job
     freelancerID INT,
     jobID        INT,
     isSelected   BOOLEAN DEFAULT FALSE,
-    status       VARCHAR(50),
+    status       boolean,
     PRIMARY KEY (freelancerID, jobID),
     FOREIGN KEY (freelancerID) REFERENCES Freelancer (freelancerID),
     FOREIGN KEY (jobID) REFERENCES Job (jobID)

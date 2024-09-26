@@ -1,6 +1,8 @@
 package org.example.freelancer.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,23 +12,29 @@ import lombok.Setter;
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "userID", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer id;
 
-    @Column(name = "firstName", nullable = false)
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", nullable = false)
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "phoneNumber", length = 20)
+    @Size(max = 20)
+    @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
+    @Size(max = 255)
     @Column(name = "address")
     private String address;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accountID")
-    private Account accountID;
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 }
