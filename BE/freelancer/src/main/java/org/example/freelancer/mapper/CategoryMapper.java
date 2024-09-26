@@ -5,12 +5,12 @@ import org.example.freelancer.entity.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 
-    CategoryDTO toDTO(Category category);
+    CategoryDTO toDto(Category category);
 
     Category toEntity(CategoryDTO categoryDTO);
 }
