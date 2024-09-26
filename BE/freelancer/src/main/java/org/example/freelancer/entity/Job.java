@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 public class Job {
     @Id
     @Column(name = "job_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
