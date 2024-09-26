@@ -14,28 +14,28 @@ public class Education {
     @EmbeddedId
     private EducationId id;
 
-    @MapsId("freelancerID")
+    @MapsId("freelancerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "freelancerID", nullable = false)
-    private Freelancer freelancerID;
+    @JoinColumn(name = "freelancer_id", nullable = false)
+    private Freelancer freelancer;
 
-    @MapsId("schoolID")
+    @MapsId("schoolId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "schoolID", nullable = false)
-    private School schoolID;
+    @JoinColumn(name = "school_id", nullable = false)
+    private School school;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "majorID")
-    private Major majorID;
+    @JoinColumn(name = "major_id")
+    private Major major;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "degreeID")
-    private Degree degreeID;
+    @JoinColumn(name = "degree_id")
+    private Degree degree;
 
-    @Column(name = "dateStart")
+    @Column(name = "date_start")
     private LocalDate dateStart;
 
-    @Column(name = "dateEnd")
+    @Column(name = "date_end")
     private LocalDate dateEnd;
 
     @Lob

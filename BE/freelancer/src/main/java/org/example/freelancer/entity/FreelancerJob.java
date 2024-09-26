@@ -13,21 +13,21 @@ public class FreelancerJob {
     @EmbeddedId
     private FreelancerJobId id;
 
-    @MapsId("freelancerID")
+    @MapsId("freelancerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "freelancerID", nullable = false)
-    private Freelancer freelancerID;
+    @JoinColumn(name = "freelancer_id", nullable = false)
+    private Freelancer freelancer;
 
-    @MapsId("jobID")
+    @MapsId("jobId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "jobID", nullable = false)
-    private Job jobID;
+    @JoinColumn(name = "job_id", nullable = false)
+    private Job job;
 
     @ColumnDefault("0")
-    @Column(name = "isSelected")
+    @Column(name = "is_selected")
     private Boolean isSelected;
 
-    @Column(name = "status", length = 50)
-    private String status;
+    @Column(name = "status")
+    private Boolean status;
 
 }

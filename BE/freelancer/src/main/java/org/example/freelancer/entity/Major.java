@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +15,12 @@ import lombok.Setter;
 @Table(name = "major")
 public class Major {
     @Id
-    @Column(name = "majorID", nullable = false)
+    @Column(name = "major_id", nullable = false)
     private Integer id;
 
-    @Column(name = "majorName", nullable = false)
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "major_name", nullable = false)
     private String majorName;
 
 }

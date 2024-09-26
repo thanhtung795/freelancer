@@ -12,14 +12,14 @@ public class FreelancerSkill {
     @EmbeddedId
     private FreelancerSkillId id;
 
-    @MapsId("freelancerID")
+    @MapsId("freelancerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "freelancerID", nullable = false)
-    private Freelancer freelancerID;
+    @JoinColumn(name = "freelancer_id", nullable = false)
+    private Freelancer freelancer;
 
-    @MapsId("skillID")
+    @MapsId("skillId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "skillID", nullable = false)
-    private Skill skillID;
+    @JoinColumn(name = "skill_id", nullable = false)
+    private Skill skill;
 
 }

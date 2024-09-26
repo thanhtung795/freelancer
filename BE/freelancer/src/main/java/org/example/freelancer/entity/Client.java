@@ -1,6 +1,7 @@
 package org.example.freelancer.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,21 +13,22 @@ import java.math.BigDecimal;
 @Table(name = "client")
 public class Client {
     @Id
-    @Column(name = "clientID", nullable = false)
+    @Column(name = "client_id", nullable = false)
     private Integer id;
 
-    @Column(name = "fromPrice", precision = 10, scale = 2)
+    @Column(name = "from_price", precision = 10, scale = 2)
     private BigDecimal fromPrice;
 
-    @Column(name = "toPrice", precision = 10, scale = 2)
+    @Column(name = "to_price", precision = 10, scale = 2)
     private BigDecimal toPrice;
 
+    @NotNull
     @Lob
-    @Column(name = "typePrice", nullable = false)
+    @Column(name = "type_price", nullable = false)
     private String typePrice;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID")
-    private User userID;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

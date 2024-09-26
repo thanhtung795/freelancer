@@ -7,21 +7,19 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
-
 @Mapper(componentModel = "spring")
 public interface FreelancerMapper {
 
     FreelancerMapper INSTANCE = Mappers.getMapper(FreelancerMapper.class);
 
-    @Mapping(target = "categoryID.id", source = "categoryId")
-    @Mapping(target = "userID", source = "userID") // Thêm ánh xạ cho userID
+    @Mapping(target = "category.id", source = "categoryId") // Sử dụng category thay vì categoryID
+    @Mapping(target = "user", source = "userID") // Cập nhật user
     Freelancer toEntity(FreelancerDTO dto);
 
-    @Mapping(target = "categoryId", source = "categoryID.id")
-    @Mapping(target = "userID", source = "userID.id") // Chuyển userID từ thực thể về DTO
+    @Mapping(target = "categoryId", source = "category.id") // Sử dụng category thay vì categoryID
+    @Mapping(target = "userID", source = "user.id") // Cập nhật user
     FreelancerDTO toDTO(Freelancer entity);
 
-    // Thêm phương thức ánh xạ từ Integer sang User
     default User map(Integer userId) {
         if (userId == null) {
             return null;

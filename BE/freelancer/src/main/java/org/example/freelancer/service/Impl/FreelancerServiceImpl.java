@@ -7,6 +7,7 @@ import org.example.freelancer.mapper.FreelancerMapper;
 import org.example.freelancer.repository.FreelancerRepository;
 import org.example.freelancer.service.FreelancerService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,11 +17,13 @@ public class FreelancerServiceImpl implements FreelancerService {
     private final FreelancerRepository freelancerRepository;
     private final FreelancerMapper freelancerMapper;
 
+    @Transactional(readOnly = true)
     @Override
     public List<FreelancerDTO> getAllFreelancer() {
         return freelancerRepository.findAll().stream().map(FreelancerMapper.INSTANCE::toDTO).toList();
     }
 
+    @Transactional
     @Override
     public FreelancerDTO addFreelancer(FreelancerDTO freelancerDTO) {
         Freelancer freelancer = freelancerMapper.toEntity(freelancerDTO);
