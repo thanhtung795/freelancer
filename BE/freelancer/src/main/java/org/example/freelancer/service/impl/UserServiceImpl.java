@@ -3,6 +3,7 @@ package org.example.freelancer.service.impl;
 import org.example.freelancer.dto.UserDTO;
 import org.example.freelancer.mapper.UserMapper;
 import org.example.freelancer.entity.User;
+import org.example.freelancer.repository.AccountRepository;
 import org.example.freelancer.repository.UserRepository;
 import org.example.freelancer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -50,7 +53,9 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAddress(userDTO.getAddress());
         // Nếu có một Account, có thể lấy từ ID và gán
-        // user.setAccount(accountRepository.findById(userDTO.getAccountID()).orElse(null));
+        if(userDTO.getAccountId() != null) {
+            user.setAccount(accountRepository.findById(userDTO.getAccountId()).orElse(null));
+        }
 
         User updatedUser = userRepository.save(user);
         return UserMapper.INSTANCE.userToUserDTO(updatedUser);
