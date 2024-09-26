@@ -9,7 +9,7 @@ function HomeFreelancer() {
       <div className="row">
         <div className="col-12 col-md-9 ">
           <div style={{ height: "250px" }}>
-            <Banner />
+          <Banner />
           </div>
           <div className="row">
             <SearchInput />
