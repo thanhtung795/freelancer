@@ -1,3 +1,9 @@
+drop database job_e_commerce_platform;
+
+CREATE DATABASE job_e_commerce_platform;
+
+use job_e_commerce_platform;
+
 DROP TABLE IF EXISTS account;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS freelancer;
@@ -30,7 +36,7 @@ CREATE TABLE user
     lastName    VARCHAR(255) NOT NULL,
     phoneNumber VARCHAR(20),
     address     VARCHAR(255),
-    accountID   INT,
+    accountID   INT UNIQUE,
     FOREIGN KEY (accountID) REFERENCES account (accountID)
 );
 
@@ -46,7 +52,7 @@ CREATE TABLE freelancer
     image        VARCHAR(255),
     hourlyRate   DECIMAL(10, 2),
     categoryID   INT,
-    userID       INT,
+    userID       INT UNIQUE,
     FOREIGN KEY (userID) REFERENCES user (userID),
     FOREIGN KEY (categoryID) REFERENCES category (categoryID)
 );
@@ -57,7 +63,7 @@ CREATE TABLE client
     fromPrice DECIMAL(10, 2),
     toPrice   DECIMAL(10, 2),
     typePrice ENUM('fixed', 'hourlyRate') NOT NULL,
-    userID    INT,
+    userID    INT UNIQUE,
     FOREIGN KEY (userID) REFERENCES user (userID)
 );
 
@@ -68,7 +74,7 @@ CREATE TABLE company
     phoneContact VARCHAR(20),
     address      VARCHAR(255),
     location     VARCHAR(255),
-    clientID     INT,
+    clientID     INT UNIQUE,
     FOREIGN KEY (clientID) REFERENCES client (clientID)
 );
 
@@ -126,13 +132,13 @@ CREATE TABLE job
 (
     jobID          INT PRIMARY KEY AUTO_INCREMENT,
     title          VARCHAR(255) NOT NULL,
-    scope          TEXT,
-    hourWork       INT,
-    jobOpportunity VARCHAR(100),
+    scope          ENUM('small','medium','large'),
+    hourWork       DECIMAL(10,2),
+    jobOpportunity boolean,
     fromPrice      DECIMAL(10, 2),
     toPrice        DECIMAL(10, 2),
-    typePayment    VARCHAR(50),
-    status         VARCHAR(50),
+    typePrice      ENUM('fixed','hourlyRate'),
+    status         boolean,
     clientID       INT,
     categoryID     INT,
     FOREIGN KEY (clientID) REFERENCES Client (clientID),
@@ -144,7 +150,7 @@ CREATE TABLE freelancer_job
     freelancerID INT,
     jobID        INT,
     isSelected   BOOLEAN DEFAULT FALSE,
-    status       VARCHAR(50),
+    status       boolean,
     PRIMARY KEY (freelancerID, jobID),
     FOREIGN KEY (freelancerID) REFERENCES Freelancer (freelancerID),
     FOREIGN KEY (jobID) REFERENCES Job (jobID)
