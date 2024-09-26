@@ -10,16 +10,16 @@ import javax.validation.constraints.Size;
 public class CompanyDTO {
     private Integer id;
 
-    @NotBlank(message = "Company name cannot be empty")
+    @NotBlank(message = "Tên công ty không được để trống")
     private String companyName;
 
-    @NotBlank(message = "Phone contact cannot be empty")
-    @Size(max = 20, message = "Phone contact must be at most 20 characters long")
+    @NotBlank(message = "Số điện thoại liên hệ không được để trống")
+    @Size(max = 20, message = "Số điện thoại liên hệ phải có tối đa 20 ký tự")
     private String phoneContact;
 
     private String address;
 
     private String location;
 
-    private ClientDTO client;
+    private Integer clientId;
 }

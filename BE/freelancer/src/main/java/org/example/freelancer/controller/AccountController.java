@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
+@Validated
 public class AccountController {
 
     @Autowired
