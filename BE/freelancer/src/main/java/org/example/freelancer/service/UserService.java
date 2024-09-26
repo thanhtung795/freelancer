@@ -7,23 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+public interface UserService {
 
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(UserMapper.INSTANCE::userToUserDTO)
-                .collect(Collectors.toList());
-    }
+    List<UserDTO> getAllUsers();
 
-    public UserDTO createUser(UserDTO userDTO) {
-        User user = UserMapper.INSTANCE.userDTOToUser(userDTO);
-        User savedUser = userRepository.save(user);
-        return UserMapper.INSTANCE.userToUserDTO(savedUser);
-    }
+    UserDTO createUser(UserDTO userDTO);
+
+    Optional<UserDTO> getUserById(Integer id);
+
+    UserDTO updateUser(Integer id, UserDTO userDTO);
+
+    void deleteUser(Integer id);
 }

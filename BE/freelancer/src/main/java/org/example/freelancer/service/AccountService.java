@@ -7,28 +7,21 @@ import org.example.freelancer.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-@Service
-public class AccountService {
 
-    @Autowired
-    private AccountRepository accountRepository;
+public interface AccountService {
+    List<AccountDTO> getAllAccounts();
 
-    public AccountDTO createAccount(AccountDTO accountDTO) {
-        if (accountRepository.existsByEmail(accountDTO.getEmail())) {
-            throw new RuntimeException("Email already exists.");
-        }
+    AccountDTO createAccount(AccountDTO accountDTO);
 
-        Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
-        Account savedAccount = accountRepository.save(account);
+    Optional<AccountDTO> getAccountById(Integer id);
 
-        return AccountMapper.INSTANCE.accountToAccountDTO(savedAccount);
-    }
+    AccountDTO updateAccount(Integer id, AccountDTO accountDTO);
 
-    public Optional<AccountDTO> getAccountById(Long id) {
-        return accountRepository.findById(id)
-                .map(AccountMapper.INSTANCE::accountToAccountDTO);
-    }
+    void deleteAccount(Integer id);
+
+    void changeAccountStatus(Integer id, Boolean status);
 
 }
