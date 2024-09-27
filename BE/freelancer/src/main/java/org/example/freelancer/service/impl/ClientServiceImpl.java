@@ -4,6 +4,7 @@ import org.example.freelancer.dto.ClientDTO;
 import org.example.freelancer.mapper.ClientMapper;
 import org.example.freelancer.entity.Client;
 import org.example.freelancer.repository.ClientRepository;
+import org.example.freelancer.repository.UserRepository;
 import org.example.freelancer.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<ClientDTO> getAllClients() {
@@ -47,7 +50,10 @@ public class ClientServiceImpl implements ClientService {
         client.setToPrice(clientDTO.getToPrice());
         client.setTypePrice(clientDTO.getTypePrice());
         // Nếu có một User, có thể lấy từ ID và gán
-        // client.setUserID(userRepository.findById(clientDTO.getUserID()).orElse(null));
+        if(clientDTO.getUserId() != null){
+            client.setUser(userRepository.findById(clientDTO.getUserId()).orElse(null));
+        }
+
 
         Client updatedClient = clientRepository.save(client);
         return ClientMapper.INSTANCE.clientToClientDTO(updatedClient);

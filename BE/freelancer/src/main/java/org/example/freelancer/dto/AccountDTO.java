@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 public class AccountDTO {
     private Integer id;
 
-    @NotNull(message = "Email cannot be null")
-    @NotEmpty(message = "Email cannot be empty")
-    @Email(message = "Email should be valid")
+    @NotNull(message = "Email không được bỏ trống")
+    @NotEmpty(message = "Email không được bỏ trống")
+    @Email(message = "Email không hợp lệ")
     private String email;
 
-    @NotEmpty(message = "Password cannot be empty")
+    @NotEmpty(message = "Password không được bỏ trống")
     private String password;
 
     private String role;
