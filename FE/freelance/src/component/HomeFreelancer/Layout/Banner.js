@@ -23,7 +23,7 @@ export default function Banner() {
 
   return (
     <>
-      <Swiper
+      <Swiper style={{height: 250}}
         spaceBetween={30}
         centeredSlides={true}
         autoplay={{
