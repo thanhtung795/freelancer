@@ -1,10 +1,14 @@
 package org.example.freelancer.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,7 +38,14 @@ public class User {
     private String address;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id") // Khóa ngoại tham chiếu đến bảng Account
+    @JsonManagedReference // Quản lý mối quan hệ từ User đến Account
     private Account account;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY) // Mối quan hệ ngược với Freelancer
+    @JsonBackReference // Ngăn chặn vòng lặp từ Freelancer về User
+    private Freelancer freelancer;
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY) // Mối quan hệ ngược với Freelancer
+    @JsonBackReference // Ngăn chặn vòng lặp từ Freelancer về User
+    private Client client;
 }
