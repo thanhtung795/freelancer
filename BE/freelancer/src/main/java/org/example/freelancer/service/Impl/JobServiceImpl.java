@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.JobDTO;
 import org.example.freelancer.entity.Category;
 import org.example.freelancer.entity.Client;
-import org.example.freelancer.entity.Freelancer;
 import org.example.freelancer.entity.Job;
 import org.example.freelancer.mapper.JobMapper;
 import org.example.freelancer.repository.CategoryRepository;
@@ -14,15 +13,60 @@ import org.example.freelancer.service.JobService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
+
 
     private final JobRepository jobRepository;
     private final JobMapper jobMapper;
 
     private final ClientRepository clientRepository;
     private final CategoryRepository categoryRepository;
+
+
+    @Override
+    public Optional<JobDTO> updateJob(Integer id, JobDTO jobDTO) {
+        Job job = jobRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Job not found."));
+
+        // Lấy Client từ cơ sở dữ liệu bằng clientId
+        Client client = clientRepository.findById(jobDTO.getClientId())
+                .orElseThrow(() -> new RuntimeException("Client not found")); // Kiểm tra clientId
+
+        // Lấy Category từ cơ sở dữ liệu bằng categoryId
+        Category category = categoryRepository.findById(jobDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found")); // Kiểm tra categoryId
+
+        job.setTitle(jobDTO.getTitle());
+        job.setScope(jobDTO.getScope());
+        job.setHourWork(jobDTO.getHourWork());
+        job.setJobOpportunity(jobDTO.getJobOpportunity());
+        job.setFromPrice(jobDTO.getFromPrice());
+        job.setToPrice(jobDTO.getToPrice());
+        job.setTypePrice(jobDTO.getTypePrice());
+        job.setStatus(jobDTO.getStatus());
+        job.setClient(client);
+        job.setCategory(category);
+        return Optional.of(jobMapper.toDto(jobRepository.save(job)));
+    }
+
+    @Override
+    public Boolean deleteJob(Integer id) {
+      Job job = jobRepository.findById(id).get();
+      if (job != null) {
+          jobRepository.delete(job);
+          return true;
+      }
+      return false;
+    }
+
+    @Override
+    public Optional<JobDTO> getJobById(Integer id) {
+        return Optional.empty();
+    }
 
     @Override
     public List<JobDTO> getJobs() {

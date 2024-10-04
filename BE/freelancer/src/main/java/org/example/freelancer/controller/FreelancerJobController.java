@@ -46,4 +46,19 @@ public class FreelancerJobController {
         }
         return ResponseEntity.ok(response);
     }
+    @PutMapping
+    public ResponseEntity<?> updateFreelancerJob(@Validated @RequestBody FreelancerJobDTO dto) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",freelancerJobService.addFreelancerJob(dto));
+            response.put("message", "Đã cặp nhật freelancer job thanh công");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", "Không thể cặp nhật freelancer job: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+
 }

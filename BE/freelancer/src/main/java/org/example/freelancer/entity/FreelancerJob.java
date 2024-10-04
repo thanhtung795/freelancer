@@ -27,6 +27,7 @@ public class FreelancerJob {
     @Column(name = "is_selected")
     private Boolean isSelected;
 
+    @ColumnDefault("1")
     @Column(name = "status")
     private Boolean status;
 

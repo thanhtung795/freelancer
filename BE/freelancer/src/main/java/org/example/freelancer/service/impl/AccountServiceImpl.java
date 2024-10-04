@@ -1,5 +1,4 @@
-package org.example.freelancer.service.impl;
-
+package org.example.freelancer.service.Impl;
 
 import org.example.freelancer.dto.AccountDTO;
 import org.example.freelancer.mapper.AccountMapper;
@@ -15,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
 
     @Autowired
     private AccountRepository accountRepository;
@@ -74,12 +74,20 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.deleteById(id);
     }
 
+
+
     @Override
-    public void changeAccountStatus(Integer id, Boolean status) {
+    public Boolean changeAccountStatus(Boolean status, Integer id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account not found."));
-
         account.setStatus(status);
         accountRepository.save(account);
+        return true;
     }
+
+//    @Override
+//    public List<Object[]> findAccountUserAndSkills() {
+//        return accountRepository.findAccountUserAndSkills();
+//    }
+
 }
