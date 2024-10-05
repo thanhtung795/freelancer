@@ -1,13 +1,13 @@
 package org.example.freelancer.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +16,7 @@ import lombok.Setter;
 public class School {
     @Id
     @Column(name = "school_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
@@ -23,4 +24,6 @@ public class School {
     @Column(name = "school_name", nullable = false)
     private String schoolName;
 
+    @OneToMany(mappedBy = "school" , cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Education> educations;
 }

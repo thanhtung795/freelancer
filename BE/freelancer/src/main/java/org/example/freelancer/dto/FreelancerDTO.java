@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,4 +29,9 @@ public class FreelancerDTO {
 
     @NotNull(message = "User ID không được để trống")
     private Integer userID;
+
+    // Bổ sung các trường bị thiếu
+    private List<FreelancerJobDTO> freelancerJobs;
+    private List<FreelancerSkillDTO> freelancerSkills;
+    private List<EducationDTO> educations;
 }
