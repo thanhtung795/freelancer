@@ -36,6 +36,7 @@ import DeletedList from "./component/DeletedList/DeletedList";
 import Payment from "./component/Payment/Payment";
 import NavbarAdmin from "./component/Layout/Navbar/NavbarAdmin";
 import FreelancerProfile from "./component/FreelancerProfile/FreelancerProfile";
+import ChatBot from "./component/ChatBot/ChatBot";
 const UserContext = React.createContext();
 const App = () => {
   const [userRole, setUserRole] = useState(
@@ -175,6 +176,7 @@ const App = () => {
             </>
           )}
         </Routes>
+       <ChatBot />
         <Footer />
       </BrowserRouter>
     </UserContext.Provider>

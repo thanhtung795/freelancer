@@ -1,0 +1,53 @@
+{
+    "displayName": "TimKiemCongViec",
+    "trainingPhrases": [
+      {
+        "parts": [
+          {
+            "text": "Tìm việc "
+          },
+          {
+            "text": "lập trình",
+            "entityType": "@loai_cong_viec",
+            "alias": "job_category"
+          }
+        ],
+        "type": "EXAMPLE"
+      },
+      {
+        "parts": [
+          {
+            "text": "Có công việc "
+          },
+          {
+            "text": "thiết kế",
+            "entityType": "@loai_cong_viec",
+            "alias": "job_category"
+          },
+          {
+            "text": " không?"
+          }
+        ],
+        "type": "EXAMPLE"
+      }
+    ],
+    "parameters": [
+      {
+        "displayName": "job_category",
+        "entityTypeDisplayName": "@loai_cong_viec",
+        "mandatory": true,
+        "prompts": ["Bạn muốn tìm công việc gì?"],
+        "isList": false
+      }
+    ],
+    "messages": [
+      {
+        "text": {
+          "text": [
+            "Tôi đã tìm thấy một số công việc $job_category. Đây là những công việc phù hợp nhất:"
+          ]
+        }
+      }
+    ],
+    "webhookState": "WEBHOOK_STATE_ENABLED"
+  }

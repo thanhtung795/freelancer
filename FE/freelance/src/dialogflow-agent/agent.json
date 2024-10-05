@@ -1,0 +1,11 @@
+{
+    "defaultTimezone": "Asia/Bangkok",
+    "displayName": "FreelancerAssistant",
+    "language": "vi",
+    "description": "Agent cho ứng dụng Freelancer",
+    "enableLogging": true,
+    "matchMode": "MATCH_MODE_HYBRID",
+    "webhook": {
+      "available": false
+    }
+  }
