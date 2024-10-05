@@ -18,6 +18,7 @@ INSERT INTO category (category_title) VALUES
 ('Content Writing'),
 ('Mobile Development');
 
+
 -- 4. Chèn dữ liệu vào bảng freelancer
 INSERT INTO freelancer (image, hourly_rate, category_id, user_id) VALUES
 ('image1.jpg', 30.00, 1, 1), -- user_id = 1
@@ -44,6 +45,7 @@ INSERT INTO skill (skill_name) VALUES
 
 -- 8. Chèn dữ liệu vào bảng freelancer_skill
 INSERT INTO freelancer_skill (freelancer_id, skill_id) VALUES
+(1, 2), -- freelancer_id = 1, skill_id = 2
 (1, 1), -- freelancer_id = 1, skill_id = 1
 (1, 3), -- freelancer_id = 1, skill_id = 3
 (2, 2), -- freelancer_id = 2, skill_id = 2
@@ -93,3 +95,4 @@ INSERT INTO job_skill (job_id, skill_id) VALUES
 (2, 2), -- job_id = 2, skill_id = 2
 (3, 4), -- job_id = 3, skill_id = 4
 (4, 5); -- job_id = 4, skill_id = 5
+

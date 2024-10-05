@@ -1,5 +1,6 @@
 package org.example.freelancer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +17,15 @@ public class FreelancerJob {
     @MapsId("freelancerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "freelancer_id", nullable = false)
+    @JsonIgnore
+
     private Freelancer freelancer;
 
     @MapsId("jobId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
+    @JsonIgnore
+
     private Job job;
 
     @ColumnDefault("0")

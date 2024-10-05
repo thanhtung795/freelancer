@@ -24,6 +24,7 @@ public class FreelancerSkill {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "skill_id", nullable = false)
     @JsonIgnore
+
     private Skill skill;
 
 }

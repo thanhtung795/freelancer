@@ -1,0 +1,21 @@
+{
+    "id": "b3c2d7c1-6a1e-4e95-80e6-9b2a2c7d8f9e",
+    "displayName": "loai_cong_viec",
+    "kind": "KIND_MAP",
+    "entities": [
+      {
+        "value": "lập trình",
+        "synonyms": ["coding", "development", "lập trình viên"]
+      },
+      {
+        "value": "thiết kế",
+        "synonyms": ["design", "designing", "thiết kế đồ họa"]
+      },
+      {
+        "value": "marketing",
+        "synonyms": ["digital marketing", "tiếp thị", "quảng cáo"]
+      }
+    ],
+    "autoExpansionMode": "AUTO_EXPANSION_MODE_DEFAULT"
+  }
+  

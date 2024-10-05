@@ -1,6 +1,7 @@
 package org.example.freelancer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.util.List;
 public class User {
     @Id
     @Column(name = "user_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
@@ -37,15 +39,19 @@ public class User {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id") // Khóa ngoại tham chiếu đến bảng Account
-    @JsonManagedReference // Quản lý mối quan hệ từ User đến Account
+    @OneToOne
+    @JoinColumn(name = "account_id") // Trường khóa ngoại
+    @JsonIgnore
     private Account account;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY) // Mối quan hệ ngược với Freelancer
-    @JsonBackReference // Ngăn chặn vòng lặp từ Freelancer về User
+    @OneToOne(mappedBy = "user") // Mối quan hệ ngược với Freelancer
+    @JoinColumn(name = "freelancer_id")
+    @JsonIgnore
     private Freelancer freelancer;
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY) // Mối quan hệ ngược với Freelancer
-    @JsonBackReference // Ngăn chặn vòng lặp từ Freelancer về User
+
+
+    @OneToOne(mappedBy = "user") // Mối quan hệ ngược với Freelancer
+    @JoinColumn(name = "client_id")
+    @JsonIgnore
     private Client client;
 }
