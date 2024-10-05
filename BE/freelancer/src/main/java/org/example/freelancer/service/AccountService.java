@@ -1,6 +1,7 @@
 package org.example.freelancer.service;
 
 import org.example.freelancer.dto.AccountDTO;
+import org.example.freelancer.dto.AccountUserSkillDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,6 @@ public interface AccountService {
     Optional<AccountDTO> getAccountById(Integer id);
     AccountDTO updateAccount(Integer id, AccountDTO accountDTO);
     void deleteAccount(Integer id);
-//    List<Object[]> findAccountUserAndSkills();
+    List<AccountUserSkillDTO> findAccountUserAndSkills();
     Boolean changeAccountStatus(Boolean status, Integer id);
 }

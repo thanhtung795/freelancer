@@ -1,6 +1,7 @@
 package org.example.freelancer.controller;
 
 import org.example.freelancer.dto.AccountDTO;
+import org.example.freelancer.dto.AccountUserSkillDTO;
 import org.example.freelancer.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -73,20 +74,20 @@ public class AccountController {
         }
     }
 
-//    @GetMapping("/accounts/skills/users")
-//    public ResponseEntity<Map<String, Object>> findAccountUserAndSkills() {
-//        Map<String, Object> map = new LinkedHashMap<>();
-//        try {
-//            List<Object> results = Collections.singletonList(accountService.findAccountUserAndSkills()); // Lấy dữ liệu dạng Object[]
-//            map.put("success", true);
-//            map.put("data", results);
-//            map.put("message", "Lấy dữ liệu thành công");
-//        } catch (RuntimeException e) {
-//            map.put("success", false);
-//            map.put("data", null);
-//            map.put("message", e.getMessage());
-//        }
-//        return ResponseEntity.ok(map);
-//    }
+    @GetMapping("/accounts/skills/users")
+    public ResponseEntity<?> findAccountUserAndSkills() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        try {
+            List<AccountUserSkillDTO> results = accountService.findAccountUserAndSkills();
+            map.put("success", true);
+            map.put("data", results);
+            map.put("message", "Lấy dữ liệu thành công");
+        } catch (RuntimeException e) {
+            map.put("success", false);
+            map.put("data", null);
+            map.put("message", e.getMessage());
+        }
+        return ResponseEntity.ok(map);
+    }
 
 }
