@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -62,13 +62,31 @@ public class AccountController {
         }
     }
 
-    @PatchMapping("/accounts/{id}/status")
-    public ResponseEntity<String> changeAccountStatus(@PathVariable Integer id, @RequestParam Boolean status) {
-        try {
-            accountService.changeAccountStatus(id, status);
-            return ResponseEntity.ok("Account status updated successfully.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+    @GetMapping("/changeStatus/{id}") // Định nghĩa endpoint PUT
+    public ResponseEntity<?> changeAccountStatus(
+            @PathVariable Integer id, // Lấy id từ đường dẫn
+            @RequestParam Boolean status) { // Lấy trạng thái từ query parameter
+        if (accountService.changeAccountStatus(status, id)) {
+            return ResponseEntity.ok("Trạng thái tài khoản đã được thay đổi thành công.");
+        } else {
+            return ResponseEntity.badRequest().body("Thay  o i tr ng th i tài kho n kh ng thành công.");
         }
     }
+
+//    @GetMapping("/accounts/skills/users")
+//    public ResponseEntity<Map<String, Object>> findAccountUserAndSkills() {
+//        Map<String, Object> map = new LinkedHashMap<>();
+//        try {
+//            List<Object> results = Collections.singletonList(accountService.findAccountUserAndSkills()); // Lấy dữ liệu dạng Object[]
+//            map.put("success", true);
+//            map.put("data", results);
+//            map.put("message", "Lấy dữ liệu thành công");
+//        } catch (RuntimeException e) {
+//            map.put("success", false);
+//            map.put("data", null);
+//            map.put("message", e.getMessage());
+//        }
+//        return ResponseEntity.ok(map);
+//    }
+
 }

@@ -1,0 +1,4 @@
+package org.example.freelancer.mapper;
+
+public interface UserAccountMapper {
+}

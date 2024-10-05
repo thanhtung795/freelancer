@@ -42,7 +42,35 @@ public class SkilController {
         }catch (Exception e){
             response.put("success", false);
             response.put("data",null);
-            response.put("message","Không thể thêm 1 job" + e.getMessage());
+            response.put("message","Không thể thêm 1 job " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSkill(@PathVariable Integer id, @Validated @RequestBody SkillDTO skillDTO) {
+        Map<String, Object> response =new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",skillService.updateSKillDTO(id,skillDTO));
+            response.put("message","Đã cập nhật skill");
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("data",null);
+            response.put("message","Không thể cập nhật skill vào database" + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteSkill(@PathVariable Integer id) {
+        Map<String, Object> response =new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",skillService.deleteSkillDTO(id));
+            response.put("message","Đã xóa skill");
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("data",null);
+            response.put("message","Không thể xóa skill " + e.getMessage());
         }
         return ResponseEntity.ok(response);
     }

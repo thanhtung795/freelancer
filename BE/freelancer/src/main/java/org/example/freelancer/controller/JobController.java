@@ -46,4 +46,32 @@ public class JobController {
         }
         return ResponseEntity.ok(response);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateJob(@PathVariable Integer id, @Validated @RequestBody JobDTO jobDTO) {
+        Map<String, Object> response =new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",jobService.updateJob(id,jobDTO));
+            response.put("message","Đã cập nhật job thành công");
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("data",null);
+            response.put("message","Không thể cập nhật job và xây ra lỗi : "+e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteJob(@PathVariable Integer id) {
+        Map<String, Object> response =new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",jobService.deleteJob(id));
+            response.put("message","Đã xóa job ");
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("data",null);
+            response.put("message","Không thể xóa job và xây ra lỗi : "+e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
 }

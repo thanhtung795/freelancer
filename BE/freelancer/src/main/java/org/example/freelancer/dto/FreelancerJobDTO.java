@@ -20,9 +20,9 @@ public class FreelancerJobDTO {
     @NotNull(message = "Job ID không được để trống")
     private Integer jobID;
 
-    private Boolean isSelected;
+    private Boolean isSelected = false;
 
-    private String status;
+    private Boolean status;
 
 
 }
