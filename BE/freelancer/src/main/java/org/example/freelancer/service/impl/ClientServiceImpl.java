@@ -1,4 +1,5 @@
-package org.example.freelancer.service.impl;
+package org.example.freelancer.service.Impl;
+
 
 import org.example.freelancer.dto.ClientDTO;
 import org.example.freelancer.mapper.ClientMapper;
