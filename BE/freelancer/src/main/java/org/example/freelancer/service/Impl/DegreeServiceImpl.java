@@ -8,6 +8,7 @@ import org.example.freelancer.service.DegreeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +26,9 @@ public class DegreeServiceImpl implements DegreeService {
     }
 
     @Override
-    public DegreeDTO getDegreeById(Integer id) {
+    public Optional<DegreeDTO> getDegreeById(Integer id) {
         return degreeRepository
                 .findById(id)
-                .map(degreeMapper::toDto)
-                .orElse(null);
+                .map(degreeMapper::toDto);
     }
 }
