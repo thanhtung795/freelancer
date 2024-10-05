@@ -1,6 +1,7 @@
 package org.example.freelancer.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -27,22 +28,25 @@ public class Freelancer {
     @Column(name = "hourly_rate", precision = 10, scale = 2)
     private BigDecimal hourlyRate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<FreelancerJob> freelancerJobs = new ArrayList<>();
 
     @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<FreelancerSkill> freelancerSkills = new ArrayList<>();
 
     @OneToMany(mappedBy = "freelancer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Education> educations = new ArrayList<>();
 
 

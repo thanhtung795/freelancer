@@ -1,5 +1,6 @@
 package org.example.freelancer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 public class Client {
     @Id
     @Column(name = "client_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "from_price", precision = 10, scale = 2)
@@ -29,6 +31,7 @@ public class Client {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
 }

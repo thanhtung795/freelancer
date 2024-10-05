@@ -117,4 +117,29 @@ public class FreelancerServiceImpl implements FreelancerService {
         return new CountResultDTO(0L, 0L); // Nếu không có kết quả nào
     }
 
+    public List<AccountUserSkillDTO> findAccountUserAndSkills() {
+        List<Object[]> results = accountRepository.findAccountUserAndSkills();  // Lấy dữ liệu từ truy vấn
+        if (!results.isEmpty()) {
+            return results.stream()
+                    .map(obj -> new AccountUserSkillDTO(
+                            (Long) obj[0],     // accountId
+                            (String) obj[1],      // email
+                            (String) obj[2],      // role
+                            (String) obj[3],      // status
+                            (Long) obj[4],     // userId
+                            (String) obj[5],      // firstName
+                            (String) obj[6],      // lastName
+                            (String) obj[7],      // phoneNumber
+                            (String) obj[8],      // address
+                            (Long) obj[9],     // freelancerId
+                            (String) obj[10],     // image
+                            (Double) obj[11],     // hourlyRate
+                            (Long) obj[12],       // skillId
+                            (String) obj[13]      // skillName
+                    ))
+                    .collect(Collectors.toList());  // Chuyển đổi danh sách Object[] thành danh sách DTO
+        }
+        return null;
+    }
+
 }

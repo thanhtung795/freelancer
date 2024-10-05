@@ -1,5 +1,6 @@
 package org.example.freelancer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -50,16 +51,24 @@ public class Job {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
+    @JsonIgnore
+
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @JsonIgnore
+
     private Category category;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+
     private List<FreelancerJob> freelancerJobs = new ArrayList<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+
     private List<JobSkill> jobSkills = new ArrayList<>();
 
 }
