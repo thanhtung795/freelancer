@@ -121,7 +121,7 @@ public class AccountServiceImpl implements AccountService {
                 accountUserSkillDTO.setLastName(user.getLastName());
                 accountUserSkillDTO.setPhoneNumber(user.getPhoneNumber());
                 accountUserSkillDTO.setAddress(user.getAddress());
-                accountUserSkillDTO.setCreatedAt(user.getCreatedAt());
+                accountUserSkillDTO.set
 
                 Freelancer freelancer = user.getFreelancer();
                 accountUserSkillDTO.setFreelancerId(freelancer.getId());
