@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 function NavbarGuest() {
   const [dropdownTitle, setDropdownTitle] = useState("Tài năng");
   return (
-    <Navbar expand="lg" className="mt-0 px-4 bg-white">
+    <Navbar expand="lg" className="mt-0 px-4 bg-white navbar">
       <Navbar.Brand as={Link} to="/">
         <img
           width="50"

@@ -1,113 +1,141 @@
 import React from "react";
-import './css/style.css'; // Import file CSS tùy chỉnh
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import { useNavigate, useLocation } from "react-router-dom";
+import AuthService from "../../services/AuthService";
+import './css/style.css';
 
 function SignUp() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [form] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    try {
+      values.role = new URLSearchParams(location.search).get('role') || 'client';
+      await AuthService.register(values);
+      navigate('/login');
+    } catch (error) {
+      form.setFields([
+        {
+          name: 'email',
+          errors: [error.response || 'Email đã tồn tại']
+        }
+      ]);
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 bg-light p-4 rounded mt-5">
-          <div className="row mb-4">
-            <div className="col-6">
-              <button type="button" className="btn btn-danger w-100 rounded-custom ">
-                <i className="fab fa-google"></i> Đăng nhập với Google
-              </button>
-            </div>
-            <div className="col-6">
-              <button type="button" className="btn btn-light bg-light  w-100 rounded-custom border border-secondary">
-                <i className="fab fa-apple"></i> Đăng nhập với Apple
-              </button>
-            </div>
-          </div>
-          <div className="row mb-4">
-            <div className="col-12 text-center">
-              <hr className="my-4" />
-            </div>
-          </div>
-          <h3 className="text-center mb-4">
-            Đăng ký
-          </h3>
-          <form>
+          <h3 className="text-center mb-4">Đăng ký</h3>
+          <Row gutter={16} className="mb-4">
+            <Col span={12}>
+              <Button
+                type="primary"
+                icon={<i className="fab fa-google"></i>} // Icon của Google
+                className="w-100"
+                style={{ backgroundColor: "#DB4437", borderColor: "#DB4437" }}
+              >
+                Đăng nhập với Google
+              </Button>
+            </Col>
+            <Col span={12}>
+              <Button
+                type="primary"
+                icon={<i className="fab fa-github"></i>} // Icon của GitHub
+                className="w-100"
+                style={{ backgroundColor: "#333", borderColor: "#333" }}
+              >
+                Đăng nhập với GitHub
+              </Button>
+            </Col>
+          </Row>
+
+          <Form
+            form={form}
+            onFinish={handleSubmit} // Hàm gọi khi submit thành công
+            layout="vertical"
+          >
             <div className="row">
-              <div className="form-group col-md-6">
-                <label htmlFor="firstName">Họ</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="firstName"
-                  placeholder="Nhập họ của bạn"
-                />
+              <div className="col-md-6">
+                <Form.Item
+                  label="Họ"
+                  name="firstName"
+                  rules={[{ required: true, message: 'Vui lòng nhập họ của bạn' }]}
+                >
+                  <Input placeholder="Nhập họ của bạn" />
+                </Form.Item>
               </div>
-              <div className="form-group col-md-6">
-                <label htmlFor="lastName">Tên</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="lastName"
-                  placeholder="Nhập tên của bạn"
-                />
+              <div className="col-md-6">
+                <Form.Item
+                  label="Tên"
+                  name="lastName"
+                  rules={[{ required: true, message: 'Vui lòng nhập tên của bạn' }]}
+                >
+                  <Input placeholder="Nhập tên của bạn" />
+                </Form.Item>
               </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Nhập email của bạn"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Mật khẩu</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                placeholder="Nhập mật khẩu của bạn"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="country">Quốc gia</label>
-              <select id="country" className="form-control">
-                <option>Chọn quốc gia</option>
-                <option>Việt Nam</option>
-                <option>Hoa Kỳ</option>
-                <option>Nhật Bản</option>
-                <option>Hàn Quốc</option>
-                {/* Thêm các quốc gia khác nếu cần */}
-              </select>
-            </div>
-            <div className="mt-4">
-              <button type="submit" className="btn w-100 " 
-              style={{ backgroundColor: "#4169E1" ,color:"white"}}
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: 'Vui lòng nhập email của bạn' },
+                { type: 'email', message: 'Email không hợp lệ' }
+              ]}
+            >
+              <Input placeholder="Nhập email của bạn" />
+            </Form.Item>
+            <Form.Item
+              label="Mật khẩu"
+              name="password"
+              rules={[{ required: true, message: 'Vui lòng nhập mật khẩu của bạn' }]}
+            >
+              <Input.Password placeholder="Nhập mật khẩu của bạn" />
+            </Form.Item>
+            <Form.Item
+              label="Xác nhận mật khẩu"
+              name="confirmPassword"
+              dependencies={['password']}
+              rules={[
+                { required: true, message: 'Vui lòng xác nhận mật khẩu của bạn' },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'));
+                  },
+                }),
+              ]}
+            >
+              <Input.Password placeholder="Nhập lại mật khẩu của bạn" />
+            </Form.Item>
+
+            {/* Điều khoản */}
+            <Form.Item name="acceptTerms1" valuePropName="checked" rules={[{ required: true, message: 'Bạn cần đồng ý với điều khoản này' }]}>
+              <Checkbox>Gửi cho tôi các email với mẹo tìm kiếm tài năng phù hợp với nhu cầu của tôi.</Checkbox>
+            </Form.Item>
+            <Form.Item name="acceptTerms2" valuePropName="checked" rules={[{ required: true, message: 'Bạn cần đồng ý với điều khoản này' }]}>
+              <Checkbox>Có, tôi hiểu và đồng ý với dịch vụ của TalentHub.</Checkbox>
+            </Form.Item>
+
+            {/* Nút submit */}
+            <Form.Item>
+              <Button 
+                type="primary" 
+                htmlType="submit" 
+                className="w-100"
+                loading={loading} // Hiển thị trạng thái loading khi đang submit
               >
                 Đăng ký
-              </button>
-            </div>
-          </form>
-        <div className="form-check mt-3 mb-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label className="form-check-label" htmlFor="flexCheckDefault">
-          Gửi cho tôi các email với mẹo tìm kiếm tài năng phù hợp với nhu cầu của tôi.
-          </label>
-
-         </div>
-         <div className="form-check mt-3 mb-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value=""
-            id="flexCheckDefault"
-          />
-          <label className="form-check-label" htmlFor="flexCheckDefault">
-          Có, tôi hiểu và đồng ý với dịch vụ của TalentHub.
-          </label>
-
-         </div>
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
       </div>
     </div>

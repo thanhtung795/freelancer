@@ -23,7 +23,7 @@ function UserMenu({ userName, userRole }) {
             <Menu.Item key="2" icon={<SettingOutlined />}>Theme: Light</Menu.Item>
             <Menu.Item key="3" icon={<TeamOutlined />}>Invite a Coworker</Menu.Item>
             <Menu.Item key="4" icon={<SettingOutlined />}>Settings</Menu.Item>
-            <Menu.Item key="5" icon={<LogoutOutlined />}>Log out</Menu.Item>
+            <Menu.Item key="5" onClick={() => localStorage.clear()} icon={<LogoutOutlined />}><Link to="/login">Logout</Link></Menu.Item>
         </Menu>
     );
 }

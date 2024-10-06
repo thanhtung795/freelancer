@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Input, List, Avatar } from 'antd';
+import { Button, Input, List, Avatar, Spin } from 'antd';
 import { MessageOutlined, SendOutlined, RobotOutlined, UserOutlined, CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
@@ -9,10 +9,8 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   
-  // Tạo ref cho input
   const inputRef = useRef(null);
-
-  // Tự động focus khi mở chat
+  const messageListRef = useRef(null);
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
@@ -20,6 +18,21 @@ const ChatBot = () => {
       }, 100);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    // Cuộn xuống cuối cùng khi có tin nhắn mới
+    if (messageListRef.current) {
+      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isLoading]);
 
   const sendMessage = async () => {
     if (!message.trim()) return;
@@ -48,8 +61,6 @@ const ChatBot = () => {
       console.error(error);
     } finally {
       setIsLoading(false);
-      // Tự động focus vào input sau khi nhận được response
-      inputRef.current?.focus();
     }
   };
 
@@ -96,24 +107,41 @@ const ChatBot = () => {
     padding: '10px'
   };
 
-  const inputContainerStyle = {
+  const loadingContainerStyle = {
     display: 'flex',
-    padding: '10px',
-    borderTop: '1px solid #f0f0f0'
+    alignItems: 'center',
+    padding: '5px 0'
   };
 
-  const toggleButtonStyle = {
-    width: '50px',
-    height: '50px',
-    borderRadius: '50%',
+  const typingAnimation = {
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-end'
+    backgroundColor: '#f0f0f0',
+    padding: '8px 12px',
+    borderRadius: '12px',
+    maxWidth: '70%'
   };
+
+  const dotStyle = {
+    width: '8px',
+    height: '8px',
+    margin: '0 2px',
+    backgroundColor: '#666',
+    borderRadius: '50%',
+    animation: 'bounce 1.4s infinite ease-in-out',
+    animationFillMode: 'both'
+  };
+
+  const keyframes = `
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1.0); }
+    }
+  `;
 
   return (
     <div style={chatContainerStyle}>
+      <style>{keyframes}</style>
       <div style={chatWindowStyle}>
         <div style={chatHeaderStyle}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -123,7 +151,7 @@ const ChatBot = () => {
           <CloseOutlined onClick={() => setIsOpen(false)} style={{ cursor: 'pointer' }} />
         </div>
         
-        <div style={messageListStyle}>
+        <div ref={messageListRef} style={messageListStyle}>
           <List
             itemLayout="horizontal"
             dataSource={messages}
@@ -158,9 +186,29 @@ const ChatBot = () => {
               </List.Item>
             )}
           />
+          {isLoading && (
+            <div style={loadingContainerStyle}>
+              <Avatar 
+                icon={<RobotOutlined />}
+                style={{ 
+                  backgroundColor: '#f56a00',
+                  marginRight: '8px'
+                }}
+              />
+              <div style={typingAnimation}>
+                <div style={{...dotStyle, animationDelay: '-0.32s'}}></div>
+                <div style={{...dotStyle, animationDelay: '-0.16s'}}></div>
+                <div style={dotStyle}></div>
+              </div>
+            </div>
+          )}
         </div>
         
-        <div style={inputContainerStyle}>
+        <div style={{
+          display: 'flex',
+          padding: '10px',
+          borderTop: '1px solid #f0f0f0'
+        }}>
           <Input
             ref={inputRef}
             placeholder="Type a message..."
@@ -169,10 +217,14 @@ const ChatBot = () => {
             onKeyPress={handleKeyPress}
             disabled={isLoading}
             suffix={
-              <SendOutlined
-                onClick={sendMessage}
-                style={{ cursor: 'pointer', color: '#1890ff' }}
-              />
+              isLoading ? (
+                <Spin size="small" />
+              ) : (
+                <SendOutlined
+                  onClick={sendMessage}
+                  style={{ cursor: 'pointer', color: '#1890ff' }}
+                />
+              )
             }
           />
         </div>
@@ -180,7 +232,15 @@ const ChatBot = () => {
 
       <Button
         type="primary"
-        style={toggleButtonStyle}
+        style={{
+          width: '50px',
+          height: '50px',
+          borderRadius: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'flex-end'
+        }}
         icon={<MessageOutlined />}
         onClick={() => setIsOpen(!isOpen)}
       />
