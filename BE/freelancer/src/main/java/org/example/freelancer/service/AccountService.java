@@ -14,4 +14,5 @@ public interface AccountService {
     void deleteAccount(Integer id);
     List<AccountUserSkillDTO> findAccountUserAndSkills();
     Boolean changeAccountStatus(Boolean status, Integer id);
+    AccountDTO login(String email, String password);
 }

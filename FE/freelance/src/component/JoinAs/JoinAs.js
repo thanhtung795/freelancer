@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../JoinAs/css/style.css'; // Import file CSS tùy chỉnh nếu có
+import '../JoinAs/css/style.css';
 
 function JoinAs() {
   const [selected, setSelected] = useState('client');
@@ -11,7 +11,7 @@ function JoinAs() {
   };
 
   const handleButtonClick = () => {
-    navigate('/personalInfo');
+    navigate('/signUp?role=' + selected);
   };
   return (
     <div className="container mt-5">

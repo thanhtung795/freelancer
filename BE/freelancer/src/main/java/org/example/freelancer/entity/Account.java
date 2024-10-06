@@ -24,8 +24,7 @@ public class Account {
     private String email;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @NotNull

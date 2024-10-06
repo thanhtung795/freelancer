@@ -2,6 +2,7 @@ package org.example.freelancer.controller;
 
 import org.example.freelancer.dto.AccountDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
+import org.example.freelancer.dto.LoginDTO;
 import org.example.freelancer.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -89,5 +90,20 @@ public class AccountController {
         }
         return ResponseEntity.ok(map);
     }
-
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
+        try {
+            AccountDTO accountDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Login successful");
+            response.put("data", accountDTO);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }

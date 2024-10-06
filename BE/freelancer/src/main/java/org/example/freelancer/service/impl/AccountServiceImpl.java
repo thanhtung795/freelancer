@@ -141,32 +141,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
+    @Override
+    public AccountDTO login(String email, String password) {
+        Account account = accountRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-//
-//    public List<AccountUserSkillDTO> findAccountUserAndSkills() {
-//        List<Object[]> results = accountRepository.findAccountUserAndSkills();  // Lấy dữ liệu từ truy vấn
-//        if (!results.isEmpty()) {
-//            return results.stream()
-//                    .map(obj -> new AccountUserSkillDTO(
-//                            (Integer) obj[0],     // accountId
-//                            (String) obj[1],      // email
-//                            (String) obj[2],      // role
-//                            (Boolean) obj[3],      // status
-//                            (Integer) obj[4],     // userId
-//                            (String) obj[5],      // firstName
-//                            (String) obj[6],      // lastName
-//                            (String) obj[7],      // phoneNumber
-//                            (String) obj[8],      // address
-//                            (Integer) obj[9],     // freelancerId
-//                            (String) obj[10],     // image
-//                            (Double) obj[11],     // hourlyRate
-//                            (Integer) obj[12],       // skillId
-//                            (String) obj[13]      // skillName
-//                    ))
-//                    .collect(Collectors.toList());  // Chuyển đổi danh sách Object[] thành danh sách DTO
-//        }
-//        return null;
-//    }
+        // In a real application, you should use password encryption/hashing
+        if (!account.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid email or password");
+        }
 
+        return AccountMapper.INSTANCE.accountToAccountDTO(account);
+    }
 
 }
