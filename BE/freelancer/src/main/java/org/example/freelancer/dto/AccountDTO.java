@@ -18,10 +18,10 @@ public class AccountDTO {
     @NotEmpty(message = "Email không được bỏ trống")
     @Email(message = "Email không hợp lệ")
     private String email;
+    private String role;
 
     @NotEmpty(message = "Password không được bỏ trống")
     private String password;
 
-    private String role;
     private Boolean status;
 }
