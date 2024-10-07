@@ -1,6 +1,7 @@
 package org.example.freelancer.service;
 
 import org.example.freelancer.dto.JobDTO;
+import org.example.freelancer.dto.JobNameCategoryAndClientDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface JobService {
     Optional<JobDTO> updateJob(Integer id, JobDTO jobDTO);
   Boolean deleteJob(Integer id);
     Optional<JobDTO> getJobById(Integer id);
+
+    List<JobNameCategoryAndClientDTO> getJobsNameCategoryAndClient();
 }

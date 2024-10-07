@@ -74,7 +74,7 @@ public class JobServiceImpl implements JobService {
     }
     @Override
     public List<JobNameCategoryAndClientDTO> getJobsNameCategoryAndClient() {
-      return jobRepository.findAll().stream().map(jobNameCategoryAndClientMapper::toDto).collect(Collectors.toList());
+
     }
 
 
