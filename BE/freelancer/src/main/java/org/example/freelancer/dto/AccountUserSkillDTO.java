@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.example.freelancer.entity.Skill;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,6 +26,7 @@ public class AccountUserSkillDTO {
     private String lastName;
     private String phoneNumber;
     private String address;
+    private LocalDateTime createdAt;
 
     private Integer freelancerId;
     private String image;
@@ -31,4 +34,6 @@ public class AccountUserSkillDTO {
 
     // Sửa kiểu dữ liệu của 'skills' thành List<Skill> để chứa danh sách kỹ năng
     private List<String> skills;
+
+
 }
