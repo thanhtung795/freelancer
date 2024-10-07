@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.example.freelancer.entity.StatusJob;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -45,12 +44,6 @@ public class JobDTO {
 
     @NotNull
     private StatusJob status;
-
-    private LocalDateTime dateStart;
-
-    private LocalDateTime dateEnd;
-
-    private LocalDateTime dateCreate;
 
     @NotNull
     private Integer clientId;
