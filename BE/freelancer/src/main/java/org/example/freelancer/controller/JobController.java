@@ -88,4 +88,18 @@ public class JobController {
         }
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/getAllJobName")
+    public ResponseEntity<?> getAllJobName() {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data", jobService.getJobsNameCategoryAndClient());
+            response.put("message", "Đã lấy toàn bộ danh sach job ");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", "Không thể lấy danh sách job ");
+        }
+        return ResponseEntity.ok(response);
+    }
 }
