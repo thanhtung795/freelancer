@@ -1,5 +1,6 @@
 package org.example.freelancer.service.Impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.JobDTO;
 import org.example.freelancer.entity.Category;
@@ -11,6 +12,7 @@ import org.example.freelancer.repository.ClientRepository;
 import org.example.freelancer.repository.JobRepository;
 import org.example.freelancer.service.JobService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +20,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
-
 
     private final JobRepository jobRepository;
     private final JobMapper jobMapper;
@@ -68,9 +69,23 @@ public class JobServiceImpl implements JobService {
         return Optional.empty();
     }
 
+    @Transactional
     @Override
-    public List<JobDTO> getJobs() {
-        return jobRepository.findAll().stream().map(jobMapper::toDto).toList();
+    public JobDTO changeStatus(Integer id, JobDTO jobDTO) {
+        // Kiểm tra xem jobDTO có giá trị status không
+        if (jobDTO.getStatus() == null) {
+            throw new IllegalArgumentException("Status cannot be null");
+        }
+
+        // Cập nhật trạng thái của Job dựa trên id
+        jobRepository.changeStatus(id, jobDTO.getStatus());
+
+        // Lấy lại Job sau khi cập nhật
+        Job updatedJob = jobRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Job not found"));
+
+        // Chuyển từ Job entity sang JobDTO và trả về
+        return jobMapper.toDto(updatedJob);
     }
 
     @Override
@@ -93,4 +108,10 @@ public class JobServiceImpl implements JobService {
         // Lưu Job vào cơ sở dữ liệu
         return jobMapper.toDto(jobRepository.save(job));
     }
+
+    @Override
+    public List<JobDTO> getJobs() {
+        return jobRepository.findAll().stream().map(JobMapper.INSTANCE::toDto).toList();
+    }
+
 }
