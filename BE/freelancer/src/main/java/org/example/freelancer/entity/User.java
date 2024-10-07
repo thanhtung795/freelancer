@@ -1,15 +1,16 @@
 package org.example.freelancer.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -39,6 +40,10 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     @OneToOne
     @JoinColumn(name = "account_id") // Trường khóa ngoại
     @JsonIgnore
@@ -54,4 +59,6 @@ public class User {
     @JoinColumn(name = "client_id")
     @JsonIgnore
     private Client client;
+
+
 }

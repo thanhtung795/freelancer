@@ -1,3 +1,4 @@
+
 -- 1. Chèn dữ liệu vào bảng account
 INSERT INTO account (email, password, role, status) VALUES
 ('admin@example.com', 'password123', 'admin', TRUE),
@@ -5,10 +6,10 @@ INSERT INTO account (email, password, role, status) VALUES
 ('client@example.com', 'clientPass', 'client', TRUE);
 
 -- 2. Chèn dữ liệu vào bảng user
-INSERT INTO user (first_name, last_name, phone_number, address, account_id) VALUES
-('John', 'Doe', '123456789', '123 Main St', 1),
-('Alice', 'Smith', '987654321', '456 Elm St', 2),
-('Bob', 'Johnson', '456789123', '789 Pine St', 3);
+INSERT INTO user (first_name, last_name, phone_number, address,create_at, account_id) VALUES
+('John', 'Doe', '123456789', '123 Main St',NOW(), 1),
+('Alice', 'Smith', '987654321', '456 Elm St',now(), 2),
+('Bob', 'Johnson', '456789123', '789 Pine St',now(), 3);
 
 -- 3. Chèn dữ liệu vào bảng category
 INSERT INTO category (category_title) VALUES
@@ -96,3 +97,4 @@ INSERT INTO job_skill (job_id, skill_id) VALUES
 (3, 4), -- job_id = 3, skill_id = 4
 (4, 5); -- job_id = 4, skill_id = 5
 
+select * from user;
