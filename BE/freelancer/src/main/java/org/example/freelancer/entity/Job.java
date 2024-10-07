@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +48,21 @@ public class Job {
     @Column(name = "type_price")
     private String typePrice;
 
+    @Enumerated(EnumType.STRING) // Sử dụng kiểu chuỗi cho enum
     @Column(name = "status")
-    private Boolean status;
+    private StatusJob status; // Trường status sẽ lưu enum
+
+    @Column(name = "Date_start")
+    @CreationTimestamp
+    private LocalDateTime dateStart;
+
+    @Column(name = "Date_end")
+    @CreationTimestamp
+    private LocalDateTime dateEnd;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")

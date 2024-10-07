@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JobRepository extends JpaRepository<Job, Integer> {
+
     @Modifying
     @Query("UPDATE Job j SET j.status = :status WHERE j.id = :id")
-    void changeStatus(@Param("id") Integer id, @Param("status") StatusJob status);
-
+     JobDTO changeStatus(@Param("id") Integer id, @Param("status") StatusJob status);
 }
