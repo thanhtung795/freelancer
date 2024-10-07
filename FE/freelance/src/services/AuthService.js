@@ -23,6 +23,7 @@ const AuthService = {
         email,
         password
       });
+      localStorage.setItem('user', JSON.stringify(response.data));
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
