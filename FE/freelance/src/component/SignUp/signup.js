@@ -1,28 +1,103 @@
-import React from "react";
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Checkbox, Select, Row, Col } from 'antd';
+import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import AuthService from "../../services/AuthService";
-import './css/style.css';
+
+const { Option } = Select;
 
 function SignUp() {
   const navigate = useNavigate();
   const location = useLocation();
   const [form] = Form.useForm();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+
+  const [selectedProvince, setSelectedProvince] = useState({ code: null, name: "" });
+  const [selectedDistrict, setSelectedDistrict] = useState({ code: null, name: "" });
+  const [selectedWard, setSelectedWard] = useState({ name: "" });
+
+  const handleProvinceChange = (value, option) => {
+    setSelectedProvince({ code: value, name: option.label });
+  };
+
+  const handleDistrictChange = (value, option) => {
+    setSelectedDistrict({ code: value, name: option.label });
+  };
+
+  const handleWardChange = (value, option) => {
+    setSelectedWard({ code: value, name: option.label });
+  };
+  useEffect(() => {
+    async function fetchProvinces() {
+      try {
+        const response = await axios.get('https://api.mysupership.vn/v1/partner/areas/province');
+        if (response.data && response.data.results) {
+          setProvinces(response.data.results);
+        }
+      } catch (error) {
+        console.error('Error fetching provinces:', error);
+      }
+    }
+    fetchProvinces();
+  }, []);
+
+  useEffect(() => {
+    async function fetchDistricts() {
+      if (selectedProvince) {
+        try {
+          const response = await axios.get(`https://api.mysupership.vn/v1/partner/areas/district?province=${selectedProvince.code}`);
+          if (response.data && response.data.results) {
+            setDistricts(response.data.results);
+            form.setFieldsValue({ district: undefined, ward: undefined });
+            setSelectedDistrict(null);
+            setWards([]);
+          }
+        } catch (error) {
+          console.error('Error fetching districts:', error);
+        }
+      }
+    }
+    fetchDistricts();
+  }, [selectedProvince, form]);
+
+  useEffect(() => {
+    async function fetchWards() {
+      if (selectedDistrict) {
+        try {
+          const response = await axios.get(`https://api.mysupership.vn/v1/partner/areas/commune?district=${selectedDistrict.code}`);
+          if (response.data && response.data.results) {
+            setWards(response.data.results);
+            form.setFieldsValue({ ward: undefined });
+          }
+        } catch (error) {
+          console.error('Error fetching wards:', error);
+        }
+      }
+    }
+    fetchWards();
+  }, [selectedDistrict, form]);
+
+  const filterOption = (input, option) =>
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
       values.role = new URLSearchParams(location.search).get('role') || 'client';
+      values.address = `${selectedWard?.name || ''}, ${selectedDistrict?.name || ''}, ${selectedProvince?.name || ''}`;
+
+      console.log('Success:', values);
       await AuthService.register(values);
       navigate('/login');
     } catch (error) {
-      form.setFields([
-        {
-          name: 'email',
-          errors: [error.response || 'Email đã tồn tại']
-        }
-      ]);
+      form.setFields([{
+        name: 'email',
+        errors: [error.response || 'Email đã tồn tại']
+      }]);
     }
     setLoading(false);
   };
@@ -32,36 +107,13 @@ function SignUp() {
       <div className="row justify-content-center">
         <div className="col-12 col-md-8 bg-light p-4 rounded mt-5">
           <h3 className="text-center mb-4">Đăng ký</h3>
-          <Row gutter={16} className="mb-4">
-            <Col span={12}>
-              <Button
-                type="primary"
-                icon={<i className="fab fa-google"></i>} // Icon của Google
-                className="w-100"
-                style={{ backgroundColor: "#DB4437", borderColor: "#DB4437" }}
-              >
-                Đăng nhập với Google
-              </Button>
-            </Col>
-            <Col span={12}>
-              <Button
-                type="primary"
-                icon={<i className="fab fa-github"></i>} // Icon của GitHub
-                className="w-100"
-                style={{ backgroundColor: "#333", borderColor: "#333" }}
-              >
-                Đăng nhập với GitHub
-              </Button>
-            </Col>
-          </Row>
-
           <Form
             form={form}
-            onFinish={handleSubmit} // Hàm gọi khi submit thành công
+            onFinish={handleSubmit}
             layout="vertical"
           >
-            <div className="row">
-              <div className="col-md-6">
+            <Row gutter={16}>
+              <Col span={12}>
                 <Form.Item
                   label="Họ"
                   name="firstName"
@@ -69,8 +121,8 @@ function SignUp() {
                 >
                   <Input placeholder="Nhập họ của bạn" />
                 </Form.Item>
-              </div>
-              <div className="col-md-6">
+              </Col>
+              <Col span={12}>
                 <Form.Item
                   label="Tên"
                   name="lastName"
@@ -78,60 +130,117 @@ function SignUp() {
                 >
                   <Input placeholder="Nhập tên của bạn" />
                 </Form.Item>
-              </div>
-            </div>
+              </Col>
+            </Row>
+
+            <Form.Item
+              label="Số điện thoại"
+              name="phoneNumber"
+              rules={[{ required: true, message: 'Vui lòng nhập số điện thoại của bạn' }]}
+            >
+              <Input placeholder="Nhập số điện thoại" />
+            </Form.Item>
+
+            <Form.Item
+              label="Tỉnh/Thành phố"
+              name="province"
+              rules={[{ required: true, message: 'Vui lòng chọn tỉnh/thành phố' }]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn hoặc nhập tỉnh/thành phố"
+                onChange={handleProvinceChange}  // Sử dụng hàm mới
+                filterOption={filterOption}
+                options={provinces.map(province => ({
+                  value: province.code,
+                  label: province.name
+                }))}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Quận/Huyện"
+              name="district"
+              rules={[{ required: true, message: 'Vui lòng chọn quận/huyện' }]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn hoặc nhập quận/huyện"
+                onChange={handleDistrictChange}
+                disabled={!selectedProvince || !selectedProvince.code}
+                filterOption={filterOption}
+                options={districts.map(district => ({
+                  value: district.code,
+                  label: district.name
+                }))}
+              >
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label="Phường/Xã"
+              name="ward"
+              rules={[{ required: true, message: 'Vui lòng chọn phường/xã' }]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn hoặc nhập phường/xã"
+                onChange={handleWardChange}
+                disabled={!selectedDistrict || !selectedDistrict.code}
+                filterOption={filterOption}
+                options={wards.map(ward => ({
+                  value: ward.code,
+                  label: ward.name
+                }))}
+              >
+              </Select>
+            </Form.Item>
             <Form.Item
               label="Email"
               name="email"
-              rules={[
-                { required: true, message: 'Vui lòng nhập email của bạn' },
-                { type: 'email', message: 'Email không hợp lệ' }
-              ]}
+              rules={[{ required: true, message: 'Vui lòng nhập email' }, { type: 'email', message: 'Email không hợp lệ' }]}
             >
               <Input placeholder="Nhập email của bạn" />
             </Form.Item>
+
             <Form.Item
               label="Mật khẩu"
               name="password"
-              rules={[{ required: true, message: 'Vui lòng nhập mật khẩu của bạn' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
             >
               <Input.Password placeholder="Nhập mật khẩu của bạn" />
             </Form.Item>
+
             <Form.Item
               label="Xác nhận mật khẩu"
               name="confirmPassword"
               dependencies={['password']}
-              rules={[
-                { required: true, message: 'Vui lòng xác nhận mật khẩu của bạn' },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'));
-                  },
-                }),
-              ]}
+              rules={[{
+                required: true,
+                message: 'Vui lòng xác nhận mật khẩu của bạn'
+              }, ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('Mật khẩu xác nhận không khớp!'));
+                },
+              })]}
             >
-              <Input.Password placeholder="Nhập lại mật khẩu của bạn" />
+              <Input.Password placeholder="Nhập lại mật khẩu" />
             </Form.Item>
 
-            {/* Điều khoản */}
+            {/* Checkbox điều khoản */}
             <Form.Item name="acceptTerms1" valuePropName="checked" rules={[{ required: true, message: 'Bạn cần đồng ý với điều khoản này' }]}>
-              <Checkbox>Gửi cho tôi các email với mẹo tìm kiếm tài năng phù hợp với nhu cầu của tôi.</Checkbox>
+              <Checkbox>Gửi cho tôi các mẹo tìm kiếm tài năng.</Checkbox>
             </Form.Item>
             <Form.Item name="acceptTerms2" valuePropName="checked" rules={[{ required: true, message: 'Bạn cần đồng ý với điều khoản này' }]}>
-              <Checkbox>Có, tôi hiểu và đồng ý với dịch vụ của TalentHub.</Checkbox>
+              <Checkbox>Đồng ý với điều khoản dịch vụ của TalentHub.</Checkbox>
             </Form.Item>
 
             {/* Nút submit */}
             <Form.Item>
-              <Button 
-                type="primary" 
-                htmlType="submit" 
-                className="w-100"
-                loading={loading} // Hiển thị trạng thái loading khi đang submit
-              >
+              <Button type="primary" htmlType="submit" className="w-100" loading={loading}>
                 Đăng ký
               </Button>
             </Form.Item>
