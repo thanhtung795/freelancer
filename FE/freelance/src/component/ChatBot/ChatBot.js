@@ -2,13 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button, Input, List, Avatar, Spin } from 'antd';
 import { MessageOutlined, SendOutlined, RobotOutlined, UserOutlined, CloseOutlined } from '@ant-design/icons';
 import axios from 'axios';
-
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const inputRef = useRef(null);
   const messageListRef = useRef(null);
   useEffect(() => {
@@ -20,7 +19,6 @@ const ChatBot = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    // Cuộn xuống cuối cùng khi có tin nhắn mới
     if (messageListRef.current) {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
@@ -50,7 +48,7 @@ const ChatBot = () => {
       const res = await axios.post("http://localhost:8080/api/dialogflow/send", null, {
         params: { message }
       });
-      
+
       const botMessage = {
         text: res.data,
         type: 'bot'
@@ -70,7 +68,6 @@ const ChatBot = () => {
     }
   };
 
-  // Styles
   const chatContainerStyle = {
     position: 'fixed',
     bottom: '20px',
@@ -145,29 +142,28 @@ const ChatBot = () => {
       <div style={chatWindowStyle}>
         <div style={chatHeaderStyle}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <RobotOutlined style={{ marginRight: 8 }} />
+          <img src="/favicon.png" width={20} alt="Avatar" style={{ marginRight: 8 }} />
             <span>Chat Assistant</span>
           </div>
           <CloseOutlined onClick={() => setIsOpen(false)} style={{ cursor: 'pointer' }} />
         </div>
-        
         <div ref={messageListRef} style={messageListStyle}>
           <List
             itemLayout="horizontal"
             dataSource={messages}
             renderItem={item => (
-              <List.Item style={{ 
+              <List.Item style={{
                 justifyContent: item.type === 'user' ? 'flex-end' : 'flex-start',
                 padding: '5px 0'
               }}>
-                <div style={{ 
-                  display: 'flex', 
+                <div style={{
+                  display: 'flex',
                   alignItems: 'flex-start',
                   flexDirection: item.type === 'user' ? 'row-reverse' : 'row'
                 }}>
-                  <Avatar 
+                  <Avatar
                     icon={item.type === 'bot' ? <RobotOutlined /> : <UserOutlined />}
-                    style={{ 
+                    style={{
                       backgroundColor: item.type === 'user' ? '#1890ff' : '#f56a00',
                       marginRight: item.type === 'user' ? '0' : '8px',
                       marginLeft: item.type === 'user' ? '8px' : '0'
@@ -188,22 +184,22 @@ const ChatBot = () => {
           />
           {isLoading && (
             <div style={loadingContainerStyle}>
-              <Avatar 
-                icon={<RobotOutlined />}
-                style={{ 
+              <Avatar
+                icon={<img src="/favicon.png" width={20} alt="Avatar" />}
+                style={{
                   backgroundColor: '#f56a00',
                   marginRight: '8px'
                 }}
               />
               <div style={typingAnimation}>
-                <div style={{...dotStyle, animationDelay: '-0.32s'}}></div>
-                <div style={{...dotStyle, animationDelay: '-0.16s'}}></div>
+                <div style={{ ...dotStyle, animationDelay: '-0.32s' }}></div>
+                <div style={{ ...dotStyle, animationDelay: '-0.16s' }}></div>
                 <div style={dotStyle}></div>
               </div>
             </div>
           )}
         </div>
-        
+
         <div style={{
           display: 'flex',
           padding: '10px',
