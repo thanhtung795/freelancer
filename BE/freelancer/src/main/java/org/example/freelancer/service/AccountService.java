@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface AccountService {
     List<AccountDTO> getAllAccounts();
-    AccountDTO createAccount(AccountDTO accountDTO);
     Optional<AccountDTO> getAccountById(Integer id);
     AccountDTO updateAccount(Integer id, AccountDTO accountDTO);
     void deleteAccount(Integer id);

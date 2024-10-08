@@ -6,7 +6,7 @@ INSERT INTO account (email, password, role, status) VALUES
 ('client@example.com', 'clientPass', 'client', TRUE);
 
 -- 2. Chèn dữ liệu vào bảng user
-INSERT INTO user (first_name, last_name, phone_number, address,create_at, account_id) VALUES
+INSERT INTO user (first_name, last_name, phone_number, address,created_at, account_id) VALUES
 ('John', 'Doe', '123456789', '123 Main St',NOW(), 1),
 ('Alice', 'Smith', '987654321', '456 Elm St',now(), 2),
 ('Bob', 'Johnson', '456789123', '789 Pine St',now(), 3);
