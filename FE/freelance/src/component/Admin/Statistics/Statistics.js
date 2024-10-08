@@ -45,13 +45,13 @@ const Statistics = ({ projectData = [], userData = [] }) => {
   const getJobStats = () => {
     const stats = {
       week: projectData.filter(
-        (job) => new Date(job.createdAt) >= Date.now() - 7 * 24 * 60 * 60 * 1000
+        (job) => new Date(job.dateCreate) >= Date.now() - 7 * 24 * 60 * 60 * 1000
       ).length,
       month: projectData.filter(
-        (job) => new Date(job.createdAt) >= Date.now() - 30 * 24 * 60 * 60 * 1000
+        (job) => new Date(job.dateCreate) >= Date.now() - 30 * 24 * 60 * 60 * 1000
       ).length,
       year: projectData.filter(
-        (job) => new Date(job.createdAt) >= Date.now() - 365 * 24 * 60 * 60 * 1000
+        (job) => new Date(job.dateCreate) >= Date.now() - 365 * 24 * 60 * 60 * 1000
       ).length,
     };
     return stats[timePeriod];
@@ -74,7 +74,7 @@ const Statistics = ({ projectData = [], userData = [] }) => {
   ];
 
   const lineChartData = projectData.reduce((acc, job) => {
-    const date = new Date(job.createdAt).toLocaleDateString();
+    const date = new Date(job.dateCreate).toLocaleDateString();
     const existing = acc.find((entry) => entry.date === date);
 
     if (existing) {
