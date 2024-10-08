@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "talent-hubs-fqhx",
+  "private_key_id": "75973daee9126cf78ce341fd31a539bef9573548",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDWJtd6hJgebit3\nGfn009bSIo6M+1DHrTMIgxIKCw0yLxU03eJ93dYC96ZBp57te1BsYqiVHC3y6UmJ\nqwHZSmsaCrHwWHLeSg/ZYmFgxLr8Nmxo6fdcCZgqmm6XByVKu1+2YxEP8YlkiLSS\naum887gfSJUBuFDj5BygtFTjNEV/eBRY7I7zkyWITdulV/VhsKXgj0rwcMrjjjku\n92NecLYAfMnpyiR0KPcQoggtMTTxCbB/vDt8qjqSVZlOEEACcO3tZiNg0qaeaRk4\noDm8FLifOJK1k6dlwNt9DMRyTDnItDdnGhhHq9ev5YiR4mbqKK2eZ8lr1mQ6SSVL\nNL8LhozdAgMBAAECggEAWm3Ia8n12lO3MvHbJNEXU2CYRVwSPl8av6tpQKhuCBTt\npYdUjsXQCyy8HdlEOQ/rY/k9KsnddUehb+qwOys7kqGVheIzjz5C9w6eBBjOxJXO\nrXaup0S95q+Tp16zFp2Myx2GJO9fjv5TEcjnroxT4ZHqqfFE5xZ6KDo95js6ZZpv\nGba6kQsTP39A5XZ29jGrvjeS/jCx1xFnV1r28h64o7EyBwu9RFTZIPSbuCvAKtHa\nb696WwBq62vVAeoF16Z4VNjkr1Ow8BsOht7s921od0iokj3z6gdmnD6tPKXoOxS+\nwD9f4iuQwz1IH07AMHGii9oloMgWDPLu6Y2p7EknGQKBgQD4HOqM2aZJfSpfQsUV\n0xshcBDgI31YoY2hh4m/pCh74UXsVr++IRKru1mxRj6feVh8DOpEosrlKJtZ7fbh\njQRaYyJhP+q3AfUNtDDcqjAE3gGkHeLsITQHBHdhlRzgY5BzJ0+gqPj5nbvjO4d3\neqwT52gnEgNiIeY55yXF4dMgYwKBgQDc9Y6h8/uVcBzzi0z0H8Zl261X5QYYXPJq\nsHQ5IfcqprMVquQGhm03r8+dCF2SnPQJrZ4WNL4ks3dOeYKWTE/OqFFS700Phwdw\nBB3GbjXi1W0H1pbdkatLnxwGDNVQitq+he1u5D/f1vCv0m8kpvRnkCPKSUS1V9FR\nJHu6S+sBvwKBgFZNWJidrGWrj+2KwBsTT0CWRohwT81ghG9HQfbTFvHgLf5DPnbX\n8jKh/FTZZjb6cnjT1TkClyiWs1LYnyNddcIq8W56WR5HJAIcR1K6L/HBdziq3J/d\n/MbkGtJql5zFhR1I8z2jCNdqskwcDMbWeLyDpYrRjTO5Lue9KzpljpaZAoGATvRH\nxUMjcOCg1728/7ai9B6tMC0cInSEAu+OeCPU6B6s+18XH+XE/RMLgrdMiGkhIpwx\nUwoBr6eZSCdPLFmUYunuNU5hIN1FIRe3dAJJqwZMcXKSchXtOZZfMyI+zwru4wmE\nMA3LbTamxozRPi2SQ7dTsqK/tHTuzKnWtFkQXo0CgYEAiAGLE/CcBUl4I2dNnVhC\nMOCZntVL1eWoO98oYMFfYnt8NGtmHE7rOMpAdEQaIFgbpiUz0o0Rm1VsRN4DJGWF\nv+8ivEfon/eES2jjSr/AwujCjmRUQ2NuLYccTuP0Dvq39xp3WECSukIZjEDwfK1G\nDPObO8/KlBQVbWeALCn0E/g=\n-----END PRIVATE KEY-----\n",
+  "client_email": "talenthubs@talent-hubs-fqhx.iam.gserviceaccount.com",
+  "client_id": "107898817534560678759",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/talenthubs%40talent-hubs-fqhx.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
