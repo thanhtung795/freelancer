@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   Select,
@@ -9,10 +9,10 @@ import {
   Popconfirm,
   Input,
 } from "antd";
-import { CodeSandboxCircleFilled, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import "./UserManagement.css";
 import { notification } from "antd";
-import { ToastContainer } from "react-bootstrap";
+
 const openNotification = (type, message, description) => {
   notification[type]({
     message: message,
@@ -31,9 +31,22 @@ const UserManagement = ({ setUserData, userData = [] }) => {
   const [newPassword, setNewPassword] = useState("");
   const [isEditingPassword, setIsEditingPassword] = useState(false);
 
-  const handleSkillsChange = (value) => {
-    setSkillsFilter(value);
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/accounts/skills/users");
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setUserData(data.data);
+    } catch (error) {
+      openNotification("error", "Thất bại", `Lỗi khi lấy dữ liệu: ${error.message}`);
+    }
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const handleDetailClick = (user) => {
     setSelectedUser(user);
@@ -46,72 +59,27 @@ const UserManagement = ({ setUserData, userData = [] }) => {
     setNewPassword("");
     setIsEditingPassword(false);
   };
-  const handleConfirmStatusChange = async () => {
-    if (statusChangeUser) {
-      statusChangeUser.status = !statusChangeUser.status;
-      console.log("new status ", statusChangeUser.status);
-      try {
-        await fetch(
-          `http://localhost:8080/api/auth/changeStatus/${statusChangeUser.accountId}?status=${statusChangeUser.status}`,
-          {
-            method: "GET",
-          }
-        ).then(async (result) => {
-          if (result.status == 200) {
-            const response = await fetch(
-              "http://localhost:8080/api/auth/accounts/skills/users"
-            )
-              .then((result) => result.json())
-              .then((data) => {
-                openNotification(
-                  "success",
-                  "Thành công",
-                  `Trạng thái người dùng ${
-                    statusChangeUser.status ? "được kích hoạt" : "được khóa"
-                  } thành công.`
-                );
-                console.log('new data ', data.data)
-                setUserData(data.data);
-                handleCloseModal();
-              });
-          }
-        });
-      } catch (error) {
-        console.error("Error changing status:", error);
-        openNotification(
-          "error",
-          "Lỗi",
-          "Có lỗi xảy ra khi thay đổi trạng thái người dùng."
-        );
-      }
+
+  const handleConfirmStatusChange = async (user) => {
+    try {
+      const newStatus = !user.status;
+      await fetch(
+        `http://localhost:8080/api/auth/changeStatus/${user.accountId}?status=${newStatus}`,
+        { method: "GET" }
+      );
+
+      openNotification("success", "Thành công", `Trạng thái người dùng ${newStatus ? "được kích hoạt" : "được khóa"} thành công.`);
+      fetchUsers();
+    } catch (error) {
+      openNotification("error", "Lỗi", "Có lỗi xảy ra khi thay đổi trạng thái người dùng.");
     }
   };
-
-  // const handleChangePassword = async () => {
-  //   if (selectedUser) {
-  //     try {
-  //       await fetch(`http://localhost:8080/api/auth/changePassword/${selectedUser.accountId}`, {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ password: newPassword }),
-  //       });
-  //       handleCloseModal();
-  //     } catch (error) {
-  //       console.error("Error changing password:", error);
-  //     }
-  //   }
-  // };
 
   const handleChangePassword = async () => {
     if (selectedUser) {
       const updatedAccount = {
-        id: selectedUser.accountId,
-        email: selectedUser.email,
+        ...selectedUser,
         password: newPassword,
-        role: selectedUser.role,
-        status: selectedUser.status,
       };
 
       try {
@@ -131,24 +99,15 @@ const UserManagement = ({ setUserData, userData = [] }) => {
         }
 
         handleCloseModal();
-        openNotification(
-          "success",
-          "Thành công",
-          "Mật khẩu đã được đổi thành công."
-        );
+        openNotification("success", "Thành công", "Mật khẩu đã được đổi thành công.");
       } catch (error) {
-        console.error("Error changing password:", error);
         openNotification("error", "Lỗi", "Có lỗi xảy ra khi đổi mật khẩu.");
       }
     }
   };
 
   const filteredData = userData.filter((user) => {
-    const matchesSkills =
-      skillsFilter.length > 0
-        ? skillsFilter.every((skill) => user.skills.includes(skill))
-        : true;
-    return matchesSkills;
+    return skillsFilter.length === 0 || skillsFilter.every((skill) => user.skills.includes(skill));
   });
 
   const columns = [
@@ -180,9 +139,7 @@ const UserManagement = ({ setUserData, userData = [] }) => {
       render: (skills) => (
         <>
           {skills.map((skill, index) => (
-            <span key={index} className="skill-badge">
-              {skill}
-            </span>
+            <span key={index} className="skill-badge">{skill}</span>
           ))}
         </>
       ),
@@ -205,10 +162,7 @@ const UserManagement = ({ setUserData, userData = [] }) => {
       render: (text, user) => (
         <Popconfirm
           title="Bạn có chắc chắn muốn thay đổi trạng thái?"
-          onConfirm={async () => {
-            setStatusChangeUser(user);
-            await handleConfirmStatusChange();
-          }}
+          onConfirm={() => handleConfirmStatusChange(user)}
           okText="Có"
           cancelText="Không"
         >
@@ -235,7 +189,7 @@ const UserManagement = ({ setUserData, userData = [] }) => {
             mode="multiple"
             placeholder="Chọn kỹ năng"
             style={{ width: "100%" }}
-            onChange={handleSkillsChange}
+            onChange={setSkillsFilter}
             allowClear
           >
             <Option value="Java">Java</Option>
@@ -267,25 +221,12 @@ const UserManagement = ({ setUserData, userData = [] }) => {
       >
         {selectedUser && (
           <div>
-            <p>
-              <strong>Họ và Tên:</strong> {selectedUser.firstName}{" "}
-              {selectedUser.lastName}
-            </p>
-            <p>
-              <strong>Email:</strong> {selectedUser.email}
-            </p>
-            <p>
-              <strong>Số điện thoại:</strong> {selectedUser.phoneNumber}
-            </p>
-            <p>
-              <strong>Địa chỉ:</strong> {selectedUser.address}
-            </p>
-            <p>
-              <strong>Kỹ năng:</strong> {selectedUser.skills.join(", ")}
-            </p>
-            <p>
-              <strong>Mức lương theo giờ:</strong> ${selectedUser.hourlyRate}
-            </p>
+            <p><strong>Họ và Tên:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
+            <p><strong>Email:</strong> {selectedUser.email}</p>
+            <p><strong>Số điện thoại:</strong> {selectedUser.phoneNumber}</p>
+            <p><strong>Địa chỉ:</strong> {selectedUser.address}</p>
+            <p><strong>Kỹ năng:</strong> {selectedUser.skills.join(", ")}</p>
+            <p><strong>Mức lương theo giờ:</strong> ${selectedUser.hourlyRate}</p>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Input.Password
                 placeholder="Nhập mật khẩu mới"
@@ -302,7 +243,6 @@ const UserManagement = ({ setUserData, userData = [] }) => {
           </div>
         )}
       </Modal>
-      <ToastContainer />
     </div>
   );
 };
