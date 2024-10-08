@@ -14,12 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FreelancerDTO {
-    @NotNull(message = "ID không được để trống")
+
     private Integer id;
 
     private String image;
 
-    @NotNull(message = "Hourly rate không được để trống")
     @DecimalMin(value = "0.0", inclusive = false, message = "Hourly rate phải lớn hơn 0")
     @Digits(integer = 10, fraction = 2, message = "Hourly rate không hợp lệ")
     private BigDecimal hourlyRate;
