@@ -72,6 +72,15 @@ public class FreelancerServiceImpl implements FreelancerService {
     @Override
     public FreelancerDTO addFreelancer(FreelancerDTO freelancerDTO) {
         Freelancer freelancer = freelancerMapper.toEntity(freelancerDTO);
+
+        Category category = categoryRepository.findById(freelancerDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found."));
+
+        User user = userRepository.findById(freelancerDTO.getId())
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        freelancer.setCategory(category);
+        freelancer.setUser(user);
         return freelancerMapper.toDTO(freelancerRepository.save(freelancer));
     }
 

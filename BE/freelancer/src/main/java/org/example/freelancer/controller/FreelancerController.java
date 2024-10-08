@@ -6,10 +6,12 @@ import org.example.freelancer.dto.CountResultDTO;
 import org.example.freelancer.dto.FreelancerDTO;
 import org.example.freelancer.service.FreelancerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,16 +43,21 @@ public class FreelancerController {
     public ResponseEntity<?> addFreelancer(@Validated @RequestBody FreelancerDTO freelancerDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
+            // Gọi service để thêm freelancer
+            FreelancerDTO addedFreelancer = freelancerService.addFreelancer(freelancerDTO);
             response.put("success", true);
-            response.put("data", freelancerService.addFreelancer(freelancerDTO));
+            response.put("data", addedFreelancer);
             response.put("message", "Đã thêm freelancer");
         } catch (Exception e) {
+            // Xử lý các lỗi khác như lỗi cơ sở dữ liệu
             response.put("success", false);
             response.put("data", null);
             response.put("message", "Không thể thêm freelancer: " + e.getMessage());
         }
         return ResponseEntity.ok(response);
     }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFreelancer(@PathVariable Integer id, @RequestBody FreelancerDTO freelancerDTO) {
         Map<String, Object> response = new HashMap<>();
