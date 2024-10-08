@@ -3,7 +3,9 @@ package org.example.freelancer.controller;
 import org.example.freelancer.dto.AccountDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
 import org.example.freelancer.dto.LoginDTO;
+import org.example.freelancer.dto.RegisterDTO;
 import org.example.freelancer.service.AccountService;
+import org.example.freelancer.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,12 +14,15 @@ import javax.validation.Valid;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/auth")
+    @RequestMapping("/api/auth")
 @Validated
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private RegisterService registerService;
 
     @GetMapping("/accounts")
     public ResponseEntity<List<AccountDTO>> getAllAccounts() {
@@ -27,14 +32,18 @@ public class AccountController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        Map<String, Object> map = new LinkedHashMap<>();
         try {
-            System.out.println(accountDTO);
-            accountService.createAccount(accountDTO);
-            return ResponseEntity.ok("Account created successfully.");
+            map.put("success", true);
+            map.put("data", registerService.registerAccount(registerDTO));
+            map.put("message", "Đăng kí thành công");
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            map.put("success", false);
+            map.put("data", null);
+            map.put("message", "Đăng kí thất bị: " + e.getMessage());
         }
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/accounts/{id}")

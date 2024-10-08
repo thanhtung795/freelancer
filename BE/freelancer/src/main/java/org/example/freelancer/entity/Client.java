@@ -24,9 +24,7 @@ public class Client {
     @Column(name = "to_price", precision = 10, scale = 2)
     private BigDecimal toPrice;
 
-    @NotNull
-    @Lob
-    @Column(name = "type_price", nullable = false)
+    @Column(name = "type_price")
     private String typePrice;
 
     @OneToOne(fetch = FetchType.LAZY)
