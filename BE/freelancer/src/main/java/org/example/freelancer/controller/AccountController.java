@@ -1,9 +1,6 @@
 package org.example.freelancer.controller;
 
-import org.example.freelancer.dto.AccountDTO;
-import org.example.freelancer.dto.AccountUserSkillDTO;
-import org.example.freelancer.dto.LoginDTO;
-import org.example.freelancer.dto.RegisterDTO;
+import org.example.freelancer.dto.*;
 import org.example.freelancer.service.AccountService;
 import org.example.freelancer.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,11 +139,11 @@ public class AccountController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
         try {
-            AccountDTO accountDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
+            AccountRoleDTO accountRoleDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Login successful");
-            response.put("data", accountDTO);
+            response.put("data", accountRoleDTO);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             Map<String, Object> response = new HashMap<>();

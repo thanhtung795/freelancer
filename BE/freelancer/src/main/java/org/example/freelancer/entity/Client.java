@@ -32,4 +32,8 @@ public class Client {
     @JsonIgnore
     private User user;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Company company;
+
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/job.css";
 import axios from "axios";
 import {
@@ -7,12 +7,13 @@ import {
   InputNumber,
   Button,
   Select,
+  DatePicker,
   message,
   Spin,
   Space,
-  TreeSelect,
 } from "antd";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -20,48 +21,63 @@ const { Option } = Select;
 const JobForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [skillOptions, setSkillOptions] = useState([
-    {
-      title: "Chọn ngôn ngữ",
-      value: "programming_languages",
-      children: [
-        { title: "JavaScript", value: "javascript" },
-        { title: "Python", value: "python" },
-        { title: "Java", value: "java" },
-        { title: "C++", value: "cpp" },
-        { title: "C#", value: "csharp" },
-        { title: "Ruby", value: "ruby" },
-        { title: "PHP", value: "php" },
-        { title: "Go", value: "go" },
-        { title: "Rust", value: "rust" },
-        { title: "Swift", value: "swift" },
-      ],
-    },
-  ]);
+  const [categories, setCategories] = useState([]);
+  const [selected, setSelected] = useState("hourly_rate");
+  const navigate = useNavigate();
+
+  const user = localStorage.getItem("user");
+  let clientId = 3;
+  // if (user) {
+  //   const parsedUser = JSON.parse(user);
+  //   clientId = parsedUser.data.clientId;
+  // } else {
+  //   console.log("No user found in localStorage.");
+  // }
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/categories");
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh mục:", error);
+        message.error("Không thể lấy danh mục.");
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const onFinish = async (values) => {
     setLoading(true);
-
-    const formData = new FormData();
-    formData.append("title", values.title);
-    formData.append("description", values.description);
-    formData.append("mainSkill", values.mainSkill);
-    formData.append("budget", values.budget);
-    formData.append("duration", values.duration);
-    if (values.files) {
-      values.files.fileList.forEach((file) => {
-        formData.append("files", file.originFileObj);
-      });
+    function removeTimezone(dateString) {
+      return dateString.substring(0, 19);
     }
+    const jobData = {
+      title: values.title,
+      scope: values.scope,
+      hourWork: values.hourWork,
+      jobOpportunity: values.jobOpportunity,
+      fromPrice: values.FromBudget,
+      toPrice: values.ToBudget,
+      typePrice: selected === "hourly_rate" ? "hourly_rate" : "fixed",
+      status: "Đang thực hiện",
+      dateStart: removeTimezone(values.dateStart.format()),
+      dateEnd: removeTimezone(values.dateEnd.format()),
+      dateCreate: removeTimezone(moment().format()),
+      clientId: clientId,
+      categoryId: values.category,
+    };
 
     try {
-      await axios.post("http://localhost:8080/api/post-job", formData, {
+      const response = await axios.post("http://localhost:8080/api/Jobs", jobData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      if(response.success === true) {
       message.success("Đăng tuyển thành công.");
+      }
       form.resetFields();
     } catch (error) {
       console.error(error);
@@ -71,39 +87,8 @@ const JobForm = () => {
     }
   };
 
-  const handleSearch = (value) => {
-    // const skills = ["JavaScript", "React", "Node.js", "Python", "Java"];
-    // setSkillOptions(() => {
-    //   if (!value) {
-    //     return [];
-    //   }
-    //   return skills
-    //     .filter((skill) => skill.toLowerCase().includes(value.toLowerCase()))
-    //     .map((skill) => ({
-    //       label: skill,
-    //       value: skill,
-    //     }));
-    // });
-    // setOptions(() => {
-    //   if (!value || value.includes("@")) {
-    //     return [];
-    //   }
-    //   return ["gmail.com", "163.com", "qq.com"].map((domain) => ({
-    //     label: `${value}@${domain}`,
-    //     value: `${value}@${domain}`,
-    //   }));
-    // });
-  };
-
-  const [selected, setSelected] = useState("hours");
-  const navigate = useNavigate();
-
   const handleCardClick = (type) => {
     setSelected(type);
-  };
-
-  const handleButtonClick = () => {
-    navigate("/login");
   };
 
   return (
@@ -120,65 +105,81 @@ const JobForm = () => {
           scrollToFirstError
         >
           <h3 style={{ color: "#4169E1" }}>Mô tả công việc</h3>
+
           {/* Job Title */}
           <Form.Item
             name="title"
             label="Tiêu đề công việc"
-            rules={[
-              { required: true, message: "Vui lòng nhập tiêu đề công việc." },
-            ]}
+            rules={[{ required: true, message: "Vui lòng nhập tiêu đề công việc." }]}
           >
             <Input />
           </Form.Item>
 
-          {/* Main Skill */}
+          {/* Category (Danh mục) */}
           <Form.Item
-            name="mainSkill"
-            label="Kỹ năng chính"
-            // rules={[{ required: true, message: "Vui lòng chọn kỹ năng chính!" }]}
+            name="category"
+            label="Danh mục"
+            rules={[{ required: true, message: "Vui lòng chọn danh mục!" }]}
           >
-            <TreeSelect
-              style={{ width: "100%" }}
-              placeholder="Chọn kỹ năng chính"
-              treeData={skillOptions}
-              treeCheckable={true}
+            <Select
               showSearch
-              onSearch={handleSearch}
-              treeDefaultExpandAll
-              fieldNames={{
-                label: "title",
-                value: "value",
-                children: "children",
-              }}
-              value={form.getFieldValue("mainSkill") || []}
-              onChange={(values) => form.setFieldsValue({ mainSkill: values })}
-            />
-          </Form.Item>
-
-          {/* Duration */}
-          <Form.Item
-            name="duration"
-            label="Thời gian"
-            rules={[{ required: true, message: "Vui lòng chọn thời gian." }]}
-          >
-            <Select placeholder="Chọn thời gian">
-              <Option value="1_week">1 Tuần</Option>
-              <Option value="2_weeks">2 Tuần</Option>
-              <Option value="1_month">1 Tháng</Option>
-              <Option value="2_months">2 Tháng</Option>
-              <Option value="more">Hơn 2 Tháng</Option>
+              placeholder="Chọn danh mục"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {categories.map((category) => (
+                <Option key={category.id} value={category.id}>
+                  {category.categoryTitle}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
+
+          {/* Scope */}
+          <Form.Item
+            name="scope"
+            label="Quy mô dự án"
+            rules={[{ required: true, message: "Vui lòng chọn quy mô dự án" }]}
+          >
+            <Select placeholder="Chọn quy mô">
+              <Option value="small">Nhỏ</Option>
+              <Option value="medium">Trung bình</Option>
+              <Option value="large">Lớn</Option>
+            </Select>
+          </Form.Item>
+
+          {/* Hour Work */}
+          <Form.Item
+            name="hourWork"
+            label="Số giờ làm việc"
+            rules={[{ required: true, message: "Vui lòng nhập số giờ làm việc." }]}
+          >
+            <InputNumber min={0} step={0.01} />
+          </Form.Item>
+
+          {/* Job Opportunity */}
+          <Form.Item
+            name="jobOpportunity"
+            label="Cơ hội việc làm"
+            rules={[{ required: true, message: "Vui lòng chọn cơ hội việc làm." }]}
+          >
+            <Select placeholder="Chọn cơ hội">
+              <Option value={true}>Có</Option>
+              <Option value={false}>Không</Option>
+            </Select>
+          </Form.Item>
+
           {/* Budget */}
           <Form.Item label="Ngân sách">
             <div className="justify-content-center">
               <div className="col-12 mb-2">
                 <div className="d-flex justify-content-between">
                   <div
-                    className={`border px-2 py-1 flex-grow-1 me-2 w-100 ${
-                      selected === "hours" ? "card-selected" : ""
-                    }`}
-                    onClick={() => handleCardClick("hours")}
+                    className={`border px-2 py-1 flex-grow-1 me-2 w-100 ${selected === "hourly_rate" ? "card-selected" : ""
+                      }`}
+                    onClick={() => handleCardClick("hourly_rate")}
                   >
                     <div className="card-body">
                       <div className="d-flex justify-content-between ">
@@ -186,7 +187,7 @@ const JobForm = () => {
 
                         <div className="bi bi-person-fill me-2 fs-3 mb-5 py-2"></div>
                         <div className="ms-auto">
-                          {selected === "hours" && (
+                          {selected === "hourly_rate" && (
                             <div className="circle-check"></div>
                           )}
                         </div>
@@ -197,9 +198,8 @@ const JobForm = () => {
                     </div>
                   </div>
                   <div
-                    className={`border px-2 py-1 w-100 flex-grow-1 ms-2 ${
-                      selected === "fixed" ? "card-selected" : ""
-                    }`}
+                    className={`border px-2 py-1 w-100 flex-grow-1 ms-2 ${selected === "fixed" ? "card-selected" : ""
+                      }`}
                     onClick={() => handleCardClick("fixed")}
                   >
                     <div className="card-body">
@@ -226,13 +226,11 @@ const JobForm = () => {
                 className="w-100"
                 name="FromBudget"
                 label="Ngân sách từ"
-                rules={[
-                  { required: true, message: "Vui lòng nhập ngân sách từ." },
-                ]}
+                rules={[{ required: true, message: "Vui lòng nhập ngân sách từ." }]}
               >
                 <div className="w-100 d-flex align-items-center">
                   <InputNumber min={0} step={0.01} style={{ flexGrow: 1 }} />
-                  {selected === "hours" && (
+                  {selected === "hourly_rate" && (
                     <span style={{ marginLeft: 8 }}>/ giờ</span>
                   )}
                 </div>
@@ -242,13 +240,11 @@ const JobForm = () => {
                 className="w-100"
                 name="ToBudget"
                 label="Ngân sách đến"
-                rules={[
-                  { required: true, message: "Vui lòng nhập ngân sách đến." },
-                ]}
+                rules={[{ required: true, message: "Vui lòng nhập ngân sách đến." }]}
               >
                 <div className="w-100 d-flex align-items-center">
                   <InputNumber min={0} step={0.01} style={{ flexGrow: 1 }} />
-                  {selected === "hours" && (
+                  {selected === "hourly_rate" && (
                     <span style={{ marginLeft: 8 }}>/ giờ</span>
                   )}
                 </div>
@@ -256,13 +252,28 @@ const JobForm = () => {
             </div>
           </Form.Item>
 
+          {/* Job Duration */}
+          <Form.Item
+            name="dateStart"
+            label="Ngày bắt đầu"
+            rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu." }]}
+          >
+            <DatePicker />
+          </Form.Item>
+
+          <Form.Item
+            name="dateEnd"
+            label="Ngày kết thúc"
+            rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc." }]}
+          >
+            <DatePicker />
+          </Form.Item>
+
           {/* Job Description */}
           <Form.Item
             name="description"
             label="Mô tả công việc"
-            rules={[
-              { required: true, message: "Vui lòng nhập mô tả công việc." },
-            ]}
+            rules={[{ required: true, message: "Vui lòng nhập mô tả công việc." }]}
           >
             <TextArea rows={4} />
           </Form.Item>

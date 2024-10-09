@@ -9,8 +9,13 @@ const AuthService = {
         email: userData.email,
         password: userData.password,
         role: userData.role || 'client',
-        status: true
+        status: true,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        phoneNumber: userData.phoneNumber,
+        address: userData.address,
       });
+
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;

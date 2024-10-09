@@ -25,15 +25,13 @@ function LogIn() {
     e.preventDefault();
     try {
       const response = await AuthService.login(email, password);
+      localStorage.setItem('userRole', response.data.role);
       if (response.data.role === 'freelancer') {
-        localStorage.setItem('userRole', 'freelancer');
-        window.location.href = ('/home-freelancer');
+        window.location.href = '/home-freelancer';
       } else if (response.data.role === 'client') {
-        localStorage.setItem('userRole', 'client');
-        window.location.href('/');
-      }else if (response.data.role === 'admin') {
-        localStorage.setItem('userRole', 'admin');
-        window.location.href('/admin');
+        window.location.href = '/';
+      } else if (response.data.role === 'admin') {
+        window.location.href = '/admin';
       }
     } catch (err) {
       message.error(err.message || 'Login failed. Please try again.');
