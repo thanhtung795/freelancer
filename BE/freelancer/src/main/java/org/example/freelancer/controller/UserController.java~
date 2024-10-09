@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @GetMapping("/getAllInfoFreelancer")
-    public ResponseEntity<?> getAllInfoFreelancers() {
+    public ResponseEntity<List<InfoFreelancerDTO>> getAllInfoFreelancers() {
         Map<String, Object> map = new LinkedHashMap<>();
         try {
             map.put("success", true);
@@ -77,6 +77,6 @@ public class UserController {
             map.put("data", null);
             map.put("message", e.getMessage());
         }
-        return ResponseEntity.ok(map);
+        return ResponseEntity.ok((List<InfoFreelancerDTO>) map);
     }
 }
