@@ -41,6 +41,12 @@ public class AccountServiceImpl implements AccountService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private final UserRepository userRepository;
+
+    private final FreelancerRepository freelancerRepository;
+
+    private final ClientRepository clientRepository;
+
     private final AccountMapper accountMapper; // Inject mapper từ Spring
 
     @Override
@@ -178,7 +184,21 @@ public class AccountServiceImpl implements AccountService {
             throw new RuntimeException("Invalid email or password");
         }
 
-        return AccountMapper.INSTANCE.accountToAccountDTO(account);
+        // Khởi tạo AccountDTO từ Account
+        AccountRoleDTO accountRoleDTO = AccountMapper.INSTANCE.accountToAccountRoleDTO(account);
+
+        // Tìm User theo account ID
+        User user = userRepository.findById(accountRoleDTO.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        System.out.println("id user la: " + user.getId());
+
+        if ("client".equals(account.getRole())) {
+         accountRoleDTO.setIdRole(user.getClient().getId());
+        } else if ("freelancer".equals(account.getRole())) {
+            accountRoleDTO.setIdRole(user.getFreelancer().getId());
+        }
+        // Trả về AccountDTO sau khi đã thiết lập idRole
+        return accountRoleDTO;
     }
 
     @Override
@@ -196,7 +216,7 @@ public class AccountServiceImpl implements AccountService {
             headerRow.createCell(6).setCellValue("Last Name");
             headerRow.createCell(7).setCellValue("Phone Number");
             headerRow.createCell(8).setCellValue("Address");
-            headerRow.createCell(9).setCellValue("Created At");
+//            headerRow.createCell(9).setCellValue("Created At");
             headerRow.createCell(10).setCellValue("Freelancer ID");
             headerRow.createCell(11).setCellValue("Image");
             headerRow.createCell(12).setCellValue("Hourly Rate");
@@ -214,7 +234,7 @@ public class AccountServiceImpl implements AccountService {
                 row.createCell(6).setCellValue(dto.getLastName());
                 row.createCell(7).setCellValue(dto.getPhoneNumber());
                 row.createCell(8).setCellValue(dto.getAddress());
-                row.createCell(9).setCellValue(dto.getCreatedAt().toString());
+//                row.createCell(9).setCellValue(dto.getCreatedAt().toString());
                 row.createCell(10).setCellValue(dto.getFreelancerId());
                 row.createCell(11).setCellValue(dto.getImage());
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -15,6 +15,7 @@ import {
 import { Card, Select } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import { faUser, faProjectDiagram, faChartPie, faChartLine } from "@fortawesome/free-solid-svg-icons"; 
+import axios from "axios";
 
 const { Option } = Select;
 
@@ -57,10 +58,20 @@ const Statistics = ({ projectData = [], userData = [] }) => {
     return stats[timePeriod];
   };
 
+  const [{ freelancerCount, clientCount }, setFreelancerAndClientCount] = useState({});
+  useEffect(() => {
+    const fetchFreelancerAndClientCount = async () => {
+      const { data } = await axios.get("http://localhost:8080/api/freelancers/countFreelancersAndClient");
+      const { freelancerCount, clientCount } = data.data[0];
+      setFreelancerAndClientCount({ freelancerCount, clientCount });
+    };
+
+    fetchFreelancerAndClientCount();
+  }, []);
   const getFreelancerClientStats = () => {
     return {
-      freelancers: userData.filter((user) => user.role === "freelancer").length,
-      clients: userData.filter((user) => user.role === "client").length,
+      freelancers: freelancerCount,
+      clients: clientCount,
     };
   };
 
@@ -114,14 +125,15 @@ const Statistics = ({ projectData = [], userData = [] }) => {
           <FontAwesomeIcon icon={faChartPie} style={{ marginRight: 8 }} />
           Thống kê Freelancer và Client
         </h3>
-        <PieChart width={400} height={400}>
-          <Pie
+        <PieChart width={600} height={450}>
+          <Pie 
+          style={{ height: 600, width: 600 }}
             data={data}
             cx={200}
             cy={200}
             labelLine={false}
             label={({ name }) => name}
-            outerRadius={80}
+            outerRadius={200}
             fill="#8884d8"
             dataKey="value"
           >
