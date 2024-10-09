@@ -166,7 +166,7 @@ const UserManagement = ({ setUserData, userData = [] }) => {
       title: "Mức lương theo giờ",
       dataIndex: "hourlyRate",
       key: "hourlyRate",
-      render: (rate) => `$${rate.toFixed(2)}`,
+      render: (rate) => rate ? `$${rate.toFixed(2)}` : 'Chưa có',
     },
     {
       title: "Trạng thái",
