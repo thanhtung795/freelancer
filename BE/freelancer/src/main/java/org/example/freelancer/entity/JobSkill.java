@@ -17,7 +17,6 @@ public class JobSkill {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "job_id", nullable = false)
     @JsonIgnore
-
     private Job job;
 
     @MapsId("skillId")

@@ -37,6 +37,14 @@ public class JobSkillServiceImpl implements JobSkillService {
     public JobSkillDTO addJobSkill(JobSkillDTO jobSkillDTO) {
         JobSkill jobSkill = jobSkillMapper.toEntity(jobSkillDTO);
 
+        Job job = jobRepository.findById(jobSkillDTO.getJobId())
+                .orElseThrow(() -> new RuntimeException("Job not found."));
+
+        Skill skill = skillRepository.findById(jobSkillDTO.getSkillId())
+                .orElseThrow(() -> new RuntimeException("Skill not found."));
+
+        jobSkill.setJob(job);
+        jobSkill.setSkill(skill);
 
         return jobSkillMapper.toDto(jobSkillRepository.save(jobSkill));
     }
