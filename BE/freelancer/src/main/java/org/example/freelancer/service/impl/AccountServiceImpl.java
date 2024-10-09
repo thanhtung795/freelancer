@@ -3,10 +3,14 @@ package org.example.freelancer.service.Impl;
 import com.itextpdf.layout.element.Paragraph;
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.AccountDTO;
+import org.example.freelancer.dto.AccountRoleDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
 import org.example.freelancer.entity.*;
 import org.example.freelancer.mapper.AccountMapper;
 import org.example.freelancer.repository.AccountRepository;
+import org.example.freelancer.repository.ClientRepository;
+import org.example.freelancer.repository.FreelancerRepository;
+import org.example.freelancer.repository.UserRepository;
 import org.example.freelancer.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -176,7 +180,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public AccountDTO login(String email, String password) {
+    public AccountRoleDTO login(String email, String password) {
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 

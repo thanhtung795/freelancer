@@ -11,7 +11,7 @@ function LogIn() {
   const [password, setPassword] = useState('');
 
   const handleButtonClick = () => {
-    navigate('/signUp');
+    navigate('/joinAs');
   };
 
   const handleEmailSubmit = async (e) => {

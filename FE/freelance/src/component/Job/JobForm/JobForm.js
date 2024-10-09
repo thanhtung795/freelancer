@@ -11,6 +11,7 @@ import {
   message,
   Spin,
   Space,
+  notification 
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -22,6 +23,8 @@ const JobForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [selectedSkills, setSelectedSkills] = useState([]);
   const [selected, setSelected] = useState("hourly_rate");
   const navigate = useNavigate();
 
@@ -34,6 +37,7 @@ const JobForm = () => {
     console.log("No user found in localStorage.");
   }
 
+  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -44,8 +48,21 @@ const JobForm = () => {
         message.error("Không thể lấy danh mục.");
       }
     };
-
     fetchCategories();
+  }, []);
+
+  // Fetch skills
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/skills");
+        setSkills(response.data.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy kỹ năng:", error);
+        message.error("Không thể lấy kỹ năng.");
+      }
+    };
+    fetchSkills();
   }, []);
 
   const onFinish = async (values) => {
@@ -75,17 +92,38 @@ const JobForm = () => {
           "Content-Type": "application/json",
         },
       });
-      if(response.success === true) {
-      message.success("Đăng tuyển thành công.");
-      }
-      form.resetFields();
+
+      if (response.data.success === true) {
+        notification.success({
+          message: 'Thành công',
+          description: 'Đã đăng job thành công.',
+          placement: 'topRight',
+        });
+
+        const jobId = response.data.data.id;
+        await Promise.all(
+          selectedSkills.map(skillId => {
+            return axios.post('http://localhost:8080/api/jobskills', {
+              jobId: jobId,
+              skillId: skillId,
+            });
+          })
+        );
+
+        form.resetFields();
+      } 
     } catch (error) {
       console.error(error);
-      message.error("Đăng tuyển thất bại.");
+      notification.error({
+        message: 'Thất bại',
+        description: 'Đăng tuyển thất bại.',
+        placement: 'topRight',
+      });
     } finally {
       setLoading(false);
     }
-  };
+};
+
 
   const handleCardClick = (type) => {
     setSelected(type);
@@ -132,6 +170,25 @@ const JobForm = () => {
               {categories.map((category) => (
                 <Option key={category.id} value={category.id}>
                   {category.categoryTitle}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          {/* Skills */}
+          <Form.Item
+            name="skills"
+            label="Kỹ năng"
+            rules={[{ required: true, message: "Vui lòng chọn ít nhất một kỹ năng!" }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder="Chọn kỹ năng"
+              onChange={setSelectedSkills}
+            >
+              {skills.map((skill) => (
+                <Option key={skill.id} value={skill.id}>
+                  {skill.skillName}
                 </Option>
               ))}
             </Select>
