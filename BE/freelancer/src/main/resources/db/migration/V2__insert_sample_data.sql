@@ -1,98 +1,76 @@
-
--- 1. Chèn dữ liệu vào bảng account
+-- Chèn dữ liệu vào bảng account
 INSERT INTO account (email, password, role, status) VALUES
 ('admin@example.com', 'password123', 'admin', TRUE),
-('freelancer@example.com', 'freelancerPass', 'freelancer', TRUE),
-('client@example.com', 'clientPass', 'client', TRUE);
+('freelancer1@example.com', 'password123', 'freelancer', TRUE),
+('client1@example.com', 'password123', 'client', TRUE);
 
--- 2. Chèn dữ liệu vào bảng user
-INSERT INTO user (first_name, last_name, phone_number, address,created_at, account_id) VALUES
-('John', 'Doe', '123456789', '123 Main St',NOW(), 1),
-('Alice', 'Smith', '987654321', '456 Elm St',now(), 2),
-('Bob', 'Johnson', '456789123', '789 Pine St',now(), 3);
+-- Chèn dữ liệu vào bảng user
+INSERT INTO user (first_name, last_name, phone_number, address, account_id) VALUES
+('John', 'Doe', '123456789', '123 Main St', 1),  -- Admin
+('Jane', 'Smith', '987654321', '456 Maple Ave', 2),  -- Freelancer
+('Bob', 'Johnson', '555666777', '789 Oak St', 3);  -- Client
 
--- 3. Chèn dữ liệu vào bảng category
+-- Chèn dữ liệu vào bảng category
 INSERT INTO category (category_title) VALUES
 ('Web Development'),
 ('Graphic Design'),
-('SEO'),
-('Content Writing'),
-('Mobile Development');
+('Data Science');
 
-
--- 4. Chèn dữ liệu vào bảng freelancer
+-- Chèn dữ liệu vào bảng freelancer
 INSERT INTO freelancer (image, hourly_rate, category_id, user_id) VALUES
-('image1.jpg', 30.00, 1, 1), -- user_id = 1
-('image2.jpg', 25.00, 2, 2); -- user_id = 2
+('freelancer1.jpg', 20.50, 1, 2);  -- Freelancer liên kết với user_id 2 và category_id 1 (Web Development)
 
--- 5. Chèn dữ liệu vào bảng client
+-- Chèn dữ liệu vào bảng client
 INSERT INTO client (from_price, to_price, type_price, user_id) VALUES
-(200.00, 800.00, 'hourly_rate', 3); -- user_id = 2
+(500.00, 1000.00, 'fixed', 3);  -- Client liên kết với user_id 3
 
--- 6. Chèn dữ liệu vào bảng company
+-- Chèn dữ liệu vào bảng company
 INSERT INTO company (company_name, phone_contact, address, location, client_id) VALUES
-('Creative Agency', '444555666', '456 Creative Blvd', 'City B', 3); -- client_id = 2
+('Tech Solutions', '123456789', '456 Maple Ave', 'San Francisco', 1);  -- Company liên kết với client_id 1
 
--- 7. Chèn dữ liệu vào bảng skill
+-- Chèn dữ liệu vào bảng skill
 INSERT INTO skill (skill_name) VALUES
-('Java'),
 ('JavaScript'),
-('HTML/CSS'),
-('SEO Optimization'),
-('Content Creation');
+('Python'),
+('Graphic Design'),
+('Data Analysis');
 
--- 8. Chèn dữ liệu vào bảng freelancer_skill
+-- Chèn dữ liệu vào bảng freelancer_skill
 INSERT INTO freelancer_skill (freelancer_id, skill_id) VALUES
-(1, 2), -- freelancer_id = 1, skill_id = 2
-(1, 1), -- freelancer_id = 1, skill_id = 1
-(1, 3), -- freelancer_id = 1, skill_id = 3
-(2, 2), -- freelancer_id = 2, skill_id = 2
-(3, 4); -- freelancer_id = 3, skill_id = 4
+(1, 1),  -- Freelancer 1 có kỹ năng JavaScript
+(1, 2);  -- Freelancer 1 có kỹ năng Python
 
--- 9. Chèn dữ liệu vào bảng school
+-- Chèn dữ liệu vào bảng school
 INSERT INTO school (school_name) VALUES
-('University A'),
-('University B'),
-('University C');
+('Harvard University'),
+('Stanford University'),
+('MIT');
 
--- 10. Chèn dữ liệu vào bảng major
+-- Chèn dữ liệu vào bảng major
 INSERT INTO major (major_name) VALUES
 ('Computer Science'),
-('Graphic Design'),
-('Marketing');
+('Business Administration'),
+('Graphic Design');
 
--- 11. Chèn dữ liệu vào bảng degree
+-- Chèn dữ liệu vào bảng degree
 INSERT INTO degree (degree_title) VALUES
-('Bachelor'),
-('Master'),
+('Bachelor of Science'),
+('Master of Business Administration'),
 ('PhD');
 
--- 12. Chèn dữ liệu vào bảng education
+-- Chèn dữ liệu vào bảng education
 INSERT INTO education (freelancer_id, school_id, major_id, degree_id, date_start, date_end, description) VALUES
-(1, 1, 1, 1, '2015-01-01', '2019-01-01', 'Bachelor in Computer Science'),
-(2, 2, 2, 2, '2016-01-01', '2020-01-01', 'Master in Graphic Design'),
-(3, 3, 3, 3, '2017-01-01', '2021-01-01', 'PhD in Marketing');
+(1, 1, 1, 1, '2010-09-01', '2014-06-01', 'Studied Computer Science at Harvard');
 
+-- Chèn dữ liệu vào bảng job
+INSERT INTO job (title, scope, hour_work, job_opportunity, from_price, to_price, type_price, status, client_id, category_id) VALUES
+('Website Development', 'large', 150, TRUE, 1000.00, 5000.00, 'fixed', TRUE, 1, 1);
 
-INSERT INTO job (title, scope, hour_work, job_opportunity, from_price, to_price, type_price, status, Date_start, Date_end, created_at, client_id, category_id) 
-VALUES
-('Web Developer', 'large', 40.00, TRUE, 500.00, 1500.00, 'fixed', 'InProgress', '2024-01-01', '2024-03-01', NOW(), 1, 1),
-('Graphic Designer', 'medium', 20.00, FALSE, 200.00, 800.00, 'fixed', 'Completed', '2024-02-01', '2024-04-01', NOW(), 2, 2),
-('SEO Specialist', 'medium', 30.00, TRUE, 100.00, 400.00, 'hourly_rate', 'Pending', '2024-03-01', '2024-05-01', NOW(), 1, 3),
-('Content Writer', 'small', 25.00, FALSE, 15.00, 50.00, 'hourly_rate', 'Cancle', '2024-04-01', '2024-06-01', NOW(), 2, 2),
-('Mobile App Developer', 'large', 60.00, TRUE, 1000.00, 3000.00, 'fixed', 'InProgress', '2024-05-01', '2024-07-01', NOW(), 2, 1);
-
-
--- 14. Chèn dữ liệu vào bảng freelancer_job
+-- Chèn dữ liệu vào bảng freelancer_job
 INSERT INTO freelancer_job (freelancer_id, job_id, is_selected, status) VALUES
-(1, 1, TRUE, TRUE),
-(2, 2, FALSE, TRUE),
-(3, 3, TRUE, TRUE);
+(1, 1, FALSE, TRUE);  -- Freelancer 1 đang tham gia vào công việc 1
 
--- 15. Chèn dữ liệu vào bảng job_skill
+-- Chèn dữ liệu vào bảng job_skill
 INSERT INTO job_skill (job_id, skill_id) VALUES
-(1, 1), -- job_id = 1, skill_id = 1
-(2, 2), -- job_id = 2, skill_id = 2
-(3, 4), -- job_id = 3, skill_id = 4
-(4, 5); -- job_id = 4, skill_id = 5
-
+(1, 1),  -- Job 1 yêu cầu kỹ năng JavaScript
+(1, 2);  -- Job 1 yêu cầu kỹ năng Pythonselect 

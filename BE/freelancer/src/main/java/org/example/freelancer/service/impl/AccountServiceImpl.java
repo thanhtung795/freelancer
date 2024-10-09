@@ -44,17 +44,6 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public AccountDTO createAccount(AccountDTO accountDTO) {
-        if (accountRepository.existsByEmail(accountDTO.getEmail())) {
-            throw new RuntimeException("Email already exists.");
-        }
-
-        Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
-        Account savedAccount = accountRepository.save(account);
-
-        return AccountMapper.INSTANCE.accountToAccountDTO(savedAccount);
-    }
 
     @Override
     public Optional<AccountDTO> getAccountById(Integer id) {
@@ -169,39 +158,21 @@ public List<AccountUserSkillDTO> findAccountUserAndSkills() {
         }
 
         // Khởi tạo AccountDTO từ Account
-        AccountRoleDTO accountDTO = AccountMapper.INSTANCE.accountToAccountRoleDTO(account);
+        AccountRoleDTO accountRoleDTO = AccountMapper.INSTANCE.accountToAccountRoleDTO(account);
 
         // Tìm User theo account ID
-        User user = userRepository.findById(accountDTO.getId())
+        User user = userRepository.findById(accountRoleDTO.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         System.out.println("id user la: " + user.getId());
 
         if ("client".equals(account.getRole())) {
-            // Tìm Client dựa trên user ID
-            Client client = clientRepository.getReferenceById(user.getId());
-            if (client != null) {
-                System.out.println("id client la: " + client.getId());
-                accountDTO.setIdRole(client.getId());
-            } else {
-                throw new RuntimeException("Client not found");
-            }
+         accountRoleDTO.setIdRole(user.getClient().getId());
         } else if ("freelancer".equals(account.getRole())) {
-            System.out.println("role user la: " + accountDTO.getRole());
-            try {
-                Freelancer freelancer  = freelancerRepository.getReferenceById(user.getId());
-                if (freelancer != null) {
-                    System.out.println("id freelancer la: " + freelancer.getId());
-                    accountDTO.setIdRole(freelancer.getId());
-                } else {
-                    throw new RuntimeException("Freelancer not found");
-                }
-            }catch (Exception e) {
-                throw new RuntimeException("Freelancer not found");
-            }
+            accountRoleDTO.setIdRole(user.getFreelancer().getId());
         }
 
         // Trả về AccountDTO sau khi đã thiết lập idRole
-        return accountDTO;
+        return accountRoleDTO;
     }
 
 
