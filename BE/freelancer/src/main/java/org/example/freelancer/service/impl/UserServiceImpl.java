@@ -1,16 +1,20 @@
 package org.example.freelancer.service.impl;
 
+import org.example.freelancer.dto.EduInfoFreelancerDTO;
+import org.example.freelancer.dto.InfoFreelancerDTO;
+import org.example.freelancer.dto.SkillDTO;
 import org.example.freelancer.dto.UserDTO;
+import org.example.freelancer.entity.Freelancer;
 import org.example.freelancer.mapper.UserMapper;
 import org.example.freelancer.entity.User;
 import org.example.freelancer.repository.AccountRepository;
+import org.example.freelancer.repository.FreelancerRepository;
 import org.example.freelancer.repository.UserRepository;
 import org.example.freelancer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +23,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private FreelancerRepository freelancerRepository;
+
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -67,5 +75,74 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found.");
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<InfoFreelancerDTO> findAllFreelancers() {
+        List<Object[]> results = getAllInfoFreelancers(); // Lấy dữ liệu freelancer từ repository
+        Map<Integer, InfoFreelancerDTO> freelancerMap = new HashMap<>(); // Sử dụng Map để nhóm theo freelancerId
+
+        for (Object[] result : results) {
+            Integer freelancerId = (Integer) result[0];
+
+            // Kiểm tra nếu freelancer đã tồn tại trong Map
+            InfoFreelancerDTO infoFreelancerDTO = freelancerMap.get(freelancerId);
+            if (infoFreelancerDTO == null) {
+                // Tạo mới InfoFreelancerDTO và thêm vào Map
+                infoFreelancerDTO = InfoFreelancerDTO.builder()
+                        .freelancerId(freelancerId)
+                        .firstName((String) result[1])
+                        .lastName((String) result[2])
+                        .address((String) result[3])
+                        .image((String) result[4])
+                        .categoryId((Integer) result[5])
+                        .categoryTitle((String) result[6])
+                        .skills(new ArrayList<>()) // Khởi tạo danh sách kỹ năng
+                        .eduInfoFreelancerDTOList(getEducationDetailsForFreelancer(freelancerId)) // Lấy thông tin giáo dục
+                        .build();
+
+                freelancerMap.put(freelancerId, infoFreelancerDTO);
+            }
+
+            // Thêm kỹ năng vào danh sách kỹ năng của freelancer
+            SkillDTO skillDTO = new SkillDTO();
+            skillDTO.setId((Integer) result[7]);
+            skillDTO.setSkillName((String) result[8]);
+            infoFreelancerDTO.getSkills().add(skillDTO);
+        }
+
+        return new ArrayList<>(freelancerMap.values()); // Trả về danh sách các freelancer
+    }
+
+
+    // Phương thức lấy danh sách thông tin giáo dục của một freelancer dựa trên freelancerId
+    private List<EduInfoFreelancerDTO> getEducationDetailsForFreelancer(Integer freelancerId) {
+        List<Object[]> eduResults = userRepository.getEducationDetailsForFreelancer(freelancerId);  // Lấy dữ liệu giáo dục từ DB
+        List<EduInfoFreelancerDTO> eduInfoList = new ArrayList<>();
+
+        for (Object[] eduResult : eduResults) {
+            EduInfoFreelancerDTO eduInfo = new EduInfoFreelancerDTO(
+                    (Integer) eduResult[0],         // educationId
+                    (String) eduResult[1],          // schoolName
+                    (Date) eduResult[2],            // dateStart
+                    (Date) eduResult[3],            // dateEnd
+                    (String) eduResult[4],          // description
+                    (String) eduResult[5],          // majorName
+                    (String) eduResult[6]           // degreeName
+            );
+            eduInfoList.add(eduInfo);
+        }
+
+        return eduInfoList;
+    }
+
+
+
+    public List<Object[]> getAllInfoFreelancers() {
+        try {
+            return userRepository.findAllFreelancers();
+        }catch (Exception e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
 }

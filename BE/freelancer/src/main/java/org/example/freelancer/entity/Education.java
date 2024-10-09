@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -38,10 +39,10 @@ public class Education {
     private Degree degree;
 
     @Column(name = "date_start")
-    private LocalDate dateStart;
+    private Date dateStart;
 
     @Column(name = "date_end")
-    private LocalDate dateEnd;
+    private Date dateEnd;
 
     @Lob
     @Column(name = "description")

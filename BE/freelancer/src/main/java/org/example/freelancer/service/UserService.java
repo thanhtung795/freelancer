@@ -1,4 +1,5 @@
 package org.example.freelancer.service;
+import org.example.freelancer.dto.InfoFreelancerDTO;
 import org.example.freelancer.dto.UserDTO;
 
 
@@ -11,4 +12,5 @@ public interface UserService {
     Optional<UserDTO> getUserById(Integer id);
     UserDTO updateUser(Integer id, UserDTO userDTO);
     void deleteUser(Integer id);
+    List<InfoFreelancerDTO> findAllFreelancers();
 }
