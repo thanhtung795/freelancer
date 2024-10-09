@@ -44,17 +44,6 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public AccountDTO createAccount(AccountDTO accountDTO) {
-        if (accountRepository.existsByEmail(accountDTO.getEmail())) {
-            throw new RuntimeException("Email already exists.");
-        }
-
-        Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
-        Account savedAccount = accountRepository.save(account);
-
-        return AccountMapper.INSTANCE.accountToAccountDTO(savedAccount);
-    }
 
     @Override
     public Optional<AccountDTO> getAccountById(Integer id) {
