@@ -30,6 +30,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
             "JOIN fk.skill s ")
     List<Object[]> findAllFreelancersWithSkills();
 
+
+
     Optional<Account> findByEmail(String email);
 
 }

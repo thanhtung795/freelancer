@@ -1,6 +1,7 @@
 package org.example.freelancer.service;
 
 import org.example.freelancer.dto.AccountDTO;
+import org.example.freelancer.dto.AccountRoleDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface AccountService {
     void deleteAccount(Integer id);
     List<AccountUserSkillDTO> findAccountUserAndSkills();
     Boolean changeAccountStatus(Boolean status, Integer id);
-    AccountDTO login(String email, String password);
+    AccountRoleDTO login(String email, String password);
 }
