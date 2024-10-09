@@ -82,7 +82,6 @@ public class Job {
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-
     private List<JobSkill> jobSkills = new ArrayList<>();
 
 }
