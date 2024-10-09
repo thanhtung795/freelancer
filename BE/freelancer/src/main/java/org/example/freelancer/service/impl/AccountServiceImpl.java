@@ -1,5 +1,6 @@
 package org.example.freelancer.service.Impl;
 
+import com.itextpdf.layout.element.Paragraph;
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.AccountDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
@@ -8,16 +9,36 @@ import org.example.freelancer.mapper.AccountMapper;
 import org.example.freelancer.repository.AccountRepository;
 import org.example.freelancer.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.IOException;
+import java.util.List;
+
+
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Cell;
+
 
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private final AccountMapper accountMapper; // Inject mapper từ Spring
@@ -43,6 +64,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
+        account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         Account savedAccount = accountRepository.save(account);
 
         return AccountMapper.INSTANCE.accountToAccountDTO(savedAccount);
@@ -60,7 +82,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new RuntimeException("Account not found."));
 
         account.setEmail(accountDTO.getEmail());
-        account.setPassword(accountDTO.getPassword());
+        account.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         account.setRole(accountDTO.getRole());
         account.setStatus(accountDTO.getStatus());
 
@@ -85,11 +107,12 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
         return true;
     }
-/*
-*  Phương thức findAccountUserAndSkills nay sẽ lấy dự liệu từ ĐB lên
-* sau đó sẽ lấy dự iệu đực truy vấn lên map với AccountUserSkillDTO
-*sau  sẽ trả về 1 list AccountUserSkillDTO
-* */
+
+    /*
+     *  Phương thức findAccountUserAndSkills nay sẽ lấy dự liệu từ ĐB lên
+     * sau đó sẽ lấy dự iệu đực truy vấn lên map với AccountUserSkillDTO
+     *sau  sẽ trả về 1 list AccountUserSkillDTO
+     * */
     //
     @Override
     public List<AccountUserSkillDTO> findAccountUserAndSkills() {
@@ -151,12 +174,116 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        // In a real application, you should use password encryption/hashing
-        if (!account.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, account.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
 
         return AccountMapper.INSTANCE.accountToAccountDTO(account);
     }
 
+    @Override
+    public void exportAccountsToExcel(List<AccountUserSkillDTO> accountUserSkillDTOs, ByteArrayOutputStream outputStream) {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Accounts");
+
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Account ID");
+            headerRow.createCell(1).setCellValue("Email");
+            headerRow.createCell(2).setCellValue("Role");
+            headerRow.createCell(3).setCellValue("Status");
+            headerRow.createCell(4).setCellValue("User ID");
+            headerRow.createCell(5).setCellValue("First Name");
+            headerRow.createCell(6).setCellValue("Last Name");
+            headerRow.createCell(7).setCellValue("Phone Number");
+            headerRow.createCell(8).setCellValue("Address");
+            headerRow.createCell(9).setCellValue("Created At");
+            headerRow.createCell(10).setCellValue("Freelancer ID");
+            headerRow.createCell(11).setCellValue("Image");
+            headerRow.createCell(12).setCellValue("Hourly Rate");
+            headerRow.createCell(13).setCellValue("Skills");
+
+            int rowNum = 1;
+            for (AccountUserSkillDTO dto : accountUserSkillDTOs) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(dto.getAccountId());
+                row.createCell(1).setCellValue(dto.getEmail());
+                row.createCell(2).setCellValue(dto.getRole());
+                row.createCell(3).setCellValue(dto.getStatus());
+                row.createCell(4).setCellValue(dto.getUserId());
+                row.createCell(5).setCellValue(dto.getFirstName());
+                row.createCell(6).setCellValue(dto.getLastName());
+                row.createCell(7).setCellValue(dto.getPhoneNumber());
+                row.createCell(8).setCellValue(dto.getAddress());
+                row.createCell(9).setCellValue(dto.getCreatedAt().toString());
+                row.createCell(10).setCellValue(dto.getFreelancerId());
+                row.createCell(11).setCellValue(dto.getImage());
+
+                BigDecimal hourlyRate = dto.getHourlyRate();
+                if (hourlyRate != null) {
+                    row.createCell(12).setCellValue(hourlyRate.doubleValue());
+                } else {
+                    row.createCell(12).setCellValue("");
+                }
+
+                String skills = String.join(", ", dto.getSkills());
+                row.createCell(13).setCellValue(skills);
+            }
+
+            // Ghi workbook vào OutputStream
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void exportAccountsToPDF(List<AccountUserSkillDTO> accountUserSkillDTOs, ByteArrayOutputStream outputStream) {
+        try {
+            PdfWriter writer = new PdfWriter(outputStream);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument);
+
+            Table table = new Table(14);
+            table.addHeaderCell(new Cell().add(new Paragraph("Account ID")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Email")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Role")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Status")));
+            table.addHeaderCell(new Cell().add(new Paragraph("User ID")));
+            table.addHeaderCell(new Cell().add(new Paragraph("First Name")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Last Name")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Phone Number")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Address")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Created At")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Freelancer ID")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Image")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Hourly Rate")));
+            table.addHeaderCell(new Cell().add(new Paragraph("Skills")));
+
+            for (AccountUserSkillDTO dto : accountUserSkillDTOs) {
+                table.addCell(new Cell().add(new Paragraph(dto.getAccountId().toString())));
+                table.addCell(new Cell().add(new Paragraph(dto.getEmail())));
+                table.addCell(new Cell().add(new Paragraph(dto.getRole())));
+                table.addCell(new Cell().add(new Paragraph(dto.getStatus().equals("active") ? "Đang hoạt động" : "Bị khóa")));
+                table.addCell(new Cell().add(new Paragraph(dto.getUserId().toString())));
+                table.addCell(new Cell().add(new Paragraph(dto.getFirstName())));
+                table.addCell(new Cell().add(new Paragraph(dto.getLastName())));
+                table.addCell(new Cell().add(new Paragraph(dto.getPhoneNumber())));
+                table.addCell(new Cell().add(new Paragraph(dto.getAddress())));
+                table.addCell(new Cell().add(new Paragraph(dto.getCreatedAt().toString())));
+                table.addCell(new Cell().add(new Paragraph(dto.getFreelancerId() != null ? dto.getFreelancerId().toString() : "")));
+                table.addCell(new Cell().add(new Paragraph(dto.getImage() != null ? dto.getImage() : "")));
+                table.addCell(new Cell().add(new Paragraph(dto.getHourlyRate() != null ? dto.getHourlyRate().toString() : "")));
+                table.addCell(new Cell().add(new Paragraph(String.join(", ", dto.getSkills()))));
+            }
+
+            document.add(table);
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+
