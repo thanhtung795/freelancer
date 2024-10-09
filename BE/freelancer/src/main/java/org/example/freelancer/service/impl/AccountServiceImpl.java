@@ -3,14 +3,10 @@ package org.example.freelancer.service.Impl;
 import com.itextpdf.layout.element.Paragraph;
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.AccountDTO;
-import org.example.freelancer.dto.AccountRoleDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
 import org.example.freelancer.entity.*;
 import org.example.freelancer.mapper.AccountMapper;
 import org.example.freelancer.repository.AccountRepository;
-import org.example.freelancer.repository.ClientRepository;
-import org.example.freelancer.repository.FreelancerRepository;
-import org.example.freelancer.repository.UserRepository;
 import org.example.freelancer.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -124,67 +120,63 @@ public class AccountServiceImpl implements AccountService {
      *sau  sẽ trả về 1 list AccountUserSkillDTO
      * */
     //
-@Override
-public List<AccountUserSkillDTO> findAccountUserAndSkills() {
-    List<Object[]> results = accountRepository.findAllFreelancersWithSkills();  // Lấy dữ liệu từ truy vấn
-    List<AccountUserSkillDTO> dtoList = new ArrayList<>();
-    Map<Integer, AccountUserSkillDTO> freelancerMap = new HashMap<>();  // Để theo dõi các freelancer và kỹ năng của họ
+    @Override
+    public List<AccountUserSkillDTO> findAccountUserAndSkills() {
+        List<Object[]> results = accountRepository.findAllFreelancersWithSkills();  // Lấy dữ liệu từ truy vấn
+        List<AccountUserSkillDTO> dtoList = new ArrayList<>();
+        Map<Integer, AccountUserSkillDTO> freelancerMap = new HashMap<>();  // Để theo dõi các freelancer và kỹ năng của họ
 
-    // Lặp qua kết quả của truy vấn
-    for (Object[] result : results) {
-        User user = (User) result[0];  // Lấy User
-        Account account = (Account) result[1];  // Lấy Account
-        FreelancerSkill freelancerSkill = (FreelancerSkill) result[2];  // Lấy FreelancerSkill
-        Skill skill = freelancerSkill.getSkill();  // Lấy Skill từ FreelancerSkill
+        // Lặp qua kết quả của truy vấn
+        for (Object[] result : results) {
+            User user = (User) result[0];  // Lấy User
+            Account account = (Account) result[1];  // Lấy Account
+            FreelancerSkill freelancerSkill = (FreelancerSkill) result[2];  // Lấy FreelancerSkill
+            Skill skill = freelancerSkill.getSkill();  // Lấy Skill từ FreelancerSkill
 
-        // Kiểm tra nếu freelancer đã được thêm vào danh sách
-        int freelancerId = user.getFreelancer().getId();
-        AccountUserSkillDTO accountUserSkillDTO = freelancerMap.get(freelancerId);
+            // Kiểm tra nếu freelancer đã được thêm vào danh sách
+            int freelancerId = user.getFreelancer().getId();
+            AccountUserSkillDTO accountUserSkillDTO = freelancerMap.get(freelancerId);
 
-        if (accountUserSkillDTO == null) {
-            // Nếu freelancer chưa có trong map, tạo một DTO mới
-            accountUserSkillDTO = new AccountUserSkillDTO();
-            accountUserSkillDTO.setAccountId(account.getId());
-            accountUserSkillDTO.setEmail(account.getEmail());
-            accountUserSkillDTO.setRole(account.getRole());
-            accountUserSkillDTO.setStatus(account.getStatus());
+            if (accountUserSkillDTO == null) {
+                // Nếu freelancer chưa có trong map, tạo một DTO mới
+                accountUserSkillDTO = new AccountUserSkillDTO();
+                accountUserSkillDTO.setAccountId(account.getId());
+                accountUserSkillDTO.setEmail(account.getEmail());
+                accountUserSkillDTO.setRole(account.getRole());
+                accountUserSkillDTO.setStatus(account.getStatus());
 
-            accountUserSkillDTO.setUserId(user.getId());
-            accountUserSkillDTO.setFirstName(user.getFirstName());
-            accountUserSkillDTO.setLastName(user.getLastName());
-            accountUserSkillDTO.setPhoneNumber(user.getPhoneNumber());
-            accountUserSkillDTO.setAddress(user.getAddress());
-            accountUserSkillDTO.setCreatedAt(user.getCreatedAt());
+                accountUserSkillDTO.setUserId(user.getId());
+                accountUserSkillDTO.setFirstName(user.getFirstName());
+                accountUserSkillDTO.setLastName(user.getLastName());
+                accountUserSkillDTO.setPhoneNumber(user.getPhoneNumber());
+                accountUserSkillDTO.setAddress(user.getAddress());
+                accountUserSkillDTO.setCreatedAt(user.getCreatedAt());
 
-            Freelancer freelancer = user.getFreelancer();
-            accountUserSkillDTO.setFreelancerId(freelancer.getId());
-            accountUserSkillDTO.setImage(freelancer.getImage());
-            accountUserSkillDTO.setHourlyRate(freelancer.getHourlyRate());
+                Freelancer freelancer = user.getFreelancer();
+                accountUserSkillDTO.setFreelancerId(freelancer.getId());
+                accountUserSkillDTO.setImage(freelancer.getImage());
+                accountUserSkillDTO.setHourlyRate(freelancer.getHourlyRate());
 
-            // Khởi tạo danh sách kỹ năng chỉ nếu role không phải là client hoặc admin
-            if (!account.getRole().equals("client") && !account.getRole().equals("admin")) {
+                // Khởi tạo danh sách kỹ năng
                 accountUserSkillDTO.setSkills(new ArrayList<>());
+
+                // Thêm freelancer vào map
+                freelancerMap.put(freelancerId, accountUserSkillDTO);
             }
 
-            // Thêm freelancer vào map
-            freelancerMap.put(freelancerId, accountUserSkillDTO);
-        }
-
-        // Chỉ thêm kỹ năng nếu role không phải là client hoặc admin
-        if (!account.getRole().equals("client") && !account.getRole().equals("admin")) {
+            // Thêm tên kỹ năng vào danh sách kỹ năng của freelancer
             accountUserSkillDTO.getSkills().add(skill.getSkillName());
         }
+
+        // Chuyển đổi map thành danh sách DTO
+        dtoList.addAll(freelancerMap.values());
+
+        return dtoList;  // Trả về danh sách DTO
     }
 
-    // Chuyển đổi map thành danh sách DTO
-    dtoList.addAll(freelancerMap.values());
-
-    return dtoList;  // Trả về danh sách DTO
-}
 
     @Override
-    public AccountRoleDTO login(String email, String password) {
-        // Tìm tài khoản theo email
+    public AccountDTO login(String email, String password) {
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 

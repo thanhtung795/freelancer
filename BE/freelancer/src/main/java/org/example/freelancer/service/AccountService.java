@@ -1,7 +1,6 @@
 package org.example.freelancer.service;
 
 import org.example.freelancer.dto.AccountDTO;
-import org.example.freelancer.dto.AccountRoleDTO;
 import org.example.freelancer.dto.AccountUserSkillDTO;
 
 import java.io.ByteArrayOutputStream;
