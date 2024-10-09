@@ -8,10 +8,10 @@ import {
   Modal,
   Popconfirm,
   Input,
+  notification,
 } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import "./UserManagement.css";
-import { notification } from "antd";
 
 const openNotification = (type, message, description) => {
   notification[type]({
@@ -27,7 +27,6 @@ const UserManagement = ({ setUserData, userData = [] }) => {
   const [skillsFilter, setSkillsFilter] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [statusChangeUser, setStatusChangeUser] = useState(null);
   const [newPassword, setNewPassword] = useState("");
   const [isEditingPassword, setIsEditingPassword] = useState(false);
 
@@ -105,6 +104,25 @@ const UserManagement = ({ setUserData, userData = [] }) => {
       }
     }
   };
+
+  const exportToExcel = () => {
+    const link = document.createElement("a");
+    link.href = "http://localhost:8080/api/auth/download/accounts/excel";
+    link.setAttribute("download", "Users.xlsx"); 
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  };
+  
+  const exportToPdf = () => {
+    const link = document.createElement("a");
+    link.href = "http://localhost:8080/api/auth/download/accounts/pdf";
+    link.setAttribute("download", "Users.pdf"); 
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  };
+
 
   const filteredData = userData.filter((user) => {
     return skillsFilter.length === 0 || skillsFilter.every((skill) => user.skills.includes(skill));
@@ -196,6 +214,14 @@ const UserManagement = ({ setUserData, userData = [] }) => {
             <Option value="JavaScript">JavaScript</Option>
             <Option value="HTML/CSS">HTML/CSS</Option>
           </Select>
+        </Col>
+        <Col span={8}>
+          <Button type="primary" onClick={exportToExcel} style={{ marginRight: 8 }}>
+            Xuất Excel
+          </Button>
+          <Button type="default" onClick={exportToPdf}>
+            Xuất PDF
+          </Button>
         </Col>
       </Row>
       <Table

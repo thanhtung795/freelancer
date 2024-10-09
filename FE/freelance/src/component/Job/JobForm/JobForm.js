@@ -26,13 +26,13 @@ const JobForm = () => {
   const navigate = useNavigate();
 
   const user = localStorage.getItem("user");
-  let clientId = 3;
-  // if (user) {
-  //   const parsedUser = JSON.parse(user);
-  //   clientId = parsedUser.data.clientId;
-  // } else {
-  //   console.log("No user found in localStorage.");
-  // }
+  let clientId;
+  if (user) {
+    const parsedUser = JSON.parse(user);
+    clientId = parsedUser.data.idRole;
+  } else {
+    console.log("No user found in localStorage.");
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {
