@@ -205,7 +205,6 @@ public List<AccountUserSkillDTO> findAccountUserAndSkills() {
         } else if ("freelancer".equals(account.getRole())) {
             accountRoleDTO.setIdRole(user.getFreelancer().getId());
         }
-
         // Trả về AccountDTO sau khi đã thiết lập idRole
         return accountRoleDTO;
     }
@@ -225,7 +224,7 @@ public List<AccountUserSkillDTO> findAccountUserAndSkills() {
             headerRow.createCell(6).setCellValue("Last Name");
             headerRow.createCell(7).setCellValue("Phone Number");
             headerRow.createCell(8).setCellValue("Address");
-            headerRow.createCell(9).setCellValue("Created At");
+//            headerRow.createCell(9).setCellValue("Created At");
             headerRow.createCell(10).setCellValue("Freelancer ID");
             headerRow.createCell(11).setCellValue("Image");
             headerRow.createCell(12).setCellValue("Hourly Rate");
@@ -243,7 +242,7 @@ public List<AccountUserSkillDTO> findAccountUserAndSkills() {
                 row.createCell(6).setCellValue(dto.getLastName());
                 row.createCell(7).setCellValue(dto.getPhoneNumber());
                 row.createCell(8).setCellValue(dto.getAddress());
-                row.createCell(9).setCellValue(dto.getCreatedAt().toString());
+//                row.createCell(9).setCellValue(dto.getCreatedAt().toString());
                 row.createCell(10).setCellValue(dto.getFreelancerId());
                 row.createCell(11).setCellValue(dto.getImage());
 

@@ -28,7 +28,7 @@ const Admin = () => {
     };
 
     fetchUserData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -45,7 +45,12 @@ const Admin = () => {
     };
 
     fetchProjectData();
-  }, []); 
+  }, []);
+
+
+
+  
+
 
   const handleMenuClick = (key) => {
     setSelectedMenu(key);
@@ -64,11 +69,11 @@ const Admin = () => {
       <Layout>
         <Content style={{ padding: "20px", height: "calc(100vh - 64px)", overflowY: "auto" }}>
           {loading ? (
-            <p>Đang tải dữ liệu...</p>  
+            <p>Đang tải dữ liệu...</p>
           ) : (
             <>
               {selectedMenu === "1" && <Home />}
-              {selectedMenu === "2" && <UserManagement setUserData={setUserData} userData={userData} />}  
+              {selectedMenu === "2" && <UserManagement setUserData={setUserData} userData={userData} />}
               {selectedMenu === "3" && <ProjectManagement setProjectData={setProjectData} projectData={projectData} />}
               {selectedMenu === "4" && <Statistics userData={userData} projectData={projectData} />}
             </>

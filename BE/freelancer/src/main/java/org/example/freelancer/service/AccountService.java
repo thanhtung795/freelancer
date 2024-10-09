@@ -23,7 +23,7 @@ public interface AccountService {
 
     Boolean changeAccountStatus(Boolean status, Integer id);
 
-    AccountDTO login(String email, String password);
+    AccountRoleDTO login(String email, String password);
 
     void exportAccountsToExcel(List<AccountUserSkillDTO> accountUserSkillDTOs, ByteArrayOutputStream filePath);
 
