@@ -45,11 +45,12 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public void deleteSchool(Integer id) {
+    public Object deleteSchool(Integer id) {
         try {
             schoolRepository.deleteById(id);
         }catch (Exception e){
             throw  new RuntimeException("Delete school error ", e);
         }
+        return null;
     }
 }
