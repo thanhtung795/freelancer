@@ -1,4 +1,4 @@
-package org.example.freelancer.service.impl;
+package org.example.freelancer.service.Impl;
 
 import org.example.freelancer.dto.EduInfoFreelancerDTO;
 import org.example.freelancer.dto.InfoFreelancerDTO;
