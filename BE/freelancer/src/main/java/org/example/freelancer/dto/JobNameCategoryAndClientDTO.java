@@ -29,5 +29,10 @@ public class JobNameCategoryAndClientDTO {
     private String firstName;
     private String lastName;
     private String categoryName; // Tên category
-    private List <String> skills;
+    private List<String> skills;
+    private String description;
+
+    private CompanyDTO company;
+
 }
+

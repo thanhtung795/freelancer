@@ -64,10 +64,11 @@ public class Job {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    @JsonIgnore
-
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)

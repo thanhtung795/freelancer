@@ -11,6 +11,7 @@ import org.example.freelancer.mapper.JobMapper;
 import org.example.freelancer.mapper.JobNameCategoryAndClientMapper;
 import org.example.freelancer.repository.CategoryRepository;
 import org.example.freelancer.repository.ClientRepository;
+import org.example.freelancer.repository.CompanyRepository;
 import org.example.freelancer.repository.JobRepository;
 import org.example.freelancer.service.JobService;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class JobServiceImpl implements JobService {
 
     private final ClientRepository clientRepository;
     private final CategoryRepository categoryRepository;
+
+    private final CompanyRepository companyRepository;
 
 
     @Override
@@ -72,9 +75,17 @@ public class JobServiceImpl implements JobService {
     public Optional<JobDTO> getJobById(Integer id) {
         return Optional.empty();
     }
+
     @Override
     public List<JobNameCategoryAndClientDTO> getJobsNameCategoryAndClient() {
-      return jobRepository.findAll().stream().map(jobNameCategoryAndClientMapper::toDto).collect(Collectors.toList());
+        return jobRepository.findAll().stream()
+                .map(jobNameCategoryAndClientMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public JobNameCategoryAndClientDTO getJobNameCategoryAndClientById(Integer id) {
+        return jobRepository.findById(id).map(jobNameCategoryAndClientMapper::toDto).orElse(null);
     }
 
 

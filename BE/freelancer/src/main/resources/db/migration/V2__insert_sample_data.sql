@@ -20,6 +20,7 @@ INSERT INTO user (first_name, last_name, phone_number, address, account_id) VALU
 ('Frank', 'Green', '111222333', '963 Birch St', 7),  -- Freelancer 3
 ('Grace', 'Black', '888999000', '741 Spruce St', 8);  -- Client 3
 
+select * from cli
 -- Chèn dữ liệu vào bảng category
 INSERT INTO category (category_title) VALUES
 ('Web Development'),
@@ -99,12 +100,13 @@ INSERT INTO education (freelancer_id, school_id, major_id, degree_id, date_start
 (2, 3, 4, 3, '2012-09-01', '2016-06-01', 'Studied Data Science at MIT'),
 (3, 2, 3, 1, '2014-09-01', '2018-06-01', 'Studied Graphic Design at Stanford');
 
--- Chèn dữ liệu vào bảng job
-INSERT INTO job (title, scope, hour_work, job_opportunity, from_price, to_price, type_price, status,Date_start,Date_end,created_at, client_id, category_id) VALUES
-('Website Development', 'large', 150, TRUE, 1000.00, 5000.00, 'fixed', TRUE,2024-01-01,2024-02-02,now(), 1, 1),
-('Mobile App Development', 'medium', 200, FALSE, 1500.00, 7000.00, 'hourly', TRUE,2024-03-03,2024-04-04,now(), 2, 4),
-('Graphic Design Project', 'small', 50, TRUE, 200.00, 1000.00, 'fixed', TRUE, 2024-05-05,2024-06-06,now(),3, 2),
-('SEO Optimization for Business', 'large', 100, TRUE, 300.00, 1500.00, 'hourly', TRUE, 2024-07-07,2024-08-08,now(),1, 5);
+INSERT INTO job (title, scope, hour_work, job_opportunity, from_price, to_price, type_price, status, date_start, date_end, created_at, client_id, category_id, description)
+VALUES
+('Phát triển Website', 'large', 150, TRUE, 1000.00, 5000.00, 'fixed', TRUE, '2024-01-01', '2024-02-02', NOW(), 1, 1, 'Phát triển một website hoàn chỉnh với tính năng thương mại điện tử'),
+('Phát triển Ứng dụng Di động', 'medium', 200, FALSE, 1500.00, 7000.00, 'hourly', TRUE, '2024-03-03', '2024-04-04', NOW(), 2, 4, 'Tạo ứng dụng di động đa nền tảng cho Android và iOS'),
+('Dự án Thiết kế Đồ họa', 'small', 50, TRUE, 200.00, 1000.00, 'fixed', TRUE, '2024-05-05', '2024-06-06', NOW(), 3, 2, 'Thiết kế logo và tài liệu quảng cáo cho thương hiệu'),
+('Tối ưu SEO cho Doanh nghiệp', 'large', 100, TRUE, 300.00, 1500.00, 'hourly', TRUE, '2024-07-07', '2024-08-08', NOW(), 1, 5, 'Cải thiện thứ hạng tìm kiếm trên công cụ tìm kiếm cho website doanh nghiệp');
+
 
 -- Chèn dữ liệu vào bảng freelancer_job
 INSERT INTO freelancer_job (freelancer_id, job_id, is_selected, status) VALUES
