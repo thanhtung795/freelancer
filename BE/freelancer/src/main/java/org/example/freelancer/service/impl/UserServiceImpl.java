@@ -91,10 +91,10 @@ public class UserServiceImpl implements UserService {
                 // Tạo mới InfoFreelancerDTO và thêm vào Map
                 infoFreelancerDTO = InfoFreelancerDTO.builder()
                         .freelancerId(freelancerId)
-                        .firstName((String) result[1])
-                        .lastName((String) result[2])
-                        .address((String) result[3])
-                        .image((String) result[4])
+                        .firstName((String) result[2])
+                        .lastName((String) result[3])
+                        .address((String) result[4])
+                        .image((String) result[1])
                         .categoryId((Integer) result[5])
                         .categoryTitle((String) result[6])
                         .skills(new ArrayList<>()) // Khởi tạo danh sách kỹ năng
