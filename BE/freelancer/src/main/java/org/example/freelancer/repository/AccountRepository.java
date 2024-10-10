@@ -22,13 +22,14 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     Boolean changeAccountStatus(Boolean status, Integer id);
 
     //
-    @Query("SELECT u, a, f.freelancerSkills " +
+    @Query("SELECT DISTINCT u, a, f.freelancerSkills " +
             "FROM Freelancer f " +
             "LEFT JOIN f.user u " +
             "LEFT JOIN u.account a " +
             "LEFT JOIN f.freelancerSkills fk " +
             "LEFT JOIN fk.skill s ")
     List<Object[]> findAllFreelancersWithSkills();
+
 
 
 
