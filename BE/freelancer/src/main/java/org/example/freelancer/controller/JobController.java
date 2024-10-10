@@ -102,4 +102,18 @@ public class JobController {
         }
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getJob(@PathVariable Integer id) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data", jobService.getJobNameCategoryAndClientById(id));
+            response.put("message", "Đã lấy job chi tiết ");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", "Không thể lấy job ");
+        }
+        return ResponseEntity.ok(response);
+    }
 }

@@ -43,6 +43,8 @@ public class JobDTO {
     @Size(max = 65535) // Nếu là dạng văn bản lớn
     private String typePrice;
 
+
+    private String description;
     @NotNull
     private StatusJob status;
 
