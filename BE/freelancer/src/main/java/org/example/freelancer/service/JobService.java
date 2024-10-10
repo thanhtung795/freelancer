@@ -14,9 +14,15 @@ public interface JobService {
     JobDTO changeStatus(Integer id, JobDTO jobDTO);
 
     JobDTO addJob(JobDTO dto);
+
     Optional<JobDTO> updateJob(Integer id, JobDTO jobDTO);
-  Boolean deleteJob(Integer id);
+
+    Boolean deleteJob(Integer id);
+
     Optional<JobDTO> getJobById(Integer id);
 
     List<JobNameCategoryAndClientDTO> getJobsNameCategoryAndClient();
+
+    JobNameCategoryAndClientDTO getJobNameCategoryAndClientById(Integer id);
+
 }
