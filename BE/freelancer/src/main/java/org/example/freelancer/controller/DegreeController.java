@@ -5,6 +5,7 @@ import org.example.freelancer.dto.DegreeDTO;
 import org.example.freelancer.dto.ResponseObject;
 import org.example.freelancer.exception.NotFoundException;
 import org.example.freelancer.service.DegreeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,10 @@ public class DegreeController {
         List<DegreeDTO> degrees = degreeService.getAllDegree();
 
         if (degrees.isEmpty()) {
-            return ResponseEntity.ok(ResponseObject.<List<DegreeDTO>>builder()
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((ResponseObject.<List<DegreeDTO>>builder()
                     .message("No degree found")
                     .status(404)
-                    .build());
+                    .build()));
         }
 
         return ResponseEntity.ok(ResponseObject.<List<DegreeDTO>>builder()
@@ -50,9 +51,9 @@ public class DegreeController {
                         .message("Get degree successfully")
                         .status(200)
                         .build()))
-                .orElseGet(() -> ResponseEntity.ok(ResponseObject.<DegreeDTO>builder()
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body((ResponseObject.<DegreeDTO>builder()
                         .message("Degree not found")
                         .status(404)
-                        .build()));
+                        .build())));
     }
 }
