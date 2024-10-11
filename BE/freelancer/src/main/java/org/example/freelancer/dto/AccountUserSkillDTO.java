@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountUserSkillDTO {
+
     private Integer accountId;
     private String email;
     private String role;

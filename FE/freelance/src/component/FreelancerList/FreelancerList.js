@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, List, Pagination, Select, Button, Empty } from 'antd';
 import FreelancerCard from './FreelancerCard/FreelancerCard';
 import SwipperBanner from './SwiperBanner/SwiperBanner';
+import axios from 'axios';
 
 const { Option } = Select;
 
 const Filter = ({ onFilterChange }) => {
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState([]); // For selected skills
   const [rating, setRating] = useState('');
+  const [skillOptions, setSkillOptions] = useState([]); // For skills from API
+
+  // Fetch skills from the API on component load
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/skills')
+      .then(response => {
+        if (response.data.success) {
+          setSkillOptions(response.data.data); // Save the fetched skills
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching skills:', error);
+      });
+  }, []);
 
   const handleFilter = () => {
     onFilterChange({ skills, rating });
@@ -15,72 +30,64 @@ const Filter = ({ onFilterChange }) => {
 
   return (
     <Row gutter={16} style={{ marginBottom: '20px', width: '100%' }}>
-    <Col span={24}> 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Select
-          mode="multiple"
-          placeholder="Chọn Kỹ Năng"
-          style={{ flex: '1', marginRight: '10px' }} // Sử dụng flex để chiếm diện tích
-          onChange={setSkills}
-          allowClear
-        >
-          <Option value="JavaScript">JavaScript</Option>
-          <Option value="React">React</Option>
-          <Option value="Node.js">Node.js</Option>
-          <Option value="UI/UX Design">UI/UX Design</Option>
-          <Option value="Java">Java</Option>
-          <Option value="PHP">PHP</Option>
-        </Select>
-        <Select
-          placeholder="Chọn Xếp Hạng"
-          style={{ flex: '0 0 20%', marginRight: '10px' }} // Chiều rộng cố định cho Select xếp hạng
-          onChange={setRating}
-          allowClear
-        >
-          <Option value="5">5</Option>
-          <Option value="4">4</Option>
-        </Select>
-        <Button type="primary" onClick={handleFilter}>
-          Lọc
-        </Button>
-      </div>
-    </Col>
-  </Row>
-  
+      <Col span={24}> 
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Select
+            mode="multiple"
+            placeholder="Chọn Kỹ Năng"
+            style={{ flex: '1', marginRight: '10px' }} 
+            onChange={setSkills}
+            allowClear
+          >
+            {skillOptions.map(skill => (
+              <Option key={skill.id} value={skill.skillName}>
+                {skill.skillName}
+              </Option>
+            ))}
+          </Select>
+          <Select
+            placeholder="Chọn Xếp Hạng"
+            style={{ flex: '0 0 20%', marginRight: '10px' }} 
+            onChange={setRating}
+            allowClear
+          >
+            <Option value="5">5</Option>
+            <Option value="4">4</Option>
+          </Select>
+          <Button type="primary" onClick={handleFilter}>
+            Lọc
+          </Button>
+        </div>
+      </Col>
+    </Row>
   );
 };
 
 const FreelancerList = () => {
-  const freelancers = [
-    {
-      name: 'John Doe',
-      avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-      skills: ['JavaScript', 'React', 'Node.js'],
-      description: 'Full-stack developer with 5 years of experience.',
-    },
-    {
-      name: 'Alice Johnson',
-      avatar: 'https://randomuser.me/api/portraits/women/3.jpg',
-      skills: ['UI/UX Design', 'Figma', 'Sketch'],
-      description: 'Creative UI/UX designer with a passion for web design.',
-    },
-    {
-      name: 'Mark Davis',
-      avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-      skills: ['Java', 'Spring Boot', 'Microservices'],
-      description: 'Experienced Java developer focused on microservices architecture.',
-    },
-    {
-      name: 'Emily Clark',
-      avatar: 'https://randomuser.me/api/portraits/women/5.jpg',
-      skills: ['PHP', 'Laravel', 'MySQL'],
-      description: 'Backend developer specializing in PHP and Laravel framework.',
-    },
-  ];
-
+  const [freelancers, setFreelancers] = useState([]);
+  const [filteredFreelancers, setFilteredFreelancers] = useState([]);
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(3); 
-  const [filteredFreelancers, setFilteredFreelancers] = useState(freelancers);
+  const [pageSize, setPageSize] = useState(3);
+
+  useEffect(() => {
+    // Fetch data from the API
+    axios.get('http://localhost:8080/api/users/getAllInfoFreelancer')
+      .then(response => {
+        const data = response.data.data.map(freelancer => ({
+          id: freelancer.freelancerId,
+          name: `${freelancer.lastName} ${freelancer.address}`,
+          avatar: freelancer.image,
+          skills: freelancer.skills.map(skill => skill.skillName),
+          education: freelancer.eduInfoFreelancerDTOList,
+          description: freelancer.eduInfoFreelancerDTOList[0]?.description || '',
+        }));
+        setFreelancers(data);
+        setFilteredFreelancers(data);
+      })
+      .catch(error => {
+        console.error('Error fetching freelancers:', error);
+      });
+  }, []);
 
   const onChange = (page) => {
     setCurrent(page);
@@ -93,13 +100,13 @@ const FreelancerList = () => {
       return matchesSkills && matchesRating;
     });
     setFilteredFreelancers(filtered);
-    setCurrent(1); // Reset to first page when filtering
+    setCurrent(1); 
   };
 
   const dataToDisplay = filteredFreelancers.slice((current - 1) * pageSize, current * pageSize);
 
   return (
-    <Row gutter={16} className='my-container mx-auto my-4'>
+    <Row gutter={16} className="my-container mx-auto my-4">
       <Col span={18}> 
         <Filter onFilterChange={handleFilterChange} />
         {dataToDisplay.length > 0 ? (
@@ -108,7 +115,7 @@ const FreelancerList = () => {
               grid={{ gutter: 16, column: 1 }}
               dataSource={dataToDisplay}
               renderItem={freelancer => (
-                <List.Item>
+                <List.Item key={freelancer.id}>
                   <FreelancerCard freelancer={freelancer} />
                 </List.Item>
               )}

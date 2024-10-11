@@ -1,14 +1,51 @@
-import React, { useState } from "react";
-import { Table, Select, Row, Col, Button, Modal } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Select, Button, Modal, message } from "antd";
 
 const { Option } = Select;
 
-const ProjectManagement = ({ projectData = [] }) => {
+const ProjectManagement = ({ setProjectData, projectData = [] }) => {
   const [statusFilter, setStatusFilter] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
 
-  const handleStatusChange = (value) => {
-    setStatusFilter(value);
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/Jobs/getAllJobName");
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log('project ', data)
+      setProjectData(data.data);
+    } catch (error) {
+      message.error(`Lỗi khi lấy dữ liệu: ${error.message}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const handleStatusChange = async (value, projectId) => {
+    // setStatusFilter(value);
+    try {
+      const response = await fetch(`http://localhost:8080/api/Jobs/changeStatus/${projectId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: value }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      message.success(`Trạng thái đã được cập nhật thành công`);
+      fetchProjects();
+    } catch (error) {
+      message.error(`Cập nhật trạng thái thất bại: ${error.message}`);
+    }
   };
 
   const handleDetailClick = (project) => {
@@ -20,41 +57,53 @@ const ProjectManagement = ({ projectData = [] }) => {
   };
 
   const filteredData = projectData.filter((project) => {
-    const matchesStatus =
-      statusFilter !== null ? project.status === statusFilter : true;
+    const matchesStatus = statusFilter ? project.status === statusFilter : true;
     return matchesStatus;
   });
 
   const columns = [
     {
-      title: "Tên Dự Án",
-      dataIndex: "projectName",
-      key: "projectName",
-      sorter: (a, b) => a.projectName.localeCompare(b.projectName),
+      title: "Tên Công Việc",
+      dataIndex: "title",
+      key: "title",
+      sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
       title: "Quản Lý",
-      dataIndex: "manager",
-      key: "manager",
-      sorter: (a, b) => a.manager.localeCompare(b.manager),
+      dataIndex: "clientName",
+      key: "clientName",
+      sorter: (a, b) => a.clientName.localeCompare(b.clientName),
     },
     {
       title: "Ngày Bắt Đầu",
-      dataIndex: "startDate",
-      key: "startDate",
-      sorter: (a, b) => new Date(a.startDate) - new Date(b.startDate),
+      dataIndex: "dateStart",
+      key: "dateStart",
+      sorter: (a, b) => new Date(a.dateStart) - new Date(b.dateStart),
     },
     {
       title: "Ngày Kết Thúc",
-      dataIndex: "endDate",
-      key: "endDate",
-      sorter: (a, b) => new Date(a.endDate) - new Date(b.endDate),
+      dataIndex: "dateEnd",
+      key: "dateEnd",
+      sorter: (a, b) => new Date(a.dateEnd) - new Date(b.dateEnd),
     },
     {
       title: "Trạng Thái",
       dataIndex: "status",
       key: "status",
       sorter: (a, b) => a.status.localeCompare(b.status),
+      render: (text, project) => (
+        <Select
+          defaultValue={text}
+          style={{ width: "100%" }}
+          onChange={(value) => handleStatusChange(value, project.id)}
+          allowClear
+        >
+          <Option value="Đang thực hiện">Đang thực hiện</Option>
+          <Option value="Hoàn thành">Hoàn thành</Option>
+          <Option value="Chờ xử lý">Chờ xử lý</Option>
+          <Option value="Hủy bỏ">Hủy bỏ</Option>
+        </Select>
+      ),
     },
     {
       title: "Chi tiết",
@@ -69,20 +118,6 @@ const ProjectManagement = ({ projectData = [] }) => {
 
   return (
     <div className="project-management-container">
-      <Row gutter={16} style={{ marginBottom: "16px" }}>
-        <Col span={8}>
-          <Select
-            placeholder="Chọn trạng thái"
-            style={{ width: "100%" }}
-            onChange={handleStatusChange}
-            allowClear
-          >
-            <Option value="In Progress">Đang hoạt động</Option>
-            <Option value="Completed">Hoàn thành</Option>
-            <Option value="Pending">Chưa hoàn thành</Option>
-          </Select>
-        </Col>
-      </Row>
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -99,16 +134,16 @@ const ProjectManagement = ({ projectData = [] }) => {
         {selectedProject && (
           <div>
             <p>
-              <strong>Tên Dự Án:</strong> {selectedProject.projectName}
+              <strong>Tên Công Việc:</strong> {selectedProject.title}
             </p>
             <p>
-              <strong>Quản Lý:</strong> {selectedProject.manager}
+              <strong>Quản Lý:</strong> {selectedProject.clientName}
             </p>
             <p>
-              <strong>Ngày Bắt Đầu:</strong> {selectedProject.startDate}
+              <strong>Ngày Bắt Đầu:</strong> {new Date(selectedProject.dateStart).toLocaleString()}
             </p>
             <p>
-              <strong>Ngày Kết Thúc:</strong> {selectedProject.endDate}
+              <strong>Ngày Kết Thúc:</strong> {new Date(selectedProject.dateEnd).toLocaleString()}
             </p>
             <p>
               <strong>Trạng Thái:</strong> {selectedProject.status}

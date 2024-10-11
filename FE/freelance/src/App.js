@@ -37,6 +37,7 @@ import Payment from "./component/Payment/Payment";
 import NavbarAdmin from "./component/Layout/Navbar/NavbarAdmin";
 import FreelancerProfile from "./component/FreelancerProfile/FreelancerProfile";
 import ChatBot from "./component/ChatBot/ChatBot";
+import JobList from "./component/JobList/JobList";
 const UserContext = React.createContext();
 
 const App = () => {
@@ -86,6 +87,7 @@ const App = () => {
                 element={<FreelancerListApplied />}
               />
               <Route path="/list-job-uploaded" element={<ListJobUploaded />} />
+              <Route path="/list-job" element={<JobList />} />
               <Route path="/list-todo-job" element={<ListToDoJob />} />
               <Route path="/job-detail" element={<JobDetail />} />
               <Route path="/chat" element={<Chat />} />
@@ -109,7 +111,6 @@ const App = () => {
     </UserContext.Provider>
   );
 };
-
 export default App;
 
 

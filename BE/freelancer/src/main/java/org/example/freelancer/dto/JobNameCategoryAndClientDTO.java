@@ -8,6 +8,7 @@ import org.example.freelancer.entity.StatusJob;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -23,11 +24,15 @@ public class JobNameCategoryAndClientDTO {
     private String typePrice;
     private StatusJob status;
     private LocalDateTime dateStart;
-
     private LocalDateTime dateEnd;
-
     private LocalDateTime dateCreate;
-
-    private String clientName; // Tên client
+    private String firstName;
+    private String lastName;
     private String categoryName; // Tên category
+    private List<String> skills;
+    private String description;
+
+    private CompanyDTO company;
+
 }
+

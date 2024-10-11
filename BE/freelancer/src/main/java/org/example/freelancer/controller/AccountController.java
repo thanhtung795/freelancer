@@ -1,16 +1,16 @@
 package org.example.freelancer.controller;
 
-import org.example.freelancer.dto.AccountDTO;
-import org.example.freelancer.dto.AccountUserSkillDTO;
-import org.example.freelancer.dto.LoginDTO;
-import org.example.freelancer.dto.RegisterDTO;
+import org.example.freelancer.dto.*;
 import org.example.freelancer.service.AccountService;
 import org.example.freelancer.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 
 @RestController
@@ -21,6 +21,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+
     @Autowired
     private RegisterService registerService;
 
@@ -28,6 +29,42 @@ public class AccountController {
     public ResponseEntity<List<AccountDTO>> getAllAccounts() {
         List<AccountDTO> accounts = accountService.getAllAccounts();
         return ResponseEntity.ok(accounts);
+    }
+
+    @GetMapping("/download/accounts/excel")
+    public ResponseEntity<byte[]> downloadAccounts() {
+        List<AccountUserSkillDTO> accountUserSkillDTOs = accountService.findAccountUserAndSkills();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            accountService.exportAccountsToExcel(accountUserSkillDTOs, outputStream);
+            byte[] excelBytes = outputStream.toByteArray();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "attachment; filename=accounts.xlsx");
+            return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/download/accounts/pdf")
+    public ResponseEntity<byte[]> downloadAccountsPDF() {
+        List<AccountUserSkillDTO> accountUserSkillDTOs = accountService.findAccountUserAndSkills();
+
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            accountService.exportAccountsToPDF(accountUserSkillDTOs, outputStream);
+
+            byte[] pdfBytes = outputStream.toByteArray();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "attachment; filename=accounts.pdf");
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 
@@ -102,11 +139,11 @@ public class AccountController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
         try {
-            AccountDTO accountDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
+            AccountRoleDTO accountRoleDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("message", "Login successful");
-            response.put("data", accountDTO);
+            response.put("data", accountRoleDTO);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             Map<String, Object> response = new HashMap<>();

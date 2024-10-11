@@ -31,12 +31,14 @@ public class Company {
     private String address;
 
     @Size(max = 255)
+    @Column(name = "description")
+    private String description;
+
+    @Size(max = 255)
     @Column(name = "location")
     private String location;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "client_id")
-    @JsonIgnore
     private Client client;
-
 }

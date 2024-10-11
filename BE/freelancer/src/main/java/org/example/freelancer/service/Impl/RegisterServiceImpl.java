@@ -13,6 +13,8 @@ import org.example.freelancer.repository.ClientRepository;
 import org.example.freelancer.repository.FreelancerRepository;
 import org.example.freelancer.repository.UserRepository;
 import org.example.freelancer.service.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,13 +33,15 @@ public class RegisterServiceImpl implements RegisterService {
 
     private final FreelancerRepository freelancerRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Override
     @Transactional  // Đánh dấu phương thức này là transaction
     public RegisterDTO registerAccount(RegisterDTO registerDTO) {
         // Lưu tài khoản
         Account account = new Account();
         account.setEmail(registerDTO.getEmail());
-        account.setPassword(registerDTO.getPassword());
+        account.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         account.setRole(registerDTO.getRole());
         account.setStatus(registerDTO.getStatus());
 

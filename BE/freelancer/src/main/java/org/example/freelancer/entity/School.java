@@ -27,6 +27,5 @@ public class School {
 
     @OneToMany(mappedBy = "school" , cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
-
     private List<Education> educations;
 }

@@ -17,6 +17,9 @@ public interface JobMapper {
     @Mapping(target = "dateStart", source = "dateStart", dateFormat = "yyyy-MM-dd")
     @Mapping(target = "dateEnd", source = "dateEnd", dateFormat = "yyyy-MM-dd")
     @Mapping(target = "dateCreate", source = "createdAt", dateFormat = "yyyy-MM-dd")
+    @Mapping(target = "description", source = "description")
+
+
     JobDTO toDto(Job job);
 
     @Mapping(target = "client.id", source = "clientId") // Gán clientId vào client
@@ -24,6 +27,7 @@ public interface JobMapper {
     @Mapping(target = "dateStart", source = "dateStart", dateFormat = "yyyy-MM-dd")
     @Mapping(target = "dateEnd", source = "dateEnd", dateFormat = "yyyy-MM-dd")
     @Mapping(target = "createdAt", source = "dateCreate", dateFormat = "yyyy-MM-dd")
+    @Mapping(target = "description", source = "description")
     Job toEntity(JobDTO dto);
 
 }

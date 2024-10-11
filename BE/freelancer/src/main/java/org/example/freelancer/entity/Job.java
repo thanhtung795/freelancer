@@ -64,10 +64,11 @@ public class Job {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(name = "description")
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
-    @JsonIgnore
-
     private Client client;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -77,12 +78,10 @@ public class Job {
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-
     private List<FreelancerJob> freelancerJobs = new ArrayList<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-
     private List<JobSkill> jobSkills = new ArrayList<>();
 
 }

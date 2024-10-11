@@ -21,5 +21,6 @@ public class CompanyDTO {
 
     private String location;
 
+    private String description;
     private Integer clientId;
 }
