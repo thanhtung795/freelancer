@@ -12,10 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @Validated
@@ -25,6 +22,20 @@ public class FreelancerController {
 
     private final FreelancerService freelancerService;
 
+    @GetMapping("/freelancerApply/{id}")
+    public ResponseEntity<?> getFreelancerApply(@PathVariable Integer id) {
+     Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",freelancerService.findAllByJobId(id));  
+            response.put("message","Đã lấy freelancer apply");
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("data",null);
+            response.put("message","Không thể lấy freelancer apply : "+e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
     @GetMapping
     public ResponseEntity<?> getFreelancers() {
         Map<String, Object> response =new HashMap<>();
