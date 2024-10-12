@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.freelancer.entity.StatusFreelancerJob;
 
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +23,7 @@ public class FreelancerJobDTO {
 
     private Boolean isSelected = false;
 
-    private Boolean status;
+    private StatusFreelancerJob status;
 
 
 }
