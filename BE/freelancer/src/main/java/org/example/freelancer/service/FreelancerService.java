@@ -16,4 +16,6 @@ public interface FreelancerService {
     CountResultDTO countFreelancersAndClientsDTO();
     List<FreelancerApplyDTO> findAllByJobId(Integer JobId);
     FreelancerDTO updateFreelancerImage(Integer id, String imageUrl);
+    FreelancerDTO updateFreelancerCategory(Integer id, Integer categoryId);
+
 }

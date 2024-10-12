@@ -141,5 +141,19 @@ public class FreelancerServiceImpl implements FreelancerService {
         Freelancer updatedFreelancer = freelancerRepository.save(freelancer);
         return freelancerMapper.toDTO(updatedFreelancer);
     }
+    @Override
+    @Transactional
+    public FreelancerDTO updateFreelancerCategory(Integer id, Integer categoryId) {
+        Freelancer freelancer = freelancerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Freelancer không tồn tại với id: " + id));
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category không tồn tại với id: " + categoryId));
+
+        freelancer.setCategory(category);
+        Freelancer updatedFreelancer = freelancerRepository.save(freelancer);
+
+        return freelancerMapper.toDTO(updatedFreelancer);
+    }
 
 }

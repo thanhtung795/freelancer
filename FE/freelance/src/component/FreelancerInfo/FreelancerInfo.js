@@ -9,8 +9,10 @@ const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 
 const FreelancerInfo = () => {
+    const [form] = Form.useForm();
     const [profileData, setProfileData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         address: '',
         title: '',
         intro: '',
@@ -29,6 +31,12 @@ const FreelancerInfo = () => {
     const [previewVisible, setPreviewVisible] = useState(false);
     const [fileList, setFileList] = useState([]);
     const [newSkill, setNewSkill] = useState('');
+    const [provinces, setProvinces] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [wards, setWards] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState(null);
+    const [selectedDistrict, setSelectedDistrict] = useState(null);
+    const [selectedWard, setSelectedWard] = useState(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -49,6 +57,7 @@ const FreelancerInfo = () => {
             fetchSchools();
             fetchSkills();
             fetchCategories();
+            fetchProvinces();
         }
     }, [idRole]);
 
@@ -58,7 +67,8 @@ const FreelancerInfo = () => {
             const freelancerData = response.data.data.find(f => f.freelancerId === idRole);
             if (freelancerData) {
                 setProfileData({
-                    name: `${freelancerData.firstName || ''} ${freelancerData.lastName || ''}`.trim(),
+                    firstName: freelancerData.firstName || '',
+                    lastName: freelancerData.lastName || '',
                     address: freelancerData.address || '',
                     title: freelancerData.categoryTitle || 'Chưa có ngành nghề',
                     image: freelancerData.image || '',
@@ -110,6 +120,43 @@ const FreelancerInfo = () => {
         }
     };
 
+    const fetchProvinces = async () => {
+        try {
+            const response = await axios.get('https://api.mysupership.vn/v1/partner/areas/province');
+            if (response.data && response.data.results) {
+                setProvinces(response.data.results);
+            }
+        } catch (error) {
+            console.error('Error fetching provinces:', error);
+        }
+    };
+
+    const fetchDistricts = async (provinceCode) => {
+        try {
+            const response = await axios.get(`https://api.mysupership.vn/v1/partner/areas/district?province=${provinceCode}`);
+            if (response.data && response.data.results) {
+                setDistricts(response.data.results);
+                form.setFieldsValue({ district: undefined, ward: undefined });
+                setSelectedDistrict(null);
+                setWards([]);
+            }
+        } catch (error) {
+            console.error('Error fetching districts:', error);
+        }
+    };
+
+    const fetchWards = async (districtCode) => {
+        try {
+            const response = await axios.get(`https://api.mysupership.vn/v1/partner/areas/commune?district=${districtCode}`);
+            if (response.data && response.data.results) {
+                setWards(response.data.results);
+                form.setFieldsValue({ ward: undefined });
+            }
+        } catch (error) {
+            console.error('Error fetching wards:', error);
+        }
+    };
+
     const handlePreview = async file => {
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
@@ -125,11 +172,11 @@ const FreelancerInfo = () => {
             message.error('Please select an image to upload');
             return;
         }
-    
+
         const formData = new FormData();
-        const fileName = `avatar${idRole}${fileList[0].name.slice(fileList[0].name.lastIndexOf('.'))}`; 
+        const fileName = `avatar${idRole}${fileList[0].name.slice(fileList[0].name.lastIndexOf('.'))}`;
         formData.append('file', fileList[0].originFileObj, fileName);
-    
+
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/upload',
@@ -140,12 +187,13 @@ const FreelancerInfo = () => {
                     },
                 }
             );
-    
+
             if (response.data.success) {
                 message.success('Avatar uploaded successfully');
                 await updateImageName(fileName);
                 fetchFreelancerInfo();
                 setFileList([]);
+                setEditing({ ...editing, avatar: false });
             } else {
                 message.error('Failed to upload avatar');
             }
@@ -154,8 +202,6 @@ const FreelancerInfo = () => {
             message.error('Failed to upload avatar');
         }
     };
-    
-
 
     const updateImageName = async (imageName) => {
         try {
@@ -167,17 +213,20 @@ const FreelancerInfo = () => {
         }
     };
 
-
     const handleEdit = (field) => {
-        setEditing({ ...editing, [field]: true });
+        setEditing({ ...editing, [field]: !editing[field] });
     };
 
     const handleSave = async (field, value) => {
         try {
-            await axios.put(`http://localhost:8080/api/users/${idRole}`, { [field]: value });
-            message.success(`${field} updated successfully`);
-            setEditing({ ...editing, [field]: false });
+            if (field === 'title') {
+                await axios.put(`http://localhost:8080/api/freelancers/${idRole}/update-category?categoryId=${value}`);
+            } else {
+                await axios.put(`http://localhost:8080/api/users/${idRole}`, { [field]: value });
+            }
+            message.success(`${field.charAt(0).toUpperCase() + field.slice(1)} updated successfully`);
             fetchFreelancerInfo();
+            setEditing({ ...editing, [field]: false });
         } catch (error) {
             console.error(`Error updating ${field}:`, error);
             message.error(`Failed to update ${field}`);
@@ -194,6 +243,7 @@ const FreelancerInfo = () => {
             });
             message.success('Education added successfully');
             fetchFreelancerInfo();
+            setEditing({ ...editing, education: false });
         } catch (error) {
             console.error('Error adding education:', error);
             message.error('Failed to add education');
@@ -237,22 +287,23 @@ const FreelancerInfo = () => {
                 {inputType === 'input' ? (
                     <Input
                         defaultValue={value}
-                        onBlur={(e) => handleSave(field, e.target.value)} // Save value on blur
+                        onBlur={(e) => handleSave(field, e.target.value)}
                     />
+                ) : inputType === 'category' ? (
+                    <Select style={{ width: '100%' }} onChange={(value) => handleSave(field, value)}>
+                        {categories.map(cat => <Option key={cat.id} value={cat.id}>{cat.categoryTitle}</Option>)}
+                    </Select>
                 ) : (
-                    <Select style={{ width: '100%' }}>
-                        {inputType === 'category'
-                            ? categories.map(cat => <Option key={cat.id} value={cat.id}>{cat.categoryTitle}</Option>)
-                            : allSkills.map(skill => <Option key={skill.id} value={skill.id}>{skill.skillName}</Option>)
-                        }
+                    <Select style={{ width: '100%' }} onChange={(value) => handleSave(field, value)}>
+                        {allSkills.map(skill => <Option key={skill.id} value={skill.id}>{skill.skillName}</Option>)}
                     </Select>
                 )}
                 <Button
-                    icon={<SaveOutlined />}
-                    onClick={() => handleSave(field, value)} // Ensure that value is passed for saving
+                    icon={<CloseOutlined />}
+                    onClick={() => setEditing({ ...editing, [field]: false })}
                     style={{ marginTop: '10px' }}
                 >
-                    Save
+                    Cancel
                 </Button>
             </Form.Item>
         ) : (
@@ -266,7 +317,6 @@ const FreelancerInfo = () => {
             </>
         );
     };
-
 
     const getBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -293,13 +343,13 @@ const FreelancerInfo = () => {
                                     style={{
                                         position: 'absolute',
                                         top: 0,
-                                        right: 'calc(50% - 75px)', // Position edit icon on top-right of avatar
+                                        right: 'calc(50% - 75px)',
                                         cursor: 'pointer',
                                         background: '#fff',
                                         borderRadius: '50%',
                                         padding: '5px',
                                     }}
-                                    onClick={() => setEditing({ ...editing, avatar: true })}
+                                    onClick={() => handleEdit('avatar')}
                                 >
                                     <EditOutlined />
                                 </div>
@@ -307,13 +357,16 @@ const FreelancerInfo = () => {
                                     <div style={{ textAlign: 'center' }}>
                                         <Upload
                                             name="avatar"
-                                            listType="picture"
+                                            listType="picture-card"
                                             showUploadList={false}
                                             beforeUpload={() => false}
                                             onChange={handleChange}
-                                            fileList={fileList}
+                                            onPreview={handlePreview}
                                         >
-                                            <Button icon={<UploadOutlined />}>Choose File</Button>
+                                            {fileList.length >= 1 ? null : <div>
+                                                <PlusOutlined />
+                                                <div style={{ marginTop: 8 }}>Upload</div>
+                                            </div>}
                                         </Upload>
                                         <Button
                                             onClick={handleAvatarUpload}
@@ -325,6 +378,14 @@ const FreelancerInfo = () => {
                                         </Button>
                                     </div>
                                 )}
+                            </div>
+                            <Modal visible={previewVisible} footer={null} onCancel={() => setPreviewVisible(false)}>
+                                <img alt="avatar" style={{ width: '100%' }} src={previewImage} />
+                            </Modal>
+                            <div style={{ textAlign: 'center' }}>
+                                <Title level={4}>{renderEditableField('firstName', profileData.firstName)}</Title>
+                                <Title level={4}>{renderEditableField('lastName', profileData.lastName)}</Title>
+                                <Paragraph>{renderEditableField('address', profileData.address, 'address')}</Paragraph>
                             </div>
                         </Card>
                     </Col>
@@ -367,6 +428,13 @@ const FreelancerInfo = () => {
                                 placeholder="Enter new skill"
                             />
                             <Button onClick={handleAddNewSkill} style={{ marginTop: '10px' }}>Add New Skill</Button>
+                            <Button
+                                icon={<CloseOutlined />}
+                                onClick={() => setEditing({ ...editing, skills: false })}
+                                style={{ marginTop: '10px', marginLeft: '10px' }}
+                            >
+                                Cancel
+                            </Button>
                         </>
                     ) : (
                         profileData.skills
@@ -376,7 +444,6 @@ const FreelancerInfo = () => {
                             })
                     )}
                 </Card>
-
 
                 <Card style={{ marginBottom: '20px' }} title="Education" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('education')} />}>
                     {profileData.education.map((edu, index) => (
@@ -415,8 +482,75 @@ const FreelancerInfo = () => {
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="submit">Add Education</Button>
+                                <Button
+                                    icon={<CloseOutlined />}
+                                    onClick={() => setEditing({ ...editing, education: false })}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    Cancel
+                                </Button>
                             </Form.Item>
                         </Form>
+                    )}
+                </Card>
+
+                <Card style={{ marginBottom: '20px' }} title="Address" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('address')} />}>
+                    {editing.address ? (
+                        <Form form={form} onFinish={(values) => handleSave('address', `${values.addressDetail}, ${values.ward}, ${values.district}, ${values.province}`)}>
+                            <Form.Item name="province" rules={[{ required: true }]}>
+                                <Select
+                                    placeholder="Select province"
+                                    onChange={(value) => {
+                                        setSelectedProvince(provinces.find(p => p.code === value));
+                                        fetchDistricts(value);
+                                    }}
+                                >
+                                    {provinces.map(province => (
+                                        <Option key={province.code} value={province.code}>{province.name}</Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                            <Form.Item name="district" rules={[{ required: true }]}>
+                                <Select
+                                    placeholder="Select district"
+                                    onChange={(value) => {
+                                        setSelectedDistrict(districts.find(d => d.code === value));
+                                        fetchWards(value);
+                                    }}
+                                    disabled={!selectedProvince}
+                                >
+                                    {districts.map(district => (
+                                        <Option key={district.code} value={district.code}>{district.name}</Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                            <Form.Item name="ward" rules={[{ required: true }]}>
+                                <Select
+                                    placeholder="Select ward"
+                                    onChange={(value) => setSelectedWard(wards.find(w => w.code === value))}
+                                    disabled={!selectedDistrict}
+                                >
+                                    {wards.map(ward => (
+                                        <Option key={ward.code} value={ward.code}>{ward.name}</Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                            <Form.Item name="addressDetail" rules={[{ required: true }]}>
+                                <Input placeholder="Enter detailed address" />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">Save Address</Button>
+                                <Button
+                                    icon={<CloseOutlined />}
+                                    onClick={() => setEditing({ ...editing, address: false })}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    Cancel
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    ) : (
+                        <Paragraph>{profileData.address || 'Address not set'}</Paragraph>
                     )}
                 </Card>
             </Content>
