@@ -7,9 +7,11 @@ import axios from 'axios';
 const { Option } = Select;
 
 const Filter = ({ onFilterChange }) => {
-  const [skills, setSkills] = useState([]); // For selected skills
-  const [rating, setRating] = useState('');
-  const [skillOptions, setSkillOptions] = useState([]); // For skills from API
+  const [skills, setSkills] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [skillOptions, setSkillOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
 
   // Fetch skills from the API on component load
   useEffect(() => {
@@ -22,10 +24,19 @@ const Filter = ({ onFilterChange }) => {
       .catch(error => {
         console.error('Error fetching skills:', error);
       });
+
+    // Fetch categories from the API
+    axios.get('http://localhost:8080/api/categories')
+      .then(response => {
+        setCategoryOptions(response.data); // Save the fetched categories
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
   }, []);
 
   const handleFilter = () => {
-    onFilterChange({ skills, rating });
+    onFilterChange({ skills, selectedCategory });
   };
 
   return (
@@ -46,13 +57,16 @@ const Filter = ({ onFilterChange }) => {
             ))}
           </Select>
           <Select
-            placeholder="Chọn Xếp Hạng"
-            style={{ flex: '0 0 20%', marginRight: '10px' }} 
-            onChange={setRating}
+            placeholder="Chọn Ngành nghề"
+            style={{ flex: '1', marginRight: '10px' }}
+            onChange={setSelectedCategory}
             allowClear
           >
-            <Option value="5">5</Option>
-            <Option value="4">4</Option>
+            {categoryOptions.map(category => (
+              <Option key={category.id} value={category.categoryTitle}>
+                {category.categoryTitle}
+              </Option>
+            ))}
           </Select>
           <Button type="primary" onClick={handleFilter}>
             Lọc
@@ -70,14 +84,15 @@ const FreelancerList = () => {
   const [pageSize, setPageSize] = useState(3);
 
   useEffect(() => {
-    // Fetch data from the API
     axios.get('http://localhost:8080/api/users/getAllInfoFreelancer')
       .then(response => {
         const data = response.data.data.map(freelancer => ({
           id: freelancer.freelancerId,
-          name: `${freelancer.lastName} ${freelancer.address}`,
+          name: `${freelancer.firstName} ${freelancer.lastName}`.trim(),
+          address:  `${freelancer.address}`,
           avatar: freelancer.image,
           skills: freelancer.skills.map(skill => skill.skillName),
+          categoryTitle: freelancer.categoryTitle,
           education: freelancer.eduInfoFreelancerDTOList,
           description: freelancer.eduInfoFreelancerDTOList[0]?.description || '',
         }));
@@ -93,14 +108,14 @@ const FreelancerList = () => {
     setCurrent(page);
   };
 
-  const handleFilterChange = ({ skills, rating }) => {
+  const handleFilterChange = ({ skills, selectedCategory }) => {
     const filtered = freelancers.filter(freelancer => {
       const matchesSkills = skills.length ? skills.every(skill => freelancer.skills.includes(skill)) : true;
-      const matchesRating = rating ? freelancer.rating === Number(rating) : true;
-      return matchesSkills && matchesRating;
+      const matchesCategory = selectedCategory ? freelancer.categoryTitle === selectedCategory : true;
+      return matchesSkills && matchesCategory;
     });
     setFilteredFreelancers(filtered);
-    setCurrent(1); 
+    setCurrent(1);
   };
 
   const dataToDisplay = filteredFreelancers.slice((current - 1) * pageSize, current * pageSize);

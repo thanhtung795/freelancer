@@ -16,7 +16,6 @@ import java.util.List;
 public class FreelancerDTO {
 
     private Integer id;
-
     private String image;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Hourly rate phải lớn hơn 0")

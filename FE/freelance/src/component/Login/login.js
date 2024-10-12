@@ -1,24 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthService from "../../services/AuthService"; 
+import AuthService from "../../services/AuthService";
 import { message } from "antd";
 
 function LogIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [step, setStep] = useState(1);
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleButtonClick = () => {
     navigate('/joinAs');
-  };
-
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    if (email) {
-      setStep(2);
-    }
   };
 
   const handleLogin = async (e) => {
@@ -47,37 +39,34 @@ function LogIn() {
         >
           <h3 className="text-center">Đăng nhập</h3>
           {error && <div className="alert alert-danger">{error}</div>}
-          <form onSubmit={step === 1 ? handleEmailSubmit : handleLogin}>
-            {step === 1 ? (
-              <div className="form-group d-flex justify-content-center">
-                <input
-                  type="email"
-                  className="form-control w-100 w-md-75"
-                  placeholder="Nhập tên tài khoản hoặc email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-            ) : (
-              <div className="form-group d-flex justify-content-center">
-                <input
-                  type="password"
-                  className="form-control w-100 w-md-75"
-                  placeholder="Nhập mật khẩu"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-            )}
+          <form onSubmit={handleLogin}>
+            <div className="form-group d-flex justify-content-center">
+              <input
+                type="email"
+                className="form-control w-100 w-md-75"
+                placeholder="Nhập tên tài khoản hoặc email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group d-flex justify-content-center mt-3">
+              <input
+                type="password"
+                className="form-control w-100 w-md-75"
+                placeholder="Nhập mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
             <div className="text-center mt-4">
               <button
                 type="submit"
                 className="btn btn-primary w-100 w-md-75 mb-3"
                 style={{ backgroundColor: "#4169E1" }}
               >
-                {step === 1 ? 'Tiếp tục' : 'Đăng nhập'}
+                Đăng nhập
               </button>
             </div>
           </form>
@@ -90,9 +79,7 @@ function LogIn() {
               <i className="fab fa-apple"></i> Đăng nhập với Apple
             </button>
           </div>
-          <p className="text-muted text-center mt-5">
-            Bạn đã có tài khoản chưa?
-          </p>
+          <p className="text-muted text-center mt-5">Bạn đã có tài khoản chưa?</p>
           <div className="text-center mt-5">
             <button
               type="button"

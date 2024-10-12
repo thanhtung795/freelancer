@@ -13,4 +13,5 @@ public interface UserService {
     UserDTO updateUser(Integer id, UserDTO userDTO);
     void deleteUser(Integer id);
     List<InfoFreelancerDTO> findAllFreelancers();
+    UserDTO partialUpdateUser(Integer id, UserDTO userDTO);
 }
