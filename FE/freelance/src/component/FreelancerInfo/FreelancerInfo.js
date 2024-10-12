@@ -125,10 +125,11 @@ const FreelancerInfo = () => {
             message.error('Please select an image to upload');
             return;
         }
-
+    
         const formData = new FormData();
-        formData.append('file', fileList[0].originFileObj);
-
+        const fileName = `avatar${idRole}${fileList[0].name.slice(fileList[0].name.lastIndexOf('.'))}`; 
+        formData.append('file', fileList[0].originFileObj, fileName);
+    
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/upload',
@@ -137,15 +138,12 @@ const FreelancerInfo = () => {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
-                    params: {
-                        fileName: `freelancerAvt${idRole}`
-                    }
                 }
             );
-
+    
             if (response.data.success) {
                 message.success('Avatar uploaded successfully');
-                await updateImageName(fileList[0].name);
+                await updateImageName(fileName);
                 fetchFreelancerInfo();
                 setFileList([]);
             } else {
@@ -156,6 +154,8 @@ const FreelancerInfo = () => {
             message.error('Failed to upload avatar');
         }
     };
+    
+
 
     const updateImageName = async (imageName) => {
         try {
@@ -166,6 +166,7 @@ const FreelancerInfo = () => {
             message.error('Failed to update image name');
         }
     };
+
 
     const handleEdit = (field) => {
         setEditing({ ...editing, [field]: true });
@@ -234,7 +235,10 @@ const FreelancerInfo = () => {
         return editing[field] ? (
             <Form.Item name={field} initialValue={value}>
                 {inputType === 'input' ? (
-                    <Input />
+                    <Input
+                        defaultValue={value}
+                        onBlur={(e) => handleSave(field, e.target.value)} // Save value on blur
+                    />
                 ) : (
                     <Select style={{ width: '100%' }}>
                         {inputType === 'category'
@@ -243,15 +247,26 @@ const FreelancerInfo = () => {
                         }
                     </Select>
                 )}
-                <Button icon={<SaveOutlined />} onClick={() => handleSave(field, value)} style={{ marginTop: '10px' }}>Save</Button>
+                <Button
+                    icon={<SaveOutlined />}
+                    onClick={() => handleSave(field, value)} // Ensure that value is passed for saving
+                    style={{ marginTop: '10px' }}
+                >
+                    Save
+                </Button>
             </Form.Item>
         ) : (
             <>
-                <Text>{value}</Text>
-                <Button icon={<EditOutlined />} onClick={() => handleEdit(field)} />
+                <Text>{value || 'Chưa cập nhật'}</Text>
+                <Button
+                    icon={<EditOutlined />}
+                    onClick={() => handleEdit(field)}
+                    style={{ marginLeft: '10px' }}
+                />
             </>
         );
     };
+
 
     const getBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -268,30 +283,48 @@ const FreelancerInfo = () => {
                 <Row justify="space-between" align="middle" style={{ backgroundColor: '#fff', width: '100%' }}>
                     <Col>
                         <Card style={{ marginBottom: '20px', width: '100%' }}>
-                            <div style={{ textAlign: 'center', marginBottom: 16 }}>
-                                <Upload
-                                    name="avatar"
-                                    listType="picture-card"
-                                    className="avatar-uploader"
-                                    showUploadList={true}
-                                    beforeUpload={() => false}
-                                    onChange={handleChange}
-                                    onPreview={handlePreview}
-                                    fileList={fileList}
+                            <div style={{ position: 'relative', textAlign: 'center', marginBottom: 16 }}>
+                                <Avatar
+                                    size={150}
+                                    src={`http://localhost:8080/uploads/images/${profileData.image}`}
+                                    style={{ marginBottom: '16px' }}
+                                />
+                                <div
+                                    style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 'calc(50% - 75px)', // Position edit icon on top-right of avatar
+                                        cursor: 'pointer',
+                                        background: '#fff',
+                                        borderRadius: '50%',
+                                        padding: '5px',
+                                    }}
+                                    onClick={() => setEditing({ ...editing, avatar: true })}
                                 >
-                                    {fileList.length >= 1 ? null : (
-                                        <div>
-                                            <PlusOutlined />
-                                            <div style={{ marginTop: 8 }}>Upload</div>
-                                        </div>
-                                    )}
-                                </Upload>
-                                <Button onClick={handleAvatarUpload} icon={<UploadOutlined />}>Upload Avatar</Button>
-                                <Modal visible={previewVisible} footer={null} onCancel={() => setPreviewVisible(false)}>
-                                    <img alt="preview" style={{ width: '100%' }} src={previewImage} />
-                                </Modal>
-                                <Title level={4} style={{ margin: '8px 0' }}>{renderEditableField('name', profileData.name)}</Title>
-                                <Text type="secondary">{renderEditableField('address', profileData.address)}</Text>
+                                    <EditOutlined />
+                                </div>
+                                {editing.avatar && (
+                                    <div style={{ textAlign: 'center' }}>
+                                        <Upload
+                                            name="avatar"
+                                            listType="picture"
+                                            showUploadList={false}
+                                            beforeUpload={() => false}
+                                            onChange={handleChange}
+                                            fileList={fileList}
+                                        >
+                                            <Button icon={<UploadOutlined />}>Choose File</Button>
+                                        </Upload>
+                                        <Button
+                                            onClick={handleAvatarUpload}
+                                            icon={<UploadOutlined />}
+                                            type="primary"
+                                            style={{ marginTop: '8px' }}
+                                        >
+                                            Upload Avatar
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         </Card>
                     </Col>

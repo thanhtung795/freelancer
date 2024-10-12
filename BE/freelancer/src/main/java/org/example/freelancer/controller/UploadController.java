@@ -29,8 +29,9 @@ public class UploadController {
             return ResponseEntity.badRequest().body(response);
         } else {
             try {
+                // Dùng tên file mà client gửi lên thay vì original filename
                 String fileName = file.getOriginalFilename();
-                FileUploadUtil.saveFile(fileName, file);  // Lưu tệp
+                FileUploadUtil.saveFile(fileName, file);  // Lưu tệp với tên mới
 
                 // Trả về đường dẫn có thể truy cập ảnh
                 String fileUrl = "http://localhost:8080/uploads/images/" + fileName;
@@ -46,4 +47,5 @@ public class UploadController {
             }
         }
     }
+
 }
