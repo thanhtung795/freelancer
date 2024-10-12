@@ -44,14 +44,20 @@ public class EducationServiceImpl implements EducationService {
 
     @Override
     public EducationDTO addEducation(EducationDTO educationDTO) {
+        // tim doi tuong education trong database theo id
         Education education = educationMapper.toEntity(educationDTO);
         Freelancer freelancer = freelancerRepository
                 .findById(educationDTO.getFreelancerId()).orElse(null);
+
+        // tim doi tuong school, major, degree trong database theo id
         School school = schoolRepository.findById(educationDTO.getSchoolId()).orElse(null);
+        // tim doi tuong major, degree trong database theo id
         Major major = majorRepository.findById(educationDTO.getMajorId()).orElse(null);
+
+        // tim doi tuong degree trong database theo id
         Degree degree = degreeRepository.findById(educationDTO.getDegreeId()).orElse(null);
         if (freelancer != null && school != null && major != null && degree != null) {
-
+        //  neu cac truong khac null thi laly doi tuong mappvao entity  eudcation
             education.setFreelancer(freelancer);
             education.setSchool(school);
             education.setMajor(major);

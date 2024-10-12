@@ -22,7 +22,7 @@ public class FreelancerJobDTO {
 
     private Boolean isSelected = false;
 
-    private String status;
+    private Boolean status;
 
 
 }
