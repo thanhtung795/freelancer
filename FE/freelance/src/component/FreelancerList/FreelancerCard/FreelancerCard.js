@@ -25,7 +25,7 @@ const FreelancerCard = ({ freelancer }) => {
         <Col>
           <Avatar
             size={64}
-            src={avatar ? `path-to-image/${avatar}` : null}
+            src={avatar ? `http://localhost:8080/uploads/images/${avatar}` : null}
             icon={!avatar && <UserOutlined />}
           />
         </Col>

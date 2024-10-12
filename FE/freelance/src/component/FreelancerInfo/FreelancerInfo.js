@@ -60,11 +60,11 @@ const FreelancerInfo = () => {
                 setProfileData({
                     name: `${freelancerData.firstName || ''} ${freelancerData.lastName || ''}`.trim(),
                     address: freelancerData.address || '',
-                    title: freelancerData.categoryTitle || 'Not specified',
+                    title: freelancerData.categoryTitle || 'Chưa có ngành nghề',
                     image: freelancerData.image || '',
                     skills: freelancerData.skills
-                        .filter(skill => skill.skillName)
-                        .map(skill => skill.skillName),
+                        .filter(skill => skill.id && skill.skillName)
+                        .map(skill => skill.id),
                     education: freelancerData.eduInfoFreelancerDTOList || [],
                 });
             }
@@ -104,7 +104,7 @@ const FreelancerInfo = () => {
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/categories');
-            setCategories(response.data.data);
+            setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
@@ -201,17 +201,13 @@ const FreelancerInfo = () => {
 
     const handleSkillChange = async (selectedSkills) => {
         try {
-            // Remove all existing skills
             await axios.delete(`http://localhost:8080/api/freelancerSkill/${idRole}`);
-
-            // Add new skills
             for (const skillId of selectedSkills) {
                 await axios.post('http://localhost:8080/api/freelancerSkill', {
                     freelancerId: idRole,
                     skillId: skillId
                 });
             }
-
             message.success('Skills updated successfully');
             fetchFreelancerInfo();
         } catch (error) {
@@ -222,7 +218,6 @@ const FreelancerInfo = () => {
 
     const handleAddNewSkill = async () => {
         if (!newSkill) return;
-
         try {
             const response = await axios.post('http://localhost:8080/api/skills', { skillName: newSkill });
             const newSkillId = response.data.data.id;
@@ -242,7 +237,7 @@ const FreelancerInfo = () => {
                     <Input />
                 ) : (
                     <Select style={{ width: '100%' }}>
-                        {inputType === 'category' 
+                        {inputType === 'category'
                             ? categories.map(cat => <Option key={cat.id} value={cat.id}>{cat.categoryTitle}</Option>)
                             : allSkills.map(skill => <Option key={skill.id} value={skill.id}>{skill.skillName}</Option>)
                         }
@@ -341,9 +336,14 @@ const FreelancerInfo = () => {
                             <Button onClick={handleAddNewSkill} style={{ marginTop: '10px' }}>Add New Skill</Button>
                         </>
                     ) : (
-                        profileData.skills.map(skill => <Tag key={skill}>{skill}</Tag>)
+                        profileData.skills
+                            .map(skillId => {
+                                const skill = allSkills.find(s => s.id === skillId);
+                                return skill ? <Tag key={skill.id}>{skill.skillName}</Tag> : null;
+                            })
                     )}
                 </Card>
+
 
                 <Card style={{ marginBottom: '20px' }} title="Education" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('education')} />}>
                     {profileData.education.map((edu, index) => (
