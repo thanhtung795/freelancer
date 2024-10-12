@@ -126,4 +126,21 @@ public class FreelancerController {
         }
         return ResponseEntity.ok(response);
     }
+
+    @PutMapping("/{id}/update-category")
+    public ResponseEntity<?> updateFreelancerCategory(@PathVariable Integer id, @RequestParam("categoryId") Integer categoryId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            FreelancerDTO updatedFreelancer = freelancerService.updateFreelancerCategory(id, categoryId);
+            response.put("success", true);
+            response.put("data", updatedFreelancer);
+            response.put("message", "Đã cập nhật category của freelancer thành công");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", "Không thể cập nhật category của freelancer: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+
 }
