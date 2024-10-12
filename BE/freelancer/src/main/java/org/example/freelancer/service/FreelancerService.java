@@ -1,6 +1,7 @@
 package org.example.freelancer.service;
 
 import org.example.freelancer.dto.CountResultDTO;
+import org.example.freelancer.dto.FreelancerApplyDTO;
 import org.example.freelancer.dto.FreelancerDTO;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface FreelancerService {
     Boolean deleteFreelancer(Integer id);
     List<Object[]> countFreelancersAndClients();
     CountResultDTO countFreelancersAndClientsDTO();
+    List<FreelancerApplyDTO> findAllByJobId(Integer JobId);
 }
