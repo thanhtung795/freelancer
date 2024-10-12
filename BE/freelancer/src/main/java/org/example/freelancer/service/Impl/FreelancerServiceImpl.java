@@ -1,19 +1,17 @@
 package org.example.freelancer.service.Impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.freelancer.dto.AccountUserSkillDTO;
 import org.example.freelancer.dto.CountResultDTO;
+import org.example.freelancer.dto.FreelancerApplyDTO;
 import org.example.freelancer.dto.FreelancerDTO;
-import org.example.freelancer.entity.Category;
-import org.example.freelancer.entity.Freelancer;
-import org.example.freelancer.entity.FreelancerJob;
-import org.example.freelancer.entity.User;
+import org.example.freelancer.entity.*;
 import org.example.freelancer.mapper.*;
 import org.example.freelancer.repository.*;
 import org.example.freelancer.service.FreelancerService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,15 +24,12 @@ public class FreelancerServiceImpl implements FreelancerService {
     private final FreelancerMapper freelancerMapper;
 
     private final CategoryRepository categoryRepository;
-    private final CategoryMapper categoryMapper;
 
     private final UserRepository userRepository;
 
-    private final FreelancerJobMapper freelancerJobMapper;
-    private final FreelancerSkillMapper freelancerSkillMapper;
-    private final EducationMapper educationMapper;
+    private final FreelancerApplyMapper freelancerApplyMapper;
 
-    private final AccountRepository accountRepository;
+    private final FreelancerJobRepository freelancerJobRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -125,5 +120,17 @@ public class FreelancerServiceImpl implements FreelancerService {
         }
         return new CountResultDTO(0L, 0L); // Nếu không có kết quả nào
     }
+
+    @Override
+    public List<FreelancerApplyDTO> findAllByJobId(Integer jobId) {
+        List<FreelancerApplyDTO> results = freelancerRepository.findAllByJobId(jobId);
+
+        if (results.isEmpty()) {
+            throw new IllegalArgumentException("Không tìm thấy freelancer nào cho công việc có ID: " + jobId);
+        }
+
+        return results;
+    }
+
 
 }

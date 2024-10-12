@@ -1,13 +1,12 @@
 package org.example.freelancer.dto;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -28,10 +27,10 @@ public class EducationDTO {
     private Integer degreeId; // Có thể null nếu không bắt buộc
 
     @NotNull(message = "Ngày bắt đầu không được để trống")
-    private LocalDate dateStart;
+    private Date dateStart;
 
     @NotNull(message = "Ngày kết thúc không được để trống")
-    private LocalDate dateEnd;
+    private Date dateEnd;
 
     private String description;
 }
