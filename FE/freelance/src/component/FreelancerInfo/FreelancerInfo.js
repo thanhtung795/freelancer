@@ -60,7 +60,7 @@ const FreelancerInfo = () => {
                 setProfileData({
                     name: `${freelancerData.firstName || ''} ${freelancerData.lastName || ''}`.trim(),
                     address: freelancerData.address || '',
-                    title: freelancerData.categoryTitle || 'Not specified',
+                    title: freelancerData.categoryTitle || 'Chưa có ngành nghề',
                     image: freelancerData.image || '',
                     skills: freelancerData.skills
                         .filter(skill => skill.id && skill.skillName)
@@ -104,7 +104,7 @@ const FreelancerInfo = () => {
     const fetchCategories = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/categories');
-            setCategories(response.data.data);
+            setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
@@ -201,17 +201,13 @@ const FreelancerInfo = () => {
 
     const handleSkillChange = async (selectedSkills) => {
         try {
-            // Remove all existing skills
             await axios.delete(`http://localhost:8080/api/freelancerSkill/${idRole}`);
-
-            // Add new skills
             for (const skillId of selectedSkills) {
                 await axios.post('http://localhost:8080/api/freelancerSkill', {
                     freelancerId: idRole,
                     skillId: skillId
                 });
             }
-
             message.success('Skills updated successfully');
             fetchFreelancerInfo();
         } catch (error) {

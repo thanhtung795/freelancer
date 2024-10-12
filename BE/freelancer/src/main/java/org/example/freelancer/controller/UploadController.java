@@ -18,10 +18,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UploadController {
 
-    private final FileUploadUtil  fileUploadUtil;
+    private final FileUploadUtil fileUploadUtil;
 
     @PostMapping
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         Map<String, Object> response = new LinkedHashMap<>();
         if (file.isEmpty()) {
             response.put("success", false);
@@ -30,10 +30,17 @@ public class UploadController {
         } else {
             try {
                 String fileName = file.getOriginalFilename();
-                fileUploadUtil.saveFile(fileName, file, "image");
+                FileUploadUtil.saveFile(fileName, file);  // Lưu tệp
+
+                // Trả về đường dẫn có thể truy cập ảnh
+                String fileUrl = "http://localhost:8080/uploads/images/" + fileName;
+                response.put("success", true);
                 response.put("message", "Uploaded the file successfully: " + fileName);
-                return ResponseEntity.status(200).body(response);
-            } catch (Exception e) {
+                response.put("url", fileUrl);
+
+                return ResponseEntity.ok(response);
+            } catch (IOException e) {
+                response.put("success", false);
                 response.put("message", "Could not upload the file: " + file.getOriginalFilename() + "!");
                 return ResponseEntity.status(500).body(response);
             }
