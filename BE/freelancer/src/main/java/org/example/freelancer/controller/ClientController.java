@@ -1,8 +1,11 @@
 package org.example.freelancer.controller;
 
+import org.example.freelancer.dto.ClientCompanyDTO;
 import org.example.freelancer.dto.ClientDTO;
+import org.example.freelancer.dto.ResponseObject;
 import org.example.freelancer.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +58,22 @@ public class ClientController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/with-company")
+    public ResponseEntity<ResponseObject<List<ClientCompanyDTO>>> getClientWithCompanyDetails() {
+        List<ClientCompanyDTO> clients = clientService.getClientWithCompanyDetails();
+        if (clients.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body((ResponseObject.<List<ClientCompanyDTO>>builder()
+                    .message("No client found")
+                    .status(404)
+                    .build()));
+        }
+
+        return ResponseEntity.ok(ResponseObject.<List<ClientCompanyDTO>>builder()
+                .data(clients)
+                .message("Get all clients successfully")
+                .status(200)
+                .build());
     }
 }

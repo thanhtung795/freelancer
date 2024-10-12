@@ -1,7 +1,9 @@
 package org.example.freelancer.service.Impl;
 
 
+import org.example.freelancer.dto.ClientCompanyDTO;
 import org.example.freelancer.dto.ClientDTO;
+import org.example.freelancer.dto.CompanyDTO;
 import org.example.freelancer.mapper.ClientMapper;
 import org.example.freelancer.entity.Client;
 import org.example.freelancer.repository.ClientRepository;
@@ -10,6 +12,7 @@ import org.example.freelancer.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,5 +69,31 @@ public class ClientServiceImpl implements ClientService {
             throw new RuntimeException("Client not found.");
         }
         clientRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ClientCompanyDTO> getClientWithCompanyDetails() {
+        List<Object[]> results = clientRepository.findClientWithCompanyDetails();
+        List<ClientCompanyDTO> dtos = new ArrayList<>();
+
+        for (Object[] row : results) {
+            Integer clientId = (Integer) row[0];
+            String email = (String) row[1];
+            String firstName = (String) row[2];
+            String lastName = (String) row[3];
+            String phoneNumber = (String) row[4];
+
+            CompanyDTO company = new CompanyDTO(
+                    (Integer) row[5],
+                    (String) row[6],
+                    (String) row[7],
+                    (String) row[8]
+            );
+
+            ClientCompanyDTO dto = new ClientCompanyDTO(clientId, email, firstName, lastName, phoneNumber, company);
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 }

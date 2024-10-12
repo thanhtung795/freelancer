@@ -1,5 +1,6 @@
 package org.example.freelancer.service;
 
+import org.example.freelancer.dto.ClientCompanyDTO;
 import org.example.freelancer.dto.ClientDTO;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface ClientService {
     Optional<ClientDTO> getClientById(Integer id);
     ClientDTO updateClient(Integer id, ClientDTO clientDTO);
     void deleteClient(Integer id);
+    List<ClientCompanyDTO> getClientWithCompanyDetails();
 }

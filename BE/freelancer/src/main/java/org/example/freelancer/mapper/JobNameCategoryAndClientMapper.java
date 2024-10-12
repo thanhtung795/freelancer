@@ -24,7 +24,7 @@ public interface JobNameCategoryAndClientMapper {
     @Mapping(target = "company.companyName", source = "client.company.companyName")
     @Mapping(target = "company.phoneContact", source = "client.company.phoneContact")
     @Mapping(target = "company.address", source = "client.company.address")
-    @Mapping(target = "company.location", source = "client.company.location")
+//    @Mapping(target = "company.location", source = "client.company.location")
     @Mapping(target = "company.description ", source = "client.company.description")
     @Mapping(target = "company.clientId", source = "client.company.client.id")
     JobNameCategoryAndClientDTO toDto(Job job);
@@ -36,7 +36,7 @@ public interface JobNameCategoryAndClientMapper {
     @Mapping(target = "client.company.companyName", source = "company.companyName")
     @Mapping(target = "client.company.phoneContact", source = "company.phoneContact")
     @Mapping(target = "client.company.address", source = "company.address")
-    @Mapping(target = "client.company.location", source = "company.location")
+//    @Mapping(target = "client.company.location", source = "company.location")
     @Mapping(target = "client.company.description ", source = "company.description")
     @Mapping(target = "client.company.client.id", source = "company.clientId")
     Job toEntity(JobNameCategoryAndClientDTO jobDTO);

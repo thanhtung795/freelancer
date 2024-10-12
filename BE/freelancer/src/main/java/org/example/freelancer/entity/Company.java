@@ -34,9 +34,9 @@ public class Company {
     @Column(name = "description")
     private String description;
 
-    @Size(max = 255)
+    /*@Size(max = 255)
     @Column(name = "location")
-    private String location;
+    private String location;*/
 
     @OneToOne
     @JoinColumn(name = "client_id")
