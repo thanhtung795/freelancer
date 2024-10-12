@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SchoolDTO {
-    @NotNull(message = "ID trường không được để trống")
     private Integer id;
 
     @NotEmpty(message = "Tên trường không được bỏ trống")

@@ -12,15 +12,12 @@ import javax.validation.constraints.Size;
 public class UserDTO {
     private Integer id;
 
-    @NotBlank(message = "Họ không được để trống")
     @Size(max = 255, message = "Họ phải có tối đa 255 ký tự")
     private String firstName;
 
-    @NotBlank(message = "Tên không được để trống")
     @Size(max = 255, message = "Tên phải có tối đa 255 ký tự")
     private String lastName;
 
-    @NotBlank(message = "Số điện thoại không được để trống")
     @Size(max = 20, message = "Số điện thoại phải có tối đa 20 ký tự")
     private String phoneNumber;
 

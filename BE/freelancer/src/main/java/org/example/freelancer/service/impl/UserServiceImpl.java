@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDTO.getLastName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAddress(userDTO.getAddress());
-        // Nếu có một Account, có thể lấy từ ID và gán
         if(userDTO.getAccountId() != null) {
             user.setAccount(accountRepository.findById(userDTO.getAccountId()).orElse(null));
         }
@@ -75,6 +74,36 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found.");
         }
         userRepository.deleteById(id);
+    }
+    @Override
+    public UserDTO partialUpdateUser(Integer id, UserDTO userDTO) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        boolean updated = false;
+
+        if (userDTO.getFirstName() != null) {
+            user.setFirstName(userDTO.getFirstName());
+            updated = true;
+        }
+        if (userDTO.getLastName() != null) {
+            user.setLastName(userDTO.getLastName());
+            updated = true;
+        }
+        if (userDTO.getPhoneNumber() != null) {
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            updated = true;
+        }
+        if (userDTO.getAddress() != null) {
+            user.setAddress(userDTO.getAddress());
+            updated = true;
+        }
+
+        if (updated) {
+            user = userRepository.save(user);
+        }
+
+        return UserMapper.INSTANCE.userToUserDTO(user);
     }
 
     @Override

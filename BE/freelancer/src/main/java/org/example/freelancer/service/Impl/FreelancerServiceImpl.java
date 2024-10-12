@@ -131,6 +131,15 @@ public class FreelancerServiceImpl implements FreelancerService {
 
         return results;
     }
+    @Override
+    @Transactional
+    public FreelancerDTO updateFreelancerImage(Integer id, String imageUrl) {
+        Freelancer freelancer = freelancerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Freelancer không tồn tại với id: " + id));
 
+        freelancer.setImage(imageUrl);
+        Freelancer updatedFreelancer = freelancerRepository.save(freelancer);
+        return freelancerMapper.toDTO(updatedFreelancer);
+    }
 
 }

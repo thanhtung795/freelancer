@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;  // Import @Valid
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,13 +45,19 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Integer id, @Valid @RequestBody UserDTO userDTO) {  // Thêm @Valid
+    public ResponseEntity<?> updateUser(@PathVariable Integer id, @Valid @RequestBody UserDTO userDTO) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            UserDTO updatedUser = userService.updateUser(id, userDTO);
-            return ResponseEntity.ok(updatedUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            UserDTO updatedUser = userService.partialUpdateUser(id, userDTO);
+            response.put("success", true);
+            response.put("data", updatedUser);
+            response.put("message", "Đã cập nhật người dùng");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", "Không thể cập nhật người dùng: " + e.getMessage());
         }
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")

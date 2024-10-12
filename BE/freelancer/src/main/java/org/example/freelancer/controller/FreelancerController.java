@@ -68,7 +68,21 @@ public class FreelancerController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PutMapping("/{id}/update-image")
+    public ResponseEntity<?> updateFreelancerImage(@PathVariable Integer id, @RequestParam("image") String imageUrl) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            FreelancerDTO updatedFreelancer = freelancerService.updateFreelancerImage(id, imageUrl);
+            response.put("success", true);
+            response.put("data", updatedFreelancer);
+            response.put("message", "Đã cập nhật hình ảnh freelancer thành công");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", "Không thể cập nhật hình ảnh freelancer: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<?> updateFreelancer(@PathVariable Integer id, @RequestBody FreelancerDTO freelancerDTO) {
         Map<String, Object> response = new HashMap<>();
