@@ -47,4 +47,18 @@ public class FreelancerSkillController {
         }
         return ResponseEntity.ok(response);
     }
+    @DeleteMapping("/{idRole}")
+    public ResponseEntity<?> deleteAllSkillsByRoleId(@PathVariable Integer idRole) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            freelancerSkillService.deleteAllSkillsByRoleId(idRole);
+            response.put("success", true);
+            response.put("message", "Đã xóa toàn bộ kỹ năng của freelancer với idRole " + idRole);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Không thể xóa các kỹ năng: " + e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+
 }

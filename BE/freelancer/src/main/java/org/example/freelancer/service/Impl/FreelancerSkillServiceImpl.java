@@ -1,10 +1,8 @@
 package org.example.freelancer.service.Impl;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.example.freelancer.dto.FreelancerSkillDTO;
 import org.example.freelancer.entity.Freelancer;
-import org.example.freelancer.entity.FreelancerJob;
 import org.example.freelancer.entity.FreelancerSkill;
 import org.example.freelancer.entity.Skill;
 import org.example.freelancer.mapper.FreelancerSkillMapper;
@@ -46,4 +44,13 @@ public class FreelancerSkillServiceImpl implements FreelancerSkillService {
 
         return freelancerSkillMapper.toDto(freelancerSkillRepository.save(freelancerSkill));
     }
+    @Override
+    public void deleteAllSkillsByRoleId(Integer idRole) {
+        List<FreelancerSkill> skillsToDelete = freelancerSkillRepository.findByFreelancer_Id(idRole);
+        if (skillsToDelete.isEmpty()) {
+            throw new RuntimeException("No skills found for freelancer with idRole " + idRole);
+        }
+        freelancerSkillRepository.deleteAll(skillsToDelete);
+    }
+
 }

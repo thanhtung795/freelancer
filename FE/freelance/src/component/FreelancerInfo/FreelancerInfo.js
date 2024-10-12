@@ -63,8 +63,8 @@ const FreelancerInfo = () => {
                     title: freelancerData.categoryTitle || 'Not specified',
                     image: freelancerData.image || '',
                     skills: freelancerData.skills
-                        .filter(skill => skill.skillName)
-                        .map(skill => skill.skillName),
+                        .filter(skill => skill.id && skill.skillName)
+                        .map(skill => skill.id),
                     education: freelancerData.eduInfoFreelancerDTOList || [],
                 });
             }
@@ -222,7 +222,6 @@ const FreelancerInfo = () => {
 
     const handleAddNewSkill = async () => {
         if (!newSkill) return;
-
         try {
             const response = await axios.post('http://localhost:8080/api/skills', { skillName: newSkill });
             const newSkillId = response.data.data.id;
@@ -242,7 +241,7 @@ const FreelancerInfo = () => {
                     <Input />
                 ) : (
                     <Select style={{ width: '100%' }}>
-                        {inputType === 'category' 
+                        {inputType === 'category'
                             ? categories.map(cat => <Option key={cat.id} value={cat.id}>{cat.categoryTitle}</Option>)
                             : allSkills.map(skill => <Option key={skill.id} value={skill.id}>{skill.skillName}</Option>)
                         }
@@ -341,9 +340,14 @@ const FreelancerInfo = () => {
                             <Button onClick={handleAddNewSkill} style={{ marginTop: '10px' }}>Add New Skill</Button>
                         </>
                     ) : (
-                        profileData.skills.map(skill => <Tag key={skill}>{skill}</Tag>)
+                        profileData.skills
+                            .map(skillId => {
+                                const skill = allSkills.find(s => s.id === skillId);
+                                return skill ? <Tag key={skill.id}>{skill.skillName}</Tag> : null;
+                            })
                     )}
                 </Card>
+
 
                 <Card style={{ marginBottom: '20px' }} title="Education" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('education')} />}>
                     {profileData.education.map((edu, index) => (

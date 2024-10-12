@@ -7,4 +7,5 @@ import java.util.List;
 public interface FreelancerSkillService {
     List<FreelancerSkillDTO> getAllFreelancerSkills();
     FreelancerSkillDTO addFreelancerSkill(FreelancerSkillDTO freelancerSkillDTO);
+    void deleteAllSkillsByRoleId(Integer idRole);
 }
