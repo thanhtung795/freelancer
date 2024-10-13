@@ -1,11 +1,12 @@
 package org.example.freelancer.service;
 import org.example.freelancer.dto.InfoFreelancerDTO;
 import org.example.freelancer.dto.UserDTO;
+import org.example.freelancer.entity.User;
 
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO createUser(UserDTO userDTO);
@@ -13,5 +14,7 @@ public interface UserService {
     UserDTO updateUser(Integer id, UserDTO userDTO);
     void deleteUser(Integer id);
     List<InfoFreelancerDTO> findAllFreelancers();
-    UserDTO partialUpdateUser(Integer id, UserDTO userDTO);
+    User partialUpdateUser(Integer id, UserDTO userDTO);
+    InfoFreelancerDTO findFreelancerById(Integer freelancerId);
+
 }

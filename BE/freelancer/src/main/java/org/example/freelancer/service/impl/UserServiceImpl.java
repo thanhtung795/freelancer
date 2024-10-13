@@ -4,7 +4,6 @@ import org.example.freelancer.dto.EduInfoFreelancerDTO;
 import org.example.freelancer.dto.InfoFreelancerDTO;
 import org.example.freelancer.dto.SkillDTO;
 import org.example.freelancer.dto.UserDTO;
-import org.example.freelancer.entity.Freelancer;
 import org.example.freelancer.mapper.UserMapper;
 import org.example.freelancer.entity.User;
 import org.example.freelancer.repository.AccountRepository;
@@ -76,7 +75,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
     @Override
-    public UserDTO partialUpdateUser(Integer id, UserDTO userDTO) {
+    public User partialUpdateUser(Integer id, UserDTO userDTO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
@@ -103,8 +102,9 @@ public class UserServiceImpl implements UserService {
             user = userRepository.save(user);
         }
 
-        return UserMapper.INSTANCE.userToUserDTO(user);
+        return user;
     }
+
 
     @Override
     public List<InfoFreelancerDTO> findAllFreelancers() {
@@ -174,4 +174,42 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
+
+    @Override
+    public InfoFreelancerDTO findFreelancerById(Integer freelancerId) {
+        List<Object[]> results = userRepository.findFreelancerById(freelancerId);
+        if (results.isEmpty()) {
+            return null;  // Freelancer not found
+        }
+
+        Map<Integer, InfoFreelancerDTO> freelancerMap = new HashMap<>();
+        for (Object[] result : results) {
+            Integer id = (Integer) result[0];
+
+            InfoFreelancerDTO infoFreelancerDTO = freelancerMap.get(id);
+            if (infoFreelancerDTO == null) {
+                infoFreelancerDTO = InfoFreelancerDTO.builder()
+                        .freelancerId(id)
+                        .firstName((String) result[2])
+                        .lastName((String) result[3])
+                        .address((String) result[4])
+                        .image((String) result[1])
+                        .categoryId((Integer) result[5])
+                        .categoryTitle((String) result[6])
+                        .skills(new ArrayList<>())
+                        .eduInfoFreelancerDTOList(getEducationDetailsForFreelancer(id))
+                        .build();
+
+                freelancerMap.put(id, infoFreelancerDTO);
+            }
+
+            SkillDTO skillDTO = new SkillDTO();
+            skillDTO.setId((Integer) result[7]);
+            skillDTO.setSkillName((String) result[8]);
+            infoFreelancerDTO.getSkills().add(skillDTO);
+        }
+
+        return freelancerMap.values().stream().findFirst().orElse(null);
+    }
+
 }

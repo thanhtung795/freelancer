@@ -51,4 +51,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     )
 
     List<Object[]> getEducationDetailsForFreelancer(@Param("freelancerId")Integer freelancerId);
+
+
+    @Query(value = "SELECT f.freelancer_id, f.image, u.first_name, u.last_name, u.address, " +
+            "f.category_id, c.category_title, s.skill_id, s.skill_name " +
+            "FROM freelancer f " +
+            "LEFT JOIN user u ON f.user_id = u.user_id " +
+            "LEFT JOIN freelancer_skill fs ON f.freelancer_id = fs.freelancer_id " +
+            "LEFT JOIN skill s ON fs.skill_id = s.skill_id " +
+            "LEFT JOIN category c ON f.category_id = c.category_id " +
+            "WHERE f.freelancer_id = :freelancerId", nativeQuery = true)
+    List<Object[]> findFreelancerById(@Param("freelancerId") Integer freelancerId);
+
 }

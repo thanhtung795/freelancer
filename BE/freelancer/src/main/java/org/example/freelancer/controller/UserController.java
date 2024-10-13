@@ -2,6 +2,7 @@ package org.example.freelancer.controller;
 
 import org.example.freelancer.dto.InfoFreelancerDTO;
 import org.example.freelancer.dto.UserDTO;
+import org.example.freelancer.entity.User;
 import org.example.freelancer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class UserController {
     public ResponseEntity<?> updateUser(@PathVariable Integer id, @Valid @RequestBody UserDTO userDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
-            UserDTO updatedUser = userService.partialUpdateUser(id, userDTO);
+            User updatedUser = userService.partialUpdateUser(id, userDTO);
             response.put("success", true);
             response.put("data", updatedUser);
             response.put("message", "Đã cập nhật người dùng");
@@ -86,4 +87,28 @@ public class UserController {
         }
         return ResponseEntity.ok(map);
     }
+    @GetMapping("/getFreelancerById/{freelancerId}")
+    public ResponseEntity<?> getFreelancerById(@PathVariable Integer freelancerId) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        try {
+            InfoFreelancerDTO freelancer = userService.findFreelancerById(freelancerId);
+            if (freelancer == null) {
+                map.put("success", false);
+                map.put("Status", 404);
+                map.put("message", "Freelancer not found");
+            } else {
+                map.put("success", true);
+                map.put("Status", 200);
+                map.put("data", freelancer);
+                map.put("message", "Lấy dữ liệu thành công");
+            }
+        } catch (RuntimeException e) {
+            map.put("success", false);
+            map.put("Status", 500);
+            map.put("data", null);
+            map.put("message", e.getMessage());
+        }
+        return ResponseEntity.ok(map);
+    }
+
 }
