@@ -39,7 +39,7 @@ const FreelancerInfo = () => {
     const [majors, setMajors] = useState([]);
     const [newMajor, setNewMajor] = useState('');
     const [newCategory, setNewCategory] = useState('');
-
+    const [newSchool, setNewSchool] = useState('');
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
@@ -120,6 +120,20 @@ const FreelancerInfo = () => {
             setSchools(response.data.data);
         } catch (error) {
             console.error('Error fetching schools:', error);
+        }
+    };
+
+    const handleAddNewSchool = async () => {
+        if (!newSchool) return;
+        try {
+            const response = await axios.post('http://localhost:8080/api/school', { schoolName: newSchool });
+            const newSchoolData = response.data.data;
+            setSchools([...schools, newSchoolData]);
+            setNewSchool('');
+            message.success('New school added successfully');
+        } catch (error) {
+            console.error('Error adding new school:', error);
+            message.error('Failed to add new school');
         }
     };
 
@@ -591,9 +605,28 @@ const FreelancerInfo = () => {
                     ))}
                     {editing.education && (
                         <Form onFinish={handleAddEducation}>
-                            <Form.Item name="schoolId" rules={[{ required: true, message: 'Please select a school' }]}>
-                                <Select placeholder="Select school">
-                                    {schools.map(school => <Option key={school.id} value={school.id}>{school.schoolName}</Option>)}
+                            <Form.Item name="schoolId" rules={[{ required: true, message: 'Please select or enter a school' }]}>
+                                <Select
+                                    placeholder="Select or enter school"
+                                    dropdownRender={menu => (
+                                        <div>
+                                            {menu}
+                                            <Divider style={{ margin: '4px 0' }} />
+                                            <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+                                                <Input style={{ flex: 'auto' }} value={newSchool} onChange={e => setNewSchool(e.target.value)} />
+                                                <a
+                                                    style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
+                                                    onClick={handleAddNewSchool}
+                                                >
+                                                    <PlusOutlined /> Add school
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
+                                >
+                                    {schools.map(school => (
+                                        <Option key={school.id} value={school.id}>{school.schoolName}</Option>
+                                    ))}
                                 </Select>
                             </Form.Item>
                             <Form.Item name="degreeId" rules={[{ required: true, message: 'Please select a degree' }]}>
