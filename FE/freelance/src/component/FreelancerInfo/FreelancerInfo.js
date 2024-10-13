@@ -597,7 +597,7 @@ const FreelancerInfo = () => {
                         <div key={index}>
                             <Text strong>{edu.schoolName}</Text>
                             <br />
-                            <Text>{edu.degreeName} in {edu.majorName}</Text>
+                            <Text>{edu.degreeName} in {edu.mojorName}</Text>
                             <br />
                             <Text type="secondary">{moment(edu.dateStart).format('YYYY')} - {moment(edu.dateEnd).format('YYYY')}</Text>
                             <Paragraph>{edu.description}</Paragraph>
