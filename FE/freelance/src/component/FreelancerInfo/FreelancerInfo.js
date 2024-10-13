@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Row, Col, Card, Avatar, Typography, Tag, Button, message, Upload, Input, Select, DatePicker, Form, Modal } from 'antd';
+import { Layout, Row, Col, Card, Avatar, Typography, Tag, Button, message, Upload, Input, Select, DatePicker, Form, Modal, Divider } from 'antd';
 import { EditOutlined, EyeOutlined, ShareAltOutlined, UploadOutlined, SaveOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
@@ -36,7 +36,10 @@ const FreelancerInfo = () => {
     const [selectedProvince, setSelectedProvince] = useState(null);
     const [selectedDistrict, setSelectedDistrict] = useState(null);
     const [selectedWard, setSelectedWard] = useState(null);
-
+    const [majors, setMajors] = useState([]);
+    const [newMajor, setNewMajor] = useState('');
+    const [newCategory, setNewCategory] = useState('');
+    const [newSchool, setNewSchool] = useState('');
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
@@ -57,9 +60,17 @@ const FreelancerInfo = () => {
             fetchSkills();
             fetchCategories();
             fetchProvinces();
+            fetchMajors();
         }
     }, [idRole]);
-
+    const fetchMajors = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/majors');
+            setMajors(response.data);
+        } catch (error) {
+            console.error('Error fetching majors:', error);
+        }
+    };
     const fetchFreelancerInfo = async (idRole) => {
         try {
             const response = await axios.get(`http://localhost:8080/api/users/getFreelancerById/${idRole}`);
@@ -109,6 +120,20 @@ const FreelancerInfo = () => {
             setSchools(response.data.data);
         } catch (error) {
             console.error('Error fetching schools:', error);
+        }
+    };
+
+    const handleAddNewSchool = async () => {
+        if (!newSchool) return;
+        try {
+            const response = await axios.post('http://localhost:8080/api/school', { schoolName: newSchool });
+            const newSchoolData = response.data.data;
+            setSchools([...schools, newSchoolData]);
+            setNewSchool('');
+            message.success('New school added successfully');
+        } catch (error) {
+            console.error('Error adding new school:', error);
+            message.error('Failed to add new school');
         }
     };
 
@@ -164,6 +189,34 @@ const FreelancerInfo = () => {
             }
         } catch (error) {
             console.error('Lỗi khi tải danh sách phường/xã:', error);
+        }
+    };
+
+    const handleAddNewMajor = async () => {
+        if (!newMajor) return;
+        try {
+            const response = await axios.post('http://localhost:8080/api/majors', { majorName: newMajor });
+            const newMajorData = response.data;
+            setMajors([...majors, newMajorData]);
+            setNewMajor('');
+            message.success('New major added successfully');
+        } catch (error) {
+            console.error('Error adding new major:', error);
+            message.error('Failed to add new major');
+        }
+    };
+
+    const handleAddNewCategory = async () => {
+        if (!newCategory) return;
+        try {
+            const response = await axios.post('http://localhost:8080/api/categories', { categoryTitle: newCategory });
+            const newCategoryData = response.data;
+            setCategories([...categories, newCategoryData]);
+            setNewCategory('');
+            message.success('New category added successfully');
+        } catch (error) {
+            console.error('Error adding new category:', error);
+            message.error('Failed to add new category');
         }
     };
 
@@ -310,9 +363,22 @@ const FreelancerInfo = () => {
                         onBlur={(e) => handleSave(field, e.target.value)}
                     />
                 ) : inputType === 'category' ? (
-                    <Select style={{ width: '100%' }} onChange={(value) => handleSave(field, value)}>
-                        {categories.map(cat => <Option key={cat.id} value={cat.id}>{cat.categoryTitle}</Option>)}
-                    </Select>
+                    <>
+                        <Select
+                            style={{ width: '100%' }}
+                            onChange={(value) => handleSave(field, value)}
+                            defaultValue={value}
+                        >
+                            {categories.map(cat => <Option key={cat.id} value={cat.id}>{cat.categoryTitle}</Option>)}
+                        </Select>
+                        <Input
+                            style={{ marginTop: '10px' }}
+                            value={newCategory}
+                            onChange={(e) => setNewCategory(e.target.value)}
+                            placeholder="Enter new category"
+                        />
+                        <Button onClick={handleAddNewCategory} style={{ marginTop: '10px' }}>Add New Category</Button>
+                    </>
                 ) : inputType === 'address' ? (
                     <Form form={form} onFinish={(values) => handleSave('address', values)}>
                         <Form.Item name="province" rules={[{ required: true, message: 'Vui lòng chọn tỉnh/thành phố' }]}>
@@ -368,14 +434,28 @@ const FreelancerInfo = () => {
                         </Form.Item>
                     </Form>
                 ) : (
-                    <Select style={{ width: '100%' }} onChange={(value) => handleSave(field, value)}>
-                        {allSkills.map(skill => <Option key={skill.id} value={skill.id}>{skill.skillName}</Option>)}
-                    </Select>
+                    <>
+                        <Select 
+                            mode="multiple" 
+                            style={{ width: '100%' }} 
+                            onChange={(value) => handleSave(field, value)}
+                            defaultValue={value}
+                        >
+                            {allSkills.map(skill => <Option key={skill.id} value={skill.id}>{skill.skillName}</Option>)}
+                        </Select>
+                        <Input
+                            style={{ marginTop: '10px' }}
+                            value={newSkill}
+                            onChange={(e) => setNewSkill(e.target.value)}
+                            placeholder="Enter new skill"
+                        />
+                        <Button onClick={handleAddNewSkill} style={{ marginTop: '10px' }}>Add New Skill</Button>
+                    </>
                 )}
             </Form.Item>
         ) : (
             <>
-                <Text>{value || 'Chưa cập nhật'}</Text>
+                <Text>{value || 'Not updated'}</Text>
                 <Button
                     icon={<EditOutlined />}
                     onClick={() => handleEdit(field)}
@@ -474,6 +554,7 @@ const FreelancerInfo = () => {
                         </Col>
                     </Row>
                 </Card>
+                
 
                 <Card style={{ marginBottom: '20px' }} title="Kỹ năng" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('skills')} />}>
                     {editing.skills ? (
@@ -511,12 +592,12 @@ const FreelancerInfo = () => {
                     )}
                 </Card>
 
-                <Card style={{ marginBottom: '20px' }} title="Học vấn" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('education')} />}>
+                <Card style={{ marginBottom: '20px' }} title="Education" extra={<Button icon={<EditOutlined />} onClick={() => handleEdit('education')} />}>
                     {profileData.education.map((edu, index) => (
                         <div key={index}>
                             <Text strong>{edu.schoolName}</Text>
                             <br />
-                            <Text>{edu.degreeName} ngành {edu.majorName}</Text>
+                            <Text>{edu.degreeName} in {edu.majorName}</Text>
                             <br />
                             <Text type="secondary">{moment(edu.dateStart).format('YYYY')} - {moment(edu.dateEnd).format('YYYY')}</Text>
                             <Paragraph>{edu.description}</Paragraph>
@@ -524,36 +605,76 @@ const FreelancerInfo = () => {
                     ))}
                     {editing.education && (
                         <Form onFinish={handleAddEducation}>
-                            <Form.Item name="schoolId" rules={[{ required: true, message: 'Vui lòng chọn trường' }]}>
-                                <Select placeholder="Chọn trường">
-                                    {schools.map(school => <Option key={school.id} value={school.id}>{school.schoolName}</Option>)}
+                            <Form.Item name="schoolId" rules={[{ required: true, message: 'Please select or enter a school' }]}>
+                                <Select
+                                    placeholder="Select or enter school"
+                                    dropdownRender={menu => (
+                                        <div>
+                                            {menu}
+                                            <Divider style={{ margin: '4px 0' }} />
+                                            <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+                                                <Input style={{ flex: 'auto' }} value={newSchool} onChange={e => setNewSchool(e.target.value)} />
+                                                <a
+                                                    style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
+                                                    onClick={handleAddNewSchool}
+                                                >
+                                                    <PlusOutlined /> Add school
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
+                                >
+                                    {schools.map(school => (
+                                        <Option key={school.id} value={school.id}>{school.schoolName}</Option>
+                                    ))}
                                 </Select>
                             </Form.Item>
-                            <Form.Item name="degreeId" rules={[{ required: true, message: 'Vui lòng chọn bằng cấp' }]}>
-                                <Select placeholder="Chọn bằng cấp">
+                            <Form.Item name="degreeId" rules={[{ required: true, message: 'Please select a degree' }]}>
+                                <Select placeholder="Select degree">
                                     {degrees.map(degree => <Option key={degree.id} value={degree.id}>{degree.degreeTitle}</Option>)}
                                 </Select>
                             </Form.Item>
-                            <Form.Item name="majorId" rules={[{ required: true, message: 'Vui lòng nhập chuyên ngành' }]}>
-                                <Input placeholder="Nhập chuyên ngành" />
+                            <Form.Item name="majorId" rules={[{ required: true, message: 'Please select or enter a major' }]}>
+                                <Select
+                                    placeholder="Select or enter major"
+                                    dropdownRender={menu => (
+                                        <div>
+                                            {menu}
+                                            <Divider style={{ margin: '4px 0' }} />
+                                            <div style={{ display: 'flex', flexWrap: 'nowrap', padding: 8 }}>
+                                                <Input style={{ flex: 'auto' }} value={newMajor} onChange={e => setNewMajor(e.target.value)} />
+                                                <a
+                                                    style={{ flex: 'none', padding: '8px', display: 'block', cursor: 'pointer' }}
+                                                    onClick={handleAddNewMajor}
+                                                >
+                                                    <PlusOutlined /> Add major
+                                                </a>
+                                            </div>
+                                        </div>
+                                    )}
+                                >
+                                    {majors.map(major => (
+                                        <Option key={major.majorId} value={major.majorId}>{major.majorName}</Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
-                            <Form.Item name="dateStart" rules={[{ required: true, message: 'Vui lòng chọn ngày bắt đầu' }]}>
-                                <DatePicker placeholder="Ngày bắt đầu" />
+                            <Form.Item name="dateStart" rules={[{ required: true, message: 'Please select start date' }]}>
+                                <DatePicker placeholder="Start date" />
                             </Form.Item>
-                            <Form.Item name="dateEnd" rules={[{ required: true, message: 'Vui lòng chọn ngày kết thúc' }]}>
-                                <DatePicker placeholder="Ngày kết thúc" />
+                            <Form.Item name="dateEnd" rules={[{ required: true, message: 'Please select end date' }]}>
+                                <DatePicker placeholder="End date" />
                             </Form.Item>
                             <Form.Item name="description">
-                                <Input.TextArea placeholder="Mô tả" />
+                                <Input.TextArea placeholder="Description" />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit">Thêm học vấn</Button>
+                                <Button type="primary" htmlType="submit">Add Education</Button>
                                 <Button
                                     icon={<CloseOutlined />}
                                     onClick={() => setEditing({ ...editing, education: false })}
                                     style={{ marginLeft: '10px' }}
                                 >
-                                    Hủy
+                                    Cancel
                                 </Button>
                             </Form.Item>
                         </Form>
