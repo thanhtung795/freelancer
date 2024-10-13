@@ -96,4 +96,39 @@ public class ClientServiceImpl implements ClientService {
 
         return dtos;
     }
+
+    @Override
+    public Optional<ClientCompanyDTO> getClientWithCompanyDetailsById(Integer clientId) {
+        List<Object[]> results = clientRepository.findClientWithCompanyDetailsById(clientId);
+
+        if (results.isEmpty()) {
+            return Optional.empty(); // Nếu không có kết quả, trả về Optional.empty()
+        }
+
+        // Chọn kết quả đầu tiên (vì clientId là duy nhất)
+        Object[] result = results.get(0);
+
+        // Ép kiểu và tạo DTO
+        Integer id = (Integer) result[0];
+        String email = (String) result[1];
+        String firstName = (String) result[2];
+        String lastName = (String) result[3];
+        String phoneNumber = (String) result[4];
+
+        Integer companyId = (Integer) result[5];
+        String companyName = (String) result[6];
+        String phoneContact = (String) result[7];
+        String address = (String) result[8];
+
+        // Tạo CompanyDTO
+        CompanyDTO companyDTO = new CompanyDTO(companyId, companyName, phoneContact, address, null, null);
+
+        // Tạo ClientCompanyDTO
+        ClientCompanyDTO clientCompanyDTO = new ClientCompanyDTO(id, email, firstName, lastName, phoneNumber, companyDTO);
+
+        // Trả về Optional chứa DTO
+        return Optional.of(clientCompanyDTO);
+    }
+
+
 }
