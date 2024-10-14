@@ -4,9 +4,11 @@ import org.example.freelancer.dto.FreelancerApplyDTO;
 import org.example.freelancer.entity.Freelancer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FreelancerRepository extends JpaRepository<Freelancer, Integer> {
@@ -30,6 +32,14 @@ public interface FreelancerRepository extends JpaRepository<Freelancer, Integer>
                     "where j.id = ?1"
     )
     List<FreelancerApplyDTO> findAllByJobId(Integer jobId);
+
+
+
+    @Query("SELECT DISTINCT f FROM Freelancer f " +
+            "LEFT JOIN FETCH f.freelancerJobs fj " +
+            "LEFT JOIN FETCH fj.job " +
+            "WHERE f.id = :freelancerId")
+    Optional<Freelancer> findByIdWithJobs(@Param("freelancerId") Integer freelancerId);
 
 
 }
