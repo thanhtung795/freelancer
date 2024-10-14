@@ -20,4 +20,14 @@ public enum StatusFreelancerJob {
     public String getDisplayName() {
         return displayName;
     }
+
+    // Phương thức tìm enum từ displayName
+    public static StatusFreelancerJob fromDisplayName(String displayName) {
+        for (StatusFreelancerJob status : StatusFreelancerJob.values()) {
+            if (status.getDisplayName().equalsIgnoreCase(displayName)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Không tìm thấy trạng thái phù hợp: " + displayName);
+    }
 }

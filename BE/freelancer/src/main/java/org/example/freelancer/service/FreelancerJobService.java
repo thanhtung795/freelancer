@@ -13,5 +13,5 @@ public interface FreelancerJobService {
 
     Boolean deleteFreelancerJob(Integer freelancerJobID, Integer jobID);
 
-    FreelancerJobDTO updateFreelancerJobStatus(Integer freelancerID, Integer jobID, StatusFreelancerJob newStatus);
+    FreelancerJobDTO updateFreelancerJobStatus(Integer freelancerID, Integer jobID, String newStatus);
 }

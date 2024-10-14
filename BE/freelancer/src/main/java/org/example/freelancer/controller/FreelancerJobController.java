@@ -67,7 +67,7 @@ public class FreelancerJobController {
     public ResponseEntity<FreelancerJobDTO> updateFreelancerJobStatus(
             @RequestParam Integer freelancerID,
             @RequestParam Integer jobID,
-            @RequestParam StatusFreelancerJob newStatus) {
+            @RequestParam String newStatus) {
 
         FreelancerJobDTO updatedFreelancerJobDTO = freelancerJobService.updateFreelancerJobStatus(freelancerID, jobID, newStatus);
 

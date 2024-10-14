@@ -62,10 +62,12 @@ public class FreelancerJobServiceImpl implements FreelancerJobService {
     }
 
     @Override
-    public FreelancerJobDTO updateFreelancerJobStatus(Integer freelancerID, Integer jobID, StatusFreelancerJob newStatus) {
+    public FreelancerJobDTO updateFreelancerJobStatus(Integer freelancerID, Integer jobID, String status) {
         // Tìm kiếm FreelancerJob dựa trên freelancerID và jobID
         FreelancerJob freelancerJob = freelancerJobRepository.findById_FreelancerIdAndId_JobId(freelancerID, jobID)
                 .orElseThrow(() -> new EntityNotFoundException("FreelancerJob not found"));
+
+        StatusFreelancerJob newStatus = StatusFreelancerJob.fromDisplayName(status);
 
         // Cập nhật status mới
         freelancerJob.setStatus(newStatus);
