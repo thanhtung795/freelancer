@@ -38,6 +38,7 @@ import NavbarAdmin from "./component/Layout/Navbar/NavbarAdmin";
 import FreelancerProfile from "./component/FreelancerProfile/FreelancerProfile";
 import ChatBot from "./component/ChatBot/ChatBot";
 import JobList from "./component/JobList/JobList";
+import JobDetailJob from "./component/JobDetail-Job/JobDetail-Job";
 const UserContext = React.createContext();
 
 const App = () => {
@@ -90,6 +91,7 @@ const App = () => {
               <Route path="/list-job" element={<JobList />} />
               <Route path="/list-todo-job" element={<ListToDoJob />} />
               <Route path="/job-detail" element={<JobDetail />} />
+              <Route path="/job-detail/:id" element={<JobDetailJob />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/change-password" element={<ChangePassword />} />
               <Route path="/forget-password" element={<ForgetPassword />} />
