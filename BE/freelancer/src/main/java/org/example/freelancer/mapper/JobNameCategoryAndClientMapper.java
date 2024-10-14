@@ -16,6 +16,7 @@ public interface JobNameCategoryAndClientMapper {
 
     JobNameCategoryAndClientMapper INSTANCE = Mappers.getMapper(JobNameCategoryAndClientMapper.class);
 
+
     @Mapping(target = "firstName", source = "client.user.firstName")
     @Mapping(target = "lastName", source = "client.user.lastName")
     @Mapping(target = "categoryName", source = "category.categoryTitle")

@@ -1,10 +1,12 @@
 package org.example.freelancer.service.Impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.FreelancerJobDTO;
 import org.example.freelancer.entity.Freelancer;
 import org.example.freelancer.entity.FreelancerJob;
 import org.example.freelancer.entity.Job;
+import org.example.freelancer.entity.StatusFreelancerJob;
 import org.example.freelancer.mapper.FreelancerJobMapper;
 import org.example.freelancer.mapper.FreelancerMapper;
 import org.example.freelancer.repository.FreelancerJobRepository;
@@ -57,5 +59,29 @@ public class FreelancerJobServiceImpl implements FreelancerJobService {
 //        }
 //        return false;
         return true;
+    }
+
+    @Override
+    public FreelancerJobDTO updateFreelancerJobStatus(Integer freelancerID, Integer jobID, String status) {
+        // Tìm kiếm FreelancerJob dựa trên freelancerID và jobID
+        FreelancerJob freelancerJob = freelancerJobRepository.findById_FreelancerIdAndId_JobId(freelancerID, jobID)
+                .orElseThrow(() -> new EntityNotFoundException("FreelancerJob not found"));
+
+        StatusFreelancerJob newStatus = StatusFreelancerJob.fromDisplayName(status);
+
+        // Cập nhật status mới
+        freelancerJob.setStatus(newStatus);
+
+        // Lưu lại sự thay đổi vào database
+        FreelancerJob updatedFreelancerJob = freelancerJobRepository.save(freelancerJob);
+
+        // Chuyển đổi entity thành DTO để trả về
+        FreelancerJobDTO freelancerJobDTO = new FreelancerJobDTO();
+        freelancerJobDTO.setFreelancerID(freelancerID);
+        freelancerJobDTO.setJobID(jobID);
+        freelancerJobDTO.setStatus(updatedFreelancerJob.getStatus());
+        freelancerJobDTO.setIsSelected(updatedFreelancerJob.getIsSelected());
+
+        return freelancerJobDTO;
     }
 }

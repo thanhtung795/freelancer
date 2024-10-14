@@ -2,6 +2,7 @@ package org.example.freelancer.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.FreelancerJobDTO;
+import org.example.freelancer.entity.StatusFreelancerJob;
 import org.example.freelancer.service.FreelancerJobService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -58,7 +59,18 @@ public class FreelancerJobController {
             response.put("data", null);
             response.put("message", "Không thể cặp nhật freelancer job: " + e.getMessage());
         }
+
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/update-status")
+    public ResponseEntity<FreelancerJobDTO> updateFreelancerJobStatus(
+            @RequestParam Integer freelancerID,
+            @RequestParam Integer jobID,
+            @RequestParam String newStatus) {
+
+        FreelancerJobDTO updatedFreelancerJobDTO = freelancerJobService.updateFreelancerJobStatus(freelancerID, jobID, newStatus);
+
+        return ResponseEntity.ok(updatedFreelancerJobDTO);
+    }
 }
