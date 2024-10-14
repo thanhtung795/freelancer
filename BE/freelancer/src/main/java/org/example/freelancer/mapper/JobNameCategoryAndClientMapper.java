@@ -16,6 +16,7 @@ public interface JobNameCategoryAndClientMapper {
 
     JobNameCategoryAndClientMapper INSTANCE = Mappers.getMapper(JobNameCategoryAndClientMapper.class);
 
+
     @Mapping(target = "firstName", source = "client.user.firstName")
     @Mapping(target = "lastName", source = "client.user.lastName")
     @Mapping(target = "categoryName", source = "category.categoryTitle")
@@ -29,6 +30,7 @@ public interface JobNameCategoryAndClientMapper {
     @Mapping(target = "company.clientId", source = "client.company.client.id")
     JobNameCategoryAndClientDTO toDto(Job job);
 
+    @Mapping(target = "client.user.id", source = "clientId")
     @Mapping(target = "client.user.firstName", source = "firstName")
     @Mapping(target = "client.user.lastName", source = "lastName")
     @Mapping(target = "category.categoryTitle", source = "categoryName")
