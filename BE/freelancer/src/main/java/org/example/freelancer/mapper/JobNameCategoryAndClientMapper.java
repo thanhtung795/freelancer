@@ -28,9 +28,8 @@ public interface JobNameCategoryAndClientMapper {
 //    @Mapping(target = "company.location", source = "client.company.location")
     @Mapping(target = "company.description ", source = "client.company.description")
     @Mapping(target = "company.clientId", source = "client.company.client.id")
+    @Mapping(target ="clientId", source = "client.id")
     JobNameCategoryAndClientDTO toDto(Job job);
-
-    @Mapping(target = "client.user.id", source = "clientId")
     @Mapping(target = "client.user.firstName", source = "firstName")
     @Mapping(target = "client.user.lastName", source = "lastName")
     @Mapping(target = "category.categoryTitle", source = "categoryName")
