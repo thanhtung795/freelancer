@@ -24,12 +24,7 @@ const HeartIcon = styled(FontAwesomeIcon)`
   margin-right: 5px; 
 `;
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * Hiển thị chi tiết công việc.
- * @param {boolean} isClient - Tham số xác định xem có phải là công ty hay không.
- */
-/******  95b11ef5-99db-41fc-8cc8-dd4e5a194835  *******/
+
 const JobDetailJob = ({ isClient }) => {
   const { id } = useParams();
   const [jobData, setJobData] = useState(null);

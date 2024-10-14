@@ -112,8 +112,8 @@ const ListJobUploaded = () => {
                   <strong>Trạng thái: </strong> {job.status}
                 </p>
                 <p>
-                  <strong>Họ và tên: </strong>{" "}
-                  {job.fristName + " " + job.lasName}
+                  <strong>Nhà tuyển dụng: </strong>{" "}
+                  {job.firstName + " " + job.lastName}
                 </p>
                 <Button
                   type="primary"
