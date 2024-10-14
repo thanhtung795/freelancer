@@ -13,4 +13,5 @@ public interface ClientService {
     ClientDTO updateClient(Integer id, ClientDTO clientDTO);
     void deleteClient(Integer id);
     List<ClientCompanyDTO> getClientWithCompanyDetails();
+    Optional<ClientCompanyDTO> getClientWithCompanyDetailsById(Integer id);
 }

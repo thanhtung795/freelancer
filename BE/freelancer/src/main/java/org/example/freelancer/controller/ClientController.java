@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;  // Import @Valid
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -76,4 +77,24 @@ public class ClientController {
                 .status(200)
                 .build());
     }
+
+    @GetMapping("/{id}/with-company")
+    public ResponseEntity<ResponseObject<ClientCompanyDTO>> getClientWithCompanyDetailsById(@PathVariable Integer id) {
+        Optional<ClientCompanyDTO> clientCompanyDTO = clientService.getClientWithCompanyDetailsById(id);
+
+        if (clientCompanyDTO.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseObject.<ClientCompanyDTO>builder()
+                    .result(false)
+                    .message("Client not found")
+                    .status(404)
+                    .build());
+        }
+
+        return ResponseEntity.ok(ResponseObject.<ClientCompanyDTO>builder()
+                .data(clientCompanyDTO.get())
+                .message("Get client successfully")
+                .status(200)
+                .build());
+    }
+
 }
