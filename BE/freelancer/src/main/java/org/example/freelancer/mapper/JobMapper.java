@@ -11,23 +11,14 @@ public interface JobMapper {
 
     JobMapper INSTANCE = Mappers.getMapper(JobMapper.class);
 
-
-    @Mapping(target = "clientId", source = "client.id")
-    @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "dateStart", source = "dateStart", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "dateEnd", source = "dateEnd", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "dateCreate", source = "createdAt", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "description", source = "description")
-
-
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "dateStart", target = "dateStart")
+    @Mapping(source = "dateEnd", target = "dateEnd")
     JobDTO toDto(Job job);
 
-    @Mapping(target = "client.id", source = "clientId") // Gán clientId vào client
-    @Mapping(target = "category.id", source = "categoryId") // Gán categoryId vào category
-    @Mapping(target = "dateStart", source = "dateStart", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "dateEnd", source = "dateEnd", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "createdAt", source = "dateCreate", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "description", source = "description")
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "dateStart", target = "dateStart")
+    @Mapping(source = "dateEnd", target = "dateEnd")
     Job toEntity(JobDTO dto);
 
 }
