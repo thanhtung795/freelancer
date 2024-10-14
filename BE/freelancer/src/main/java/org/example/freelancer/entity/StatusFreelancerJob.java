@@ -17,7 +17,7 @@ public enum StatusFreelancerJob {
 
     // Getter cho displayName
     @JsonValue
-    public String getDisplayName() {
+        public String getDisplayName() {
         return displayName;
     }
 }

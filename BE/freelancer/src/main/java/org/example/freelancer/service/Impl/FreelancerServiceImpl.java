@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.CountResultDTO;
 import org.example.freelancer.dto.FreelancerApplyDTO;
 import org.example.freelancer.dto.FreelancerDTO;
+import org.example.freelancer.dto.JobsOfFreelancerDTO;
 import org.example.freelancer.entity.*;
 import org.example.freelancer.mapper.*;
 import org.example.freelancer.repository.*;
 import org.example.freelancer.service.FreelancerService;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,8 @@ public class FreelancerServiceImpl implements FreelancerService {
     private final FreelancerApplyMapper freelancerApplyMapper;
 
     private final FreelancerJobRepository freelancerJobRepository;
+
+    private final JobsOfFreelancerMapper jobsOfFreelancerMapper;
 
     @Transactional(readOnly = true)
     @Override
@@ -154,6 +158,21 @@ public class FreelancerServiceImpl implements FreelancerService {
         Freelancer updatedFreelancer = freelancerRepository.save(freelancer);
 
         return freelancerMapper.toDTO(updatedFreelancer);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public JobsOfFreelancerDTO getJobsOfFreelancer(Integer freelancerId) {
+        Freelancer freelancer = freelancerRepository.findByIdWithJobs(freelancerId)
+                .orElseThrow(() -> new RuntimeException("Freelancer not found."));
+
+        JobsOfFreelancerDTO dto = jobsOfFreelancerMapper.toDto(freelancer);
+
+        if (dto == null) {
+            throw new RuntimeException("Error mapping Freelancer to DTO");
+        }
+
+        return dto;
     }
 
 }

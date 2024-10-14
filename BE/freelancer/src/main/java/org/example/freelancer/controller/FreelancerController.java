@@ -1,17 +1,13 @@
 package org.example.freelancer.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.example.freelancer.dto.CountResultDTO;
 import org.example.freelancer.dto.FreelancerDTO;
 import org.example.freelancer.service.FreelancerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -142,5 +138,18 @@ public class FreelancerController {
         }
         return ResponseEntity.ok(response);
     }
-
+    @GetMapping("/JobsOfFreelancer/{id}")
+    public ResponseEntity<?> JobsOfFreelancer(@PathVariable Integer id) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            response.put("success", true);
+            response.put("data",freelancerService.getJobsOfFreelancer(id));
+            response.put("message","Đã lấy danh sách công việc của freelancer");
+        }catch (Exception e){
+            response.put("success", false);
+            response.put("data",null);
+            response.put("message","Không thể lấy danh sách công việc của freelancer");
+        }
+        return ResponseEntity.ok(response);
+    }
 }
