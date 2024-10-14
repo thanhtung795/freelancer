@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class JobNameCategoryAndClientDTO {
+    private Integer clientId;
     private Integer id;
     private String title;
     private String scope;
