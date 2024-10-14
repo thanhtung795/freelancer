@@ -45,5 +45,8 @@ public interface JobsOfFreelancerMapper {
         return freelancer.getFreelancerJobs().get(0).getStatus();
     }
 
+    @Mapping(source = "dateStart", target = "dateStart")
+    @Mapping(source = "dateEnd", target = "dateEnd")
+    @Mapping(source = "createdAt", target = "dateCreate")
     JobDTO jobToJobDTO(Job job);
 }
