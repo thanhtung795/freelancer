@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, List, Pagination, Select, Button, Empty } from "antd";
 import JobCard from "./JobListCard/JobListCard";
 import SwipperBanner from "./SwiperBanner/SwiperBanner";
@@ -56,56 +56,26 @@ const Filter = ({ onFilterChange }) => {
 };
 
 const JobList = () => {
-  const jobs = [
-    {
-      id: 1,
-      title: "Lập Trình Viên Full-stack",
-      company: "Công Ty Giải Pháp Công Nghệ",
-      poster: {
-        name: "Nguyễn Văn A",
-        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      },
-      skills: ["JavaScript", "React", "Node.js"],
-      description:
-        "Chúng tôi đang tìm kiếm một lập trình viên Full-stack với 5 năm kinh nghiệm.",
-    },
-    {
-      title: "Nhà Thiết Kế UI/UX",
-      company: "Studio Sáng Tạo",
-      poster: {
-        name: "Trần Thị B",
-        avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-      },
-      skills: ["Thiết Kế UI/UX", "Figma", "Sketch"],
-      description:
-        "Gia nhập đội ngũ của chúng tôi với vai trò là một nhà thiết kế UI/UX sáng tạo.",
-    },
-    {
-      title: "Lập Trình Viên Java",
-      company: "Công Ty Doanh Nghiệp Inc.",
-      poster: {
-        name: "Phạm Văn C",
-        avatar: "https://randomuser.me/api/portraits/men/4.jpg",
-      },
-      skills: ["Java", "Spring Boot", "Microservices"],
-      description:
-        "Chúng tôi cần một lập trình viên Java có kinh nghiệm với kiến trúc microservices.",
-    },
-    {
-      title: "Lập Trình Viên Backend",
-      company: "Công Ty Web Dev",
-      poster: {
-        name: "Lê Thị D",
-        avatar: "https://randomuser.me/api/portraits/women/5.jpg",
-      },
-      skills: ["PHP", "Laravel", "MySQL"],
-      description: "Lập trình viên Backend chuyên về PHP và Laravel framework.",
-    },
-  ];
-
+  const [jobs, setJobs] = useState([]);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(3);
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/Jobs/getAllJobName");
+        const data = await response.json();
+        console.log('data ', data.data)
+        setJobs(data.data);  
+        setFilteredJobs(data.data); 
+      } catch (error) {
+        console.error("Error fetching jobs:", error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   const onChange = (page) => {
     setCurrent(page);
@@ -116,7 +86,8 @@ const JobList = () => {
       const matchesSkills = skills.length
         ? skills.every((skill) => job.skills.includes(skill))
         : true;
-      return matchesSkills;
+      const matchesRating = rating ? job.rating === rating : true; 
+      return matchesSkills && matchesRating;
     });
     setFilteredJobs(filtered);
     setCurrent(1);
