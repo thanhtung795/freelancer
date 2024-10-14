@@ -24,10 +24,17 @@ const HeartIcon = styled(FontAwesomeIcon)`
   margin-right: 5px; 
 `;
 
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Hiển thị chi tiết công việc.
+ * @param {boolean} isClient - Tham số xác định xem có phải là công ty hay không.
+ */
+/******  95b11ef5-99db-41fc-8cc8-dd4e5a194835  *******/
 const JobDetailJob = ({ isClient }) => {
   const { id } = useParams();
   const [jobData, setJobData] = useState(null);
   const [loading, setLoading] = useState(true);
+const role = JSON.parse(localStorage.getItem("user"))?.data?.role == 'client';
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/Jobs/${id}`)
@@ -118,7 +125,7 @@ const JobDetailJob = ({ isClient }) => {
         <Card title="Mô Tả Công Việc" bordered={false}>
           <p>{jobData.description || 'Chưa có mô tả'}</p>
           <Row gutter={16} style={{ marginTop: '16px' }}>
-            {!isClient ? (
+            {!role ? (
               <Col span={24}>
                 <Button type="primary" style={{ width: '100%' }}>
                   <FontAwesomeIcon icon={faEye} /> Ứng tuyển

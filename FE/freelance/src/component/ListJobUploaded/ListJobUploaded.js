@@ -112,9 +112,10 @@ const ListJobUploaded = () => {
 
         const response = await fetch("http://localhost:8080/api/Jobs/getAllJobName");
         const data = await response.json();
+        console.log('clientId ', clientId)
         console.log('data ', data.data)
         
-        const filteredJobs = allJobs.filter((job) => job.clientId === clientId);
+        const filteredJobs = data.data.filter((job) => job.clientId === clientId);
         setJobs(filteredJobs);
       } catch (error) {
         console.error("Error fetching jobs:", error);
