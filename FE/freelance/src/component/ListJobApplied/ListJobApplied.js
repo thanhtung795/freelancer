@@ -106,7 +106,7 @@ const ListJobApplied = () => {
                 <p>
                   <strong>Thời gian làm việc: </strong> {job.hourWork} hours
                 </p>
-                <p>
+                <p> 
                   <strong>Trạng thái: </strong> {job.status}
                 </p>
                 <p>
@@ -163,55 +163,7 @@ const ListJobApplied = () => {
           style={{ textAlign: "center", marginTop: 16 }}
         />
       </Col>
-      {role ? (
-        <Col span={6} style={{ textAlign: "center" }}>
-          <div className="stats">
-            <h3>Total Jobs: {jobs.length}</h3>
-            <div style={{ marginTop: 16 }} className="d-flex flex-column gap-2">
-              <Button
-                type="primary"
-                icon={<FontAwesomeIcon icon={faPlus} />}
-                onClick={handleAddJob}
-                style={{
-                  width: "100%",
-                  backgroundColor: "#4CAF50",
-                  borderColor: "#4CAF50",
-                }}
-              >
-                Add Job
-              </Button>
-              <Button
-                type="danger"
-                icon={<FontAwesomeIcon icon={faArchive} />}
-                style={{
-                  width: "100%",
-                  backgroundColor: "gray",
-                  borderColor: "#2196F3",
-                  color: "white",
-                }}
-                onClick={handleNavigateArchive}
-              >
-                View Archived Jobs
-              </Button>
-              <Button
-                type="danger"
-                icon={<FontAwesomeIcon icon={faTrash} />}
-                style={{
-                  width: "100%",
-                  backgroundColor: "#F44336",
-                  borderColor: "#F44336",
-                  color: "white",
-                }}
-                onClick={handleNavigateDelete}
-              >
-                View Deleted Jobs
-              </Button>
-            </div>
-          </div>
-        </Col>
-      ) : (
-        ""
-      )}
+   
     </Row>
   );
 };
