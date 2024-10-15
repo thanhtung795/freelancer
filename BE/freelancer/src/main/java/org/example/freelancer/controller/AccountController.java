@@ -67,8 +67,7 @@ public class AccountController {
         }
     }
 
-
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
         Map<String, Object> map = new LinkedHashMap<>();
         try {
@@ -81,7 +80,27 @@ public class AccountController {
             map.put("message", "Đăng kí thất bị: " + e.getMessage());
         }
         return ResponseEntity.ok(map);
+    }*/
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        try {
+            map.put("success", true);
+            map.put("data", registerService.registerAccount(registerDTO));
+            map.put("message", "Đăng kí thành công");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(map);
+
+        } catch (RuntimeException e) {
+            map.put("success", false);
+            map.put("data", null);
+            map.put("message", "Đăng kí thất bại");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(map);
+        }
     }
+
 
     @GetMapping("/accounts/{id}")
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Integer id) {
@@ -96,8 +115,9 @@ public class AccountController {
             AccountDTO updatedAccount = accountService.updateAccount(id, accountDTO);
             return ResponseEntity.ok(updatedAccount);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+
     }
 
     @DeleteMapping("/accounts/{id}")
