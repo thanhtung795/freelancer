@@ -42,7 +42,7 @@ public class CreateAccountUnitTest {
     }
 
     @Test
-    public void testCreateDevice_success() throws Exception {
+    public void testRegister_success() throws Exception {
         RegisterDTO registerDTO = new RegisterDTO();
         registerDTO.setEmail("testEmail");
         registerDTO.setPassword("testPassword");
@@ -81,7 +81,7 @@ public class CreateAccountUnitTest {
     }
 
     @Test
-    public void testCreateDuplicateDeviceName() throws Exception {
+    public void testRegister_failure() throws Exception {
         RegisterDTO registerDTO = new RegisterDTO();
         registerDTO.setEmail("testEmail");
         registerDTO.setPassword("testPassword");
