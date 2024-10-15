@@ -38,11 +38,11 @@ public class JobController {
         try {
             response.put("success", true);
             response.put("data",jobService.addJob(jobDTO));
-            response.put("message","Đã tạo job ");
+            response.put("message","Đã tạo job");
         }catch (Exception e){
             response.put("success", false);
             response.put("data",null);
-            response.put("message","Không thể tạo job và xây ra lỗi : "+e.getMessage());
+            response.put("message",e.getMessage());
         }
         return ResponseEntity.ok(response);
     }

@@ -126,7 +126,7 @@ public class AccountController {
             accountService.deleteAccount(id);
             return ResponseEntity.ok("Account deleted successfully.");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
