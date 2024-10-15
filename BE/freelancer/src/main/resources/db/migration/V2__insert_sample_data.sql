@@ -2,11 +2,11 @@ use
 job_e_commerce_platform;
 
 INSERT INTO account (email, password, role, status)
-VALUES ('tungvtps27852@fpt.edu.vn', '123', 'admin', b'1'),
-       ('quangvdps36680@fpt.edu.vn', '123', 'freelancer', b'0'),
-       ('quangbmps28437@fpt.edu.vn', '123', 'freelancer', b'1'),
-       ('huydqpc07859@fpt.edu.vn', '123', 'client', b'1'),
-       ('tiendqpc07858@fpt.edu.vn', '123', 'freelancer', b'1');
+VALUES ('tungvtps27852@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'admin', b'1'),
+       ('quangvdps36680@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'freelancer', b'0'),
+       ('quangbmps28437@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'freelancer', b'1'),
+       ('huydqpc07859@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'client', b'1'),
+       ('tiendqpc07858@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'freelancer', b'1');
 
 INSERT INTO user (address, created_at, first_name, last_name, phone_number, account_id)
 VALUES ('123 Main St, Hanoi', '2024-10-14 10:30:45.123456', 'Tùng', 'Võ', '0987654321', 1),
@@ -141,11 +141,11 @@ VALUES ('Trung cấp'),
        ('Chứng chỉ tin học');
 
 INSERT INTO account (email, password, role, status)
-VALUES ('nguyenlptps12345@fpt.edu.vn', '123', 'client', b'1'),
-       ('leminhtps54321@fpt.edu.vn', '123', 'freelancer', b'1'),
-       ('tranvietps67890@fpt.edu.vn', '123', 'client', b'0'),
-       ('phamlantps98765@fpt.edu.vn', '123', 'freelancer', b'1'),
-       ('buiductps56789@fpt.edu.vn', '123', 'freelancer', b'0');
+VALUES ('nguyenlptps12345@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'client', b'1'),
+       ('leminhtps54321@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'freelancer', b'1'),
+       ('tranvietps67890@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'client', b'0'),
+       ('phamlantps98765@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'freelancer', b'1'),
+       ('buiductps56789@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'freelancer', b'0');
 
 
 INSERT INTO user (address, created_at, first_name, last_name, phone_number, account_id)
@@ -157,8 +157,8 @@ VALUES ('123 Phạm Văn Đồng, Hà Nội', '2024-10-14 15:30:45.123456', 'Ngu
 
 
 INSERT INTO account (email, password, role, status)
-VALUES ('hoangltps11111@fpt.edu.vn', '123', 'client', b'1'),
-       ('trangntps22222@fpt.edu.vn', '123', 'client', b'1');
+VALUES ('hoangltps11111@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'client', b'1'),
+       ('trangntps22222@fpt.edu.vn', '$2a$10$Uhty2BY.RLblSrKhV7f9a.xCstyCVYihM/Ce9.cdpxR6pCd5ZqsSi', 'client', b'1');
 
 
 INSERT INTO user (address, created_at, first_name, last_name, phone_number, account_id)

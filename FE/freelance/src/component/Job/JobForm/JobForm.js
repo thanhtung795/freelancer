@@ -37,7 +37,6 @@ const JobForm = () => {
     console.log("No user found in localStorage.");
   }
 
-  // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -77,6 +76,7 @@ const JobForm = () => {
       jobOpportunity: values.jobOpportunity,
       fromPrice: values.FromBudget,
       toPrice: values.ToBudget,
+      description: values.description,
       typePrice: selected === "hourly_rate" ? "hourly_rate" : "fixed",
       status: "Đang thực hiện",
       dateStart: removeTimezone(values.dateStart.format()),
@@ -326,7 +326,6 @@ const JobForm = () => {
             <DatePicker />
           </Form.Item>
 
-          {/* Job Description */}
           <Form.Item
             name="description"
             label="Mô tả công việc"
@@ -335,7 +334,6 @@ const JobForm = () => {
             <TextArea rows={4} />
           </Form.Item>
 
-          {/* Submit Button */}
           <Form.Item>
             <Button className="main-color-bg" htmlType="submit">
               Đăng việc
