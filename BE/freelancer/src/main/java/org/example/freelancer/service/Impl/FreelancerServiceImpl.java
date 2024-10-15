@@ -1,10 +1,7 @@
 package org.example.freelancer.service.Impl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.freelancer.dto.CountResultDTO;
-import org.example.freelancer.dto.FreelancerApplyDTO;
-import org.example.freelancer.dto.FreelancerDTO;
-import org.example.freelancer.dto.JobsOfFreelancerDTO;
+import org.example.freelancer.dto.*;
 import org.example.freelancer.entity.*;
 import org.example.freelancer.mapper.*;
 import org.example.freelancer.repository.*;
@@ -29,11 +26,10 @@ public class FreelancerServiceImpl implements FreelancerService {
 
     private final UserRepository userRepository;
 
-    private final FreelancerApplyMapper freelancerApplyMapper;
-
-    private final FreelancerJobRepository freelancerJobRepository;
 
     private final JobsOfFreelancerMapper jobsOfFreelancerMapper;
+
+    private final JobsOfFreelancerByIdAndStatusMapper jobsOfFreelancerByIdAndStatusMapper;
 
     @Transactional(readOnly = true)
     @Override
@@ -167,6 +163,22 @@ public class FreelancerServiceImpl implements FreelancerService {
                 .orElseThrow(() -> new RuntimeException("Freelancer not found."));
 
         JobsOfFreelancerDTO dto = jobsOfFreelancerMapper.toDto(freelancer);
+
+        if (dto == null) {
+            throw new RuntimeException("Error mapping Freelancer to DTO");
+        }
+
+        return dto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public JobsOfFreelancerByIdAndStatusDTO findJobsByFreelancerIdAndStatus(Integer id, StatusFreelancerJob status) {
+        Freelancer freelancer = freelancerRepository.findJobsByFreelancerIdAndStatus(id, status)
+                .orElseThrow(() -> new RuntimeException("Freelancer not found."));
+
+        JobsOfFreelancerByIdAndStatusDTO dto = JobsOfFreelancerByIdAndStatusMapper
+                .INSTANCE.toDto(freelancer);
 
         if (dto == null) {
             throw new RuntimeException("Error mapping Freelancer to DTO");

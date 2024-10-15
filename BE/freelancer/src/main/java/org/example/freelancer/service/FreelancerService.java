@@ -1,9 +1,7 @@
 package org.example.freelancer.service;
 
-import org.example.freelancer.dto.CountResultDTO;
-import org.example.freelancer.dto.FreelancerApplyDTO;
-import org.example.freelancer.dto.FreelancerDTO;
-import org.example.freelancer.dto.JobsOfFreelancerDTO;
+import org.example.freelancer.dto.*;
+import org.example.freelancer.entity.StatusFreelancerJob;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +17,5 @@ public interface FreelancerService {
     FreelancerDTO updateFreelancerImage(Integer id, String imageUrl);
     FreelancerDTO updateFreelancerCategory(Integer id, Integer categoryId);
     JobsOfFreelancerDTO getJobsOfFreelancer(Integer id);
+    JobsOfFreelancerByIdAndStatusDTO findJobsByFreelancerIdAndStatus(Integer id, StatusFreelancerJob status);
 }
