@@ -241,7 +241,7 @@ const JobDetailJob = ({ isClient }) => {
               </Col>
             ) : (
               <>
-                <Col span={8}>
+                {/* <Col span={8}>
                   <Button type="primary" style={{ width: '100%' }}>
                     <FontAwesomeIcon icon={faEye} /> Công Khai
                   </Button>
@@ -255,7 +255,7 @@ const JobDetailJob = ({ isClient }) => {
                   <Button type="danger" style={{ width: '100%' }} className="btn-delete">
                     <FontAwesomeIcon icon={faTrash} /> Xóa
                   </Button>
-                </Col>
+                </Col> */}
               </>
             )}
           </Row>
