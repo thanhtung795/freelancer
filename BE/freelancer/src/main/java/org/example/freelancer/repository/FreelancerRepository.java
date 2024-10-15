@@ -23,8 +23,8 @@ public interface FreelancerRepository extends JpaRepository<Freelancer, Integer>
 
     @Query(
             "select new org.example.freelancer.dto.FreelancerApplyDTO(" +
-                    "f.id, u.firstName, u.lastName, u.phoneNumber, u.address, " +
-                    "a.email, f.image, f.hourlyRate, fj.status) " +
+                    "f.id, u.firstName, u.lastName, u.phoneNumber,a.email,  " +
+                    "u.address,  f.image, f.hourlyRate, fj.status) " +
                     "from Freelancer f " +
                     "join f.user u " +
                     "join u.account a " +
