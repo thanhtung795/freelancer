@@ -10,15 +10,15 @@ import org.mapstruct.factory.Mappers;
 public interface JobMapper {
 
     JobMapper INSTANCE = Mappers.getMapper(JobMapper.class);
-//
-//    @Mapping(source = "id", target = "id")
-//    @Mapping(source = "dateStart", target = "dateStart")
-//    @Mapping(source = "dateEnd", target = "dateEnd")
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "dateStart", target = "dateStart")
+    @Mapping(source = "dateEnd", target = "dateEnd")
     JobDTO toDto(Job job);
-//
-//    @Mapping(source = "id", target = "id")
-//    @Mapping(source = "dateStart", target = "dateStart")
-//    @Mapping(source = "dateEnd", target = "dateEnd")
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "dateStart", target = "dateStart")
+    @Mapping(source = "dateEnd", target = "dateEnd")
     Job toEntity(JobDTO dto);
 
 }
