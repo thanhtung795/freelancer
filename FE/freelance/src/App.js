@@ -39,6 +39,7 @@ import FreelancerProfile from "./component/FreelancerProfile/FreelancerProfile";
 import ChatBot from "./component/ChatBot/ChatBot";
 import JobList from "./component/JobList/JobList";
 import JobDetailJob from "./component/JobDetail-Job/JobDetail-Job";
+import ListJobApplied from "./component/ListJobApplied/ListJobApplied";
 const UserContext = React.createContext();
 
 const App = () => {
@@ -88,6 +89,7 @@ const App = () => {
                 element={<FreelancerListApplied />}
               />
               <Route path="/list-job-uploaded" element={<ListJobUploaded />} />
+              <Route path="/list-job-applied" element={<ListJobApplied />} />
               <Route path="/list-job" element={<JobList />} />
               <Route path="/list-todo-job" element={<ListToDoJob />} />
               <Route path="/job-detail" element={<JobDetail />} />

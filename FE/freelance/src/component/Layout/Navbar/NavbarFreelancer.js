@@ -39,7 +39,7 @@ function NavbarFreelancer() {
                 <Nav className="me-auto">
                     <NavDropdown title="Tìm kiếm công việc" id="navbarDropdown">
                         <NavDropdown.Item as={Link} to="/home-freelancer">Danh sách công việc</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/freelancer-jobs/saved">Something else here</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/list-job-applied">Công việc đã ứng tuyển</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 <Form className="d-flex">
