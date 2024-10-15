@@ -19,7 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./styles.css";
 
-const ListJobUploaded = () => {
+const ListJobApplied = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 2;
   const [jobs, setJobs] = useState([]);
@@ -29,21 +29,19 @@ const ListJobUploaded = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const clientId = parseInt(
+        const idRole = parseInt(
           JSON.parse(localStorage.getItem("user")).data.idRole,
           10
         );
 
         const response = await fetch(
-          "http://localhost:8080/api/Jobs/getAllJobName"
+          `http://localhost:8080/api/freelancers/JobsOfFreelancer/${idRole}`
         );
         const data = await response.json();
-        console.log("clientId ", clientId);
-        console.log("data ", data.data);
+        console.log("clientId ", idRole);
+        console.log("data ", data.data.jobs);
 
-        const filteredJobs = data.data.filter(
-          (job) => job.clientId === clientId
-        );
+        const filteredJobs = data.data.jobs
         setJobs(filteredJobs);
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -108,12 +106,12 @@ const ListJobUploaded = () => {
                 <p>
                   <strong>Thời gian làm việc: </strong> {job.hourWork} hours
                 </p>
-                <p>
+                <p> 
                   <strong>Trạng thái: </strong> {job.status}
                 </p>
                 <p>
-                  <strong>Nhà tuyển dụng: </strong>{" "}
-                  {job.firstName + " " + job.lastName}
+                  <strong>Họ và tên: </strong>{" "}
+                  {job.fristName + " " + job.lasName}
                 </p>
                 <Button
                   type="primary"
@@ -165,57 +163,9 @@ const ListJobUploaded = () => {
           style={{ textAlign: "center", marginTop: 16 }}
         />
       </Col>
-      {role ? (
-        <Col span={6} style={{ textAlign: "center" }}>
-          <div className="stats">
-            <h3>Total Jobs: {jobs.length}</h3>
-            <div style={{ marginTop: 16 }} className="d-flex flex-column gap-2">
-              <Button
-                type="primary"
-                icon={<FontAwesomeIcon icon={faPlus} />}
-                onClick={handleAddJob}
-                style={{
-                  width: "100%",
-                  backgroundColor: "#4CAF50",
-                  borderColor: "#4CAF50",
-                }}
-              >
-                Add Job
-              </Button>
-              <Button
-                type="danger"
-                icon={<FontAwesomeIcon icon={faArchive} />}
-                style={{
-                  width: "100%",
-                  backgroundColor: "gray",
-                  borderColor: "#2196F3",
-                  color: "white",
-                }}
-                onClick={handleNavigateArchive}
-              >
-                View Archived Jobs
-              </Button>
-              <Button
-                type="danger"
-                icon={<FontAwesomeIcon icon={faTrash} />}
-                style={{
-                  width: "100%",
-                  backgroundColor: "#F44336",
-                  borderColor: "#F44336",
-                  color: "white",
-                }}
-                onClick={handleNavigateDelete}
-              >
-                View Deleted Jobs
-              </Button>
-            </div>
-          </div>
-        </Col>
-      ) : (
-        ""
-      )}
+   
     </Row>
   );
 };
 
-export default ListJobUploaded;
+export default ListJobApplied;

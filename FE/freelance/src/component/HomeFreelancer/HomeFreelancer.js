@@ -3,6 +3,7 @@ import Banner from "./Layout/Banner";
 import RightCard from "./Layout/RightCard";
 import SearchInput from "./Layout/SearchInput";
 import ListJobs from "./Layout/ListJobs";
+import ListJobUploaded from "../ListJobUploaded/ListJobUploaded";
 function HomeFreelancer() {
   return (
     <div className="my-container">
@@ -15,7 +16,7 @@ function HomeFreelancer() {
             <SearchInput />
           </div>
           <div className="row">
-            <ListJobs/>
+          <ListJobUploaded />
           </div>
         </div>
 
