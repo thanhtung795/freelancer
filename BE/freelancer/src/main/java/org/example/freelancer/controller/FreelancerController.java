@@ -3,6 +3,7 @@ package org.example.freelancer.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.freelancer.dto.CountResultDTO;
 import org.example.freelancer.dto.FreelancerDTO;
+import org.example.freelancer.entity.StatusFreelancerJob;
 import org.example.freelancer.service.FreelancerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -152,4 +153,25 @@ public class FreelancerController {
         }
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/JobsOFreeByIdAndStatus/{id}")
+    public ResponseEntity<?> JobsOFreeByIdAndStatus(@PathVariable Integer id,
+                                                    @RequestParam("status") String statusStr) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            // Chuyển chuỗi status thành Enum StatusFreelancerJob
+            StatusFreelancerJob status = StatusFreelancerJob.fromDisplayName(statusStr);
+
+            // Lấy dữ liệu từ service
+            response.put("success", true);
+            response.put("data", freelancerService.findJobsByFreelancerIdAndStatus(id, status));
+            response.put("message", "Đã lấy danh sách công việc của freelancer");
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("data", null);
+            response.put("message", e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+    }
+
 }
