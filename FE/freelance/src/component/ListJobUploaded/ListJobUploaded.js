@@ -113,7 +113,7 @@ const ListJobUploaded = () => {
                     >
                       Xem Chi Tiết
                     </Button>
-                    <div style={{ marginTop: 16 }} className="d-flex gap-2">
+                    {/* <div style={{ marginTop: 16 }} className="d-flex gap-2">
                       <Button
                         onClick={() => handleEdit(job.title)}
                         className="btn-edit"
@@ -143,7 +143,7 @@ const ListJobUploaded = () => {
                       >
                         Archive
                       </Button>
-                    </div>
+                    </div> */}
                   </Card>
                 </List.Item>
               )}
