@@ -9,7 +9,7 @@ import StatisticalFreelancer from "./component/StatisticalFreelancer/Statistical
 import NotFound from "./component/NotFound/NotFound";
 import NavbarGuest from "./component/Layout/Navbar/Navbar";
 import Footer from "./component/Layout/Footer/Footer";
-import LogIn from "./component/Login/login";
+import LogIn from "./component/LogIn/logIn";
 import SignUp from "./component/SignUp/signup";
 import FreelancerInfo from "./component/FreelancerInfo/FreelancerInfo";
 import HomeFreelancer from "./component/HomeFreelancer/HomeFreelancer";
@@ -40,6 +40,7 @@ import ChatBot from "./component/ChatBot/ChatBot";
 import JobList from "./component/JobList/JobList";
 import JobDetailJob from "./component/JobDetail-Job/JobDetail-Job";
 import ListJobApplied from "./component/ListJobApplied/ListJobApplied";
+import VnPay from "./component/VnPay/VnPay";
 const UserContext = React.createContext();
 
 const App = () => {
@@ -64,6 +65,7 @@ const App = () => {
         <Routes>
           {userRole != "admin" ? (
             <>
+              <Route path="/vnpay" element={<VnPay />} />
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/signUp" element={<SignUp />} />
