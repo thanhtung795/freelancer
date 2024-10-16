@@ -15,6 +15,7 @@ import {
   faEnvelope,
   faPhone,
   faThumbsUp,
+  faFlag,
 } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -127,6 +128,72 @@ const JobDetailJob = ({ isClient }) => {
       message.error('An error occurred while accepting the freelancer.');
     }
   };
+  const handlePayment = async (params) => {
+    try {
+      // Sử dụng URLSearchParams để tạo query string
+      const response = await fetch(`http://localhost:8080/api/payment/vnpay?amount=${params}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Không nhận được URL thanh toán');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Có lỗi xảy ra khi xử lý thanh toán');
+    }
+  };
+  const handleComplete = async (freelancerId) => {
+    try {
+      // Update freelancerJobs status
+      await fetch('http://localhost:8080/api/freelancerJobs', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          freelancerID: freelancerId,
+          jobID: parseInt(id, 10),
+          isSelected: true,
+          status: "Hoàn thành"
+        }),
+      });
+
+      // Update job status
+      await fetch(`http://localhost:8080/api/Jobs/changeStatus/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          status: "Hoàn thành"
+        }),
+      });
+
+      message.success('Job marked as completed successfully!');
+      // Refresh the applied freelancers list
+      const response = await fetch(`http://localhost:8080/api/freelancers/freelancerApply/${id}`);
+      const data = await response.json();
+      if (data.success) {
+        handlePayment(5000);
+        setAppliedFreelancers(data.data);
+      }
+    } catch (error) {
+      console.error('Error completing job:', error);
+      message.error('An error occurred while marking the job as completed.');
+    }
+  };
+
   if (loading) {
     return <p>Đang tải dữ liệu...</p>;
   }
@@ -242,9 +309,9 @@ const JobDetailJob = ({ isClient }) => {
                 </span>
               }
             >
-              {company.location}
+              {company.address}
             </Descriptions.Item>
-            <Descriptions.Item
+            {/* <Descriptions.Item
               label={
                 <span>
                   <HeartIcon icon={faGlobe} style={{ color: '#faad14' }} /> Website
@@ -254,8 +321,8 @@ const JobDetailJob = ({ isClient }) => {
               <a href={`https://${company.website}`} target="_blank" rel="noopener noreferrer">
                 {company.website}
               </a>
-            </Descriptions.Item>
-            <Descriptions.Item
+            </Descriptions.Item> */}
+            {/* <Descriptions.Item
               label={
                 <span>
                   <HeartIcon icon={faBuilding} style={{ color: '#52c41a' }} /> Quy Mô
@@ -263,15 +330,15 @@ const JobDetailJob = ({ isClient }) => {
               }
             >
               {company.size}
-            </Descriptions.Item>
+            </Descriptions.Item> */}
             <Descriptions.Item
               label={
                 <span>
-                  <HeartIcon icon={faLightbulb} style={{ color: '#1890ff' }} /> Ngành Nghề
+                  <HeartIcon icon={faPhone} style={{ color: '#1890ff' }} />Điện thoại liên hệ
                 </span>
               }
             >
-              {company.industry}
+              {company.phoneContact}
             </Descriptions.Item>
             <Descriptions.Item
               label={
@@ -300,56 +367,72 @@ const JobDetailJob = ({ isClient }) => {
         </Card>
 
         {role && (
-        <Card title="Ứng viên" bordered={true}>
-          {appliedFreelancers.length > 0 ? (
-            <div className='' style={{ maxHeight: '500px', maxWidth: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
-              <List
-                itemLayout="horizontal"
-                dataSource={appliedFreelancers}
-                renderItem={item => (
-                  <List.Item style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Card
-                      hoverable
-                      style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', whiteSpace: 'normal' }}
-                      cover={<img alt="example" src={`http://localhost:8080/uploads/images/${item.image}` || 'https://via.placeholder.com/40'} style={{ width: 100, height: 'auto' }} />}
-                    >
-                      <Card.Meta
-                        title={`${item.firstName} ${item.lastName}`}
-                        description={
-                          <>
-                            <p>
-                              <FontAwesomeIcon icon={faEnvelope} /> {item.email}
-                            </p>
-                            <p>
-                              <FontAwesomeIcon icon={faPhone} /> {item.phoneNumber}
-                            </p>
-                            <p><FontAwesomeIcon icon={faMoneyBillWave} /> {formatPrice(item.hourlyRate)}/giờ</p>
-                            <p>
-                              <FontAwesomeIcon icon={faMapMarkerAlt} /> {item.address}
-                            </p>
-                            <p>
-                              <FontAwesomeIcon icon={faUser} /> Trạng thái: {item.status}
-                            </p>
-                            <Button
-                              type="primary"
-                              icon={<FontAwesomeIcon icon={faThumbsUp} />}
-                              onClick={() => handleAccept(item.freelancerId)}
-                              disabled={item.status === "Đang thực hiện" || item.status === "Đã hủy"}
-                            >
-                              Chấp thuận
-                            </Button>
-                          </>
-                        }
-                      />
-                    </Card>
-                  </List.Item>
-                )}
-              />
-            </div>
-          ) : (
-            <p>Chưa có freelancer nào ứng tuyển.</p>
-          )}
-        </Card>
+          <Card title="Ứng viên" bordered={true}>
+            {appliedFreelancers.length > 0 ? (
+              <div className='' style={{ maxHeight: '500px', maxWidth: '100%', overflowY: 'auto', overflowX: 'hidden' }}>
+                <List
+                  itemLayout="horizontal"
+                  dataSource={appliedFreelancers}
+                  renderItem={item => (
+                    <List.Item style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <Card
+                        hoverable
+                        style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', whiteSpace: 'normal' }}
+                        cover={<img alt="example" src={`http://localhost:8080/uploads/images/${item.image}` || 'https://via.placeholder.com/40'} style={{ width: 100, height: 'auto' }} />}
+                      >
+                        <Card.Meta
+                          title={`${item.firstName} ${item.lastName}`}
+                          description={
+                            <>
+                              <p>
+                                <FontAwesomeIcon icon={faEnvelope} /> {item.email}
+                              </p>
+                              <p>
+                                <FontAwesomeIcon icon={faPhone} /> {item.phoneNumber}
+                              </p>
+                              <p><FontAwesomeIcon icon={faMoneyBillWave} /> {formatPrice(item.hourlyRate)}/giờ</p>
+                              <p>
+                                <FontAwesomeIcon icon={faMapMarkerAlt} /> {item.address}
+                              </p>
+                              <p>
+                                <FontAwesomeIcon icon={faUser} /> Trạng thái:
+                                <Tag className='ms-3' color={item.status === "Đang thực hiện" ? "green" : item.status === "Đã hủy" ? "red" : item.status === "Hoàn thành" ? "blue" : "orange"}>
+                                  {item.status}
+                                </Tag>
+                              </p>
+                              {item.status === "Đang thực hiện" ? (
+                                <>
+                                  <Button
+                                    type="primary"
+                                    icon={<FontAwesomeIcon icon={faFlag} />}
+                                    onClick={() => handleComplete(item.freelancerId)}
+                                    style={{ marginRight: '8px' }}
+                                  >
+                                    Hoàn thành
+                                  </Button>
+                                </>
+                              ) : (
+                                <Button
+                                  type="primary"
+                                  icon={<FontAwesomeIcon icon={faThumbsUp} />}
+                                  onClick={() => handleAccept(item.freelancerId)}
+                                  disabled={item.status === "Đang thực hiện" || item.status === "Đã hủy" || item.status === "Hoàn thành"}
+                                >
+                                  Chấp thuận
+                                </Button>
+                              )}
+                            </>
+                          }
+                        />
+                      </Card>
+                    </List.Item>
+                  )}
+                />
+              </div>
+            ) : (
+              <p>Chưa có freelancer nào ứng tuyển.</p>
+            )}
+          </Card>
         )}
       </Col>
     </Row>

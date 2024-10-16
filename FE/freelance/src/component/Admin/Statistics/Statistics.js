@@ -114,10 +114,10 @@ const Statistics = ({ projectData = [], userData = [] }) => {
           <FontAwesomeIcon icon={faUser} style={{ marginRight: 8 }} />
           Số lượng người sử dụng: {userStats}
         </h3>
-        <h3>
+        {/* <h3>
           <FontAwesomeIcon icon={faProjectDiagram} style={{ marginRight: 8 }} />
           Số lượt đăng job: {jobStats}
-        </h3>
+        </h3> */}
       </Card>
 
       <Card style={{ marginTop: 20 }}>

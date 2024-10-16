@@ -206,7 +206,9 @@ const JobList = ({ jobs, handleViewDetails, handleCancelApplication, getStatusCo
           }
           className="job-card"
           extra={
-            <Tag color={getStatusColor(job.status)}>{job.status}</Tag>
+            !job.status === "Đã hủy" || !job.status === "Hoàn thành" ? (
+              <Tag color={getStatusColor(job.status)}>{job.status}</Tag>
+            ) : null
           }
         >
           <Text>
@@ -221,22 +223,19 @@ const JobList = ({ jobs, handleViewDetails, handleCancelApplication, getStatusCo
           <br />
           <Text>
             <FontAwesomeIcon icon={faUser} />{" "}
-            <strong>Họ và tên: </strong> {job.firstName + " " + job.lastName}
+            {/* <strong>Họ và tên: </strong> {job.firstName + " " + job.lastName} */}
+            <strong>Họ và tên: </strong> {"Quang Bùi"}
           </Text>
           <br />
-          <Text>
-            <FontAwesomeIcon icon={faFolder} />{" "}
-            <strong>Danh mục: </strong> {job.categoryName || "N/A"}
-          </Text>
           <br />
-          <Text>
+          {/* <Text>
             <FontAwesomeIcon icon={faTags} /> <strong>Kỹ năng: </strong>{" "}
           </Text>
           {job.skills && job.skills.map((skill) => (
             <Tag key={skill} color="blue">
               {skill}
             </Tag>
-          ))}
+          ))} */}
           <br />
           <Button
             type="primary"

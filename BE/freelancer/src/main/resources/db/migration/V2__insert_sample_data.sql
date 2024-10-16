@@ -166,11 +166,11 @@ VALUES ('202 Lê Duẩn, Hà Nội', '2024-10-14 20:00:00.123456', 'Hoàng', 'L�
        ('303 Lê Văn Sỹ, TP.Hồ Chí Minh', '2024-10-14 21:00:00.654321', 'Tràng', 'Nguyễn', '0959876543', 12);
 
 INSERT INTO freelancer (hourly_rate, image, category_id, user_id)
-VALUES (200000.00, 'profile1.jpg', 1, 10),
-       (300000.00, 'profile2.jpg', 2, 3),
-       (250000.00, 'profile3.jpg', 3, 5),
-       (180000.00, 'profile4.jpg', 4, 7),
-       (220000.00, 'profile5.jpg', 5, 9);
+VALUES (200000.00, 'avatar1.png', 1, 10),
+       (300000.00, 'avatar2.png', 2, 3),
+       (250000.00, 'avatar3.png', 3, 5),
+       (180000.00, 'avatar4.png', 4, 7),
+       (220000.00, 'avatar5.png', 5, 9);
 
 INSERT INTO freelancer_skill (freelancer_id, skill_id)
 VALUES (1, 1),
