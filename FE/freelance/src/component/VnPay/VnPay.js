@@ -32,8 +32,8 @@ const VnPay = () => {
       }
 
       const data = await response.json();
-      if (data.paymentUrl) {
-        window.location.href = data.paymentUrl;
+      if (data.url) {
+        window.location.href = data.url;
       } else {
         alert('Không nhận được URL thanh toán');
       }
