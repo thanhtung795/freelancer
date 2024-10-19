@@ -14,8 +14,11 @@ const ProjectManagement = ({ setProjectData, projectData = [] }) => {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log('project ', data)
-      setProjectData(data.data);
+      const newProjectData = data.data.map(project => ({
+        ...project,
+        clientName: `${project.firstName} ${project.lastName}`
+      }));
+      setProjectData(newProjectData);
     } catch (error) {
       message.error(`Lỗi khi lấy dữ liệu: ${error.message}`);
     }
