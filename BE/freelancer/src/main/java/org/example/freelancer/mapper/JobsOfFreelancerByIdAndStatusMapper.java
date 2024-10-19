@@ -44,7 +44,7 @@ public interface JobsOfFreelancerByIdAndStatusMapper {
 
     @Mapping(source = "dateStart", target = "dateStart")
     @Mapping(source = "dateEnd", target = "dateEnd")
-    @Mapping(source = "createdAt", target = "dateCreate")
+    @Mapping(source = "createdAt", target = "createdAt")
     @Mapping(source = "client.id", target = "clientId")
     @Mapping(source = "category.id", target = "categoryId")
     JobDTO jobToJobDTO(Job job);

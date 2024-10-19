@@ -14,11 +14,13 @@ public interface JobMapper {
 //    @Mapping(source = "id", target = "id")
 //    @Mapping(source = "dateStart", target = "dateStart")
 //    @Mapping(source = "dateEnd", target = "dateEnd")
+    @Mapping(source = "createdAt", target = "createdAt")
     JobDTO toDto(Job job);
 //
 //    @Mapping(source = "id", target = "id")
 //    @Mapping(source = "dateStart", target = "dateStart")
 //    @Mapping(source = "dateEnd", target = "dateEnd")
+    @Mapping(source = "createdAt", target = "createdAt")
     Job toEntity(JobDTO dto);
 
 }

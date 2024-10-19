@@ -52,7 +52,7 @@ public class JobDTO {
 
     private LocalDateTime dateEnd;
 
-    private LocalDateTime dateCreate;
+    private LocalDateTime createdAt;
 
     @NotNull
     private Integer clientId;

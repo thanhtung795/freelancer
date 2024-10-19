@@ -26,7 +26,7 @@ public class JobNameCategoryAndClientDTO {
     private StatusJob status;
     private LocalDateTime dateStart;
     private LocalDateTime dateEnd;
-    private LocalDateTime dateCreate;
+    private LocalDateTime createdAt;
     private String firstName;
     private String lastName;
     private String categoryName; // Tên category
