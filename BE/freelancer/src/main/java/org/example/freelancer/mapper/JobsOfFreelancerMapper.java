@@ -47,6 +47,6 @@ public interface JobsOfFreelancerMapper {
 
     @Mapping(source = "dateStart", target = "dateStart")
     @Mapping(source = "dateEnd", target = "dateEnd")
-    @Mapping(source = "createdAt", target = "dateCreate")
+    @Mapping(source = "createdAt", target = "createdAt")
     JobDTO jobToJobDTO(Job job);
 }
