@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class SkilController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addSkill(@Validated @RequestBody SkillDTO skillDTO) {
+    public ResponseEntity<?> addSkill(@Valid @RequestBody SkillDTO skillDTO) {
         Map<String, Object> response =new LinkedHashMap<>();
         try {
             response.put("success", true);

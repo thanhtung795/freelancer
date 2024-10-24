@@ -1,25 +1,37 @@
 package org.example.freelancer.controller;
 
+import com.nimbusds.jose.JOSEException;
 import org.example.freelancer.dto.*;
+import org.example.freelancer.dto.Requet.AuthenticationDtoRequest;
+import org.example.freelancer.dto.Requet.IntrospectDtoRequest;
+import org.example.freelancer.dto.Response.AuthenticationDtoResponse;
+import org.example.freelancer.dto.Response.IntrospectDtoResponse;
 import org.example.freelancer.service.AccountService;
+import org.example.freelancer.service.AuthenticationService;
 import org.example.freelancer.service.RegisterService;
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.util.*;
 
 @RestController
-    @RequestMapping("/api/auth")
+@RequestMapping("/api/auth")
 @Validated
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private  AuthenticationService authenticationService;
 
 
     @Autowired
@@ -156,17 +168,53 @@ public class AccountController {
         }
         return ResponseEntity.ok(map);
     }
+
+    //    @PostMapping("/login")
+//    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
+//        try {
+//            AccountRoleDTO accountRoleDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("success", true);
+//            response.put("message", "Login successful");
+//            response.put("data", accountRoleDTO);
+//            return ResponseEntity.ok(response);
+//        } catch (RuntimeException e) {
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("success", false);
+//            response.put("message", e.getMessage());
+//            return ResponseEntity.badRequest().body(response);
+//        }
+//    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<?> login(@RequestBody AuthenticationDtoRequest request) {
+        Map<String, Object> response = new LinkedHashMap<>();
         try {
-            AccountRoleDTO accountRoleDTO = accountService.login(loginDTO.getEmail(), loginDTO.getPassword());
-            Map<String, Object> response = new HashMap<>();
+            AuthenticationDtoResponse authenticationDtoResponse = authenticationService.authenticate(request);
+            response.put("status",HttpStatus.OK.value());
             response.put("success", true);
             response.put("message", "Login successful");
-            response.put("data", accountRoleDTO);
+            response.put("data", authenticationDtoResponse);
             return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            Map<String, Object> response = new HashMap<>();
+        } catch (IllegalIdentifierException | JOSEException e) {
+            response.put("status",HttpStatus.BAD_REQUEST.value());
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @PostMapping("/introspect")
+    public ResponseEntity<?> introspect(@RequestBody IntrospectDtoRequest request) {
+        Map<String, Object> response = new LinkedHashMap<>();
+        try {
+            IntrospectDtoResponse introspectDtoResponse = authenticationService.introspect(request);
+            response.put("status",HttpStatus.OK.value());
+            response.put("success", true);
+            response.put("message", "Introspect successful");
+            response.put("data", introspectDtoResponse);
+            return ResponseEntity.ok(response);
+        } catch (IllegalIdentifierException | JOSEException | ParseException e) {
+            response.put("status",HttpStatus.BAD_REQUEST.value());
             response.put("success", false);
             response.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(response);
