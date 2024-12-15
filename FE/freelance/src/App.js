@@ -41,6 +41,7 @@ import JobList from "./component/JobList/JobList";
 import JobDetailJob from "./component/JobDetail-Job/JobDetail-Job";
 import ListJobApplied from "./component/ListJobApplied/ListJobApplied";
 import VnPay from "./component/VnPay/VnPay";
+import ChatPage from "./component/ChatPage/ChatPage";
 const UserContext = React.createContext();
 
 const App = () => {
@@ -58,10 +59,10 @@ const App = () => {
   return (
     <UserContext.Provider value={{ userRole, handleLogin, handleLogout }}>
       <BrowserRouter>
-        {userRole === "guest" && <NavbarGuest/>}
-        {userRole === "freelancer" && <NavbarFreelancer/>}
-        {userRole === "client" && <NavbarClient/>}
-        {userRole === "admin" && <NavbarAdmin/>}
+        {userRole === "guest" && <NavbarGuest />}
+        {userRole === "freelancer" && <NavbarFreelancer />}
+        {userRole === "client" && <NavbarClient />}
+        {userRole === "admin" && <NavbarAdmin />}
         <Routes>
           {userRole != "admin" ? (
             <>
@@ -103,6 +104,7 @@ const App = () => {
               <Route path="/deleted-list" element={<DeletedList />} />
               <Route path="/payment" element={<Payment />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/chat/:currentUserID/:otherUserID" element={<ChatPage />} />
             </>
           ) : (
             <>
@@ -111,7 +113,7 @@ const App = () => {
             </>
           )}
         </Routes>
-       <ChatBot />
+        <ChatBot />
         <Footer />
       </BrowserRouter>
     </UserContext.Provider>

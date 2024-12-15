@@ -13,8 +13,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, Select } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
-import { faUser, faProjectDiagram, faChartPie, faChartLine } from "@fortawesome/free-solid-svg-icons"; 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faProjectDiagram, faChartPie, faChartLine } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const { Option } = Select;
@@ -91,7 +91,7 @@ const Statistics = ({ projectData = [], userData = [] }) => {
     if (existing) {
       existing.jobCount += 1;
     } else {
-      acc.push({ date, jobCount: Math.floor(Math.random() * (5 - 10 + 1)) + 5});
+      acc.push({ date, jobCount: Math.floor(Math.random() * (5 - 10 + 1)) + 5 });
     }
     return acc;
   }, []);
@@ -108,7 +108,7 @@ const Statistics = ({ projectData = [], userData = [] }) => {
         <Option value="month">Tháng</Option>
         <Option value="year">Năm</Option>
       </Select>
-      
+
       <Card style={{ marginTop: 20 }}>
         <h3>
           <FontAwesomeIcon icon={faUser} style={{ marginRight: 8 }} />
@@ -126,8 +126,8 @@ const Statistics = ({ projectData = [], userData = [] }) => {
           Thống kê Freelancer và Client
         </h3>
         <PieChart width={600} height={450}>
-          <Pie 
-          style={{ height: 600, width: 600 }}
+          <Pie
+            style={{ height: 600, width: 600 }}
             data={data}
             cx={200}
             cy={200}
@@ -155,7 +155,7 @@ const Statistics = ({ projectData = [], userData = [] }) => {
           Thống kê số lượng job theo thời gian
         </h3>
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={lineChartData}> 
+          <LineChart data={lineChartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
