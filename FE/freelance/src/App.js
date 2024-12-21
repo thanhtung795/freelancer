@@ -58,10 +58,10 @@ const App = () => {
   return (
     <UserContext.Provider value={{ userRole, handleLogin, handleLogout }}>
       <BrowserRouter>
-        {userRole === "guest" && <NavbarGuest/>}
-        {userRole === "freelancer" && <NavbarFreelancer/>}
-        {userRole === "client" && <NavbarClient/>}
-        {userRole === "admin" && <NavbarAdmin/>}
+        {userRole === "guest" && <NavbarGuest />}
+        {userRole === "freelancer" && <NavbarFreelancer />}
+        {userRole === "client" && <NavbarClient />}
+        {userRole === "admin" && <NavbarAdmin />}
         <Routes>
           {userRole != "admin" ? (
             <>
@@ -111,7 +111,7 @@ const App = () => {
             </>
           )}
         </Routes>
-       <ChatBot />
+        <ChatBot />
         <Footer />
       </BrowserRouter>
     </UserContext.Provider>
