@@ -41,6 +41,7 @@ import JobList from "./component/JobList/JobList";
 import JobDetailJob from "./component/JobDetail-Job/JobDetail-Job";
 import ListJobApplied from "./component/ListJobApplied/ListJobApplied";
 import VnPay from "./component/VnPay/VnPay";
+import CVEditor from "./component/PDF/PDF";
 const UserContext = React.createContext();
 
 const App = () => {
@@ -66,6 +67,7 @@ const App = () => {
           {userRole != "admin" ? (
             <>
               <Route path="/vnpay" element={<VnPay />} />
+              <Route path="/CVEditor" element={<CVEditor />} />
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<LogIn />} />
               <Route path="/signUp" element={<SignUp />} />
